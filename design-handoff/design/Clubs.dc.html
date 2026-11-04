@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clubs</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/e9c24b0a30736cf32e45ab8af2ecf781">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Courier+Prime:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#F4F2EE}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div class="p {{rootClass}}">
+<header class="navbar">
+<div class="wrap" style="height: 76px; display: flex; align-items: center; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Main.dc.html" aria-label="Home" class="huge" style="color: var(--ink); text-decoration: none; font-size: 30px; line-height: 1">R/K</a>
+</div>
+<nav class="cap sm-hide" aria-label="Sections" style="display: flex; gap: 30px">
+<a href="Research.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Research</a>
+<a href="Experience.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Experience</a>
+<a href="Projects.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Projects</a>
+<a href="Clubs.dc.html" aria-current="page" style="color: var(--ink); text-decoration: none; padding-bottom: 4px; border-bottom: 2px solid {{accent}}">Clubs</a>
+<a href="HighSchool.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">High School</a>
+<a href="Drawings.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Drawings &amp; Life</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+<a href="Resume.dc.html" class="cap glass rbtn" style="height: 40px; box-sizing: border-box; padding: 0 18px; border-radius: 20px; color: var(--ink); text-decoration: none; display: flex; align-items: center">Resume</a>
+<button type="button" class="glass rbtn" aria-label="{{modeLabel}}" onClick="{{toggleMode}}" style="width: 40px; height: 40px; padding: 0; border-radius: 20px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<sc-if value="{{dark}}" hint-placeholder-val="{{ true }}"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+<sc-if value="{{light}}" hint-placeholder-val="{{ false }}"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+</button>
+</div>
+</div>
+</header>
+<section style="position: relative; height: 1100px; overflow: hidden">
+<div class="toplight"></div>
+<div class="frame" style="z-index: 1">
+<div class="brk tl sm-hide" style="left: 40px; top: 96px"></div><div class="brk tr sm-hide" style="right: 40px; top: 96px"></div><div class="brk bl sm-hide" style="left: 40px; bottom: 24px"></div><div class="brk br sm-hide" style="right: 40px; bottom: 24px"></div>
+<div class="cap fade sm-hide" style="position: absolute; left: 72px; top: 112px; display: flex; gap: 40px; color: var(--ink2)"><span>Satellite Team</span><span>AISF</span></div>
+<div class="cap fade sm-hide" style="position: absolute; right: 72px; top: 112px; display: flex; gap: 40px; color: var(--ink2)"><span>Flight software</span><span>AI safety</span></div>
+<div class="wide fade" style="position: absolute; left: 0; right: 0; top: 100px; padding-left: 0.3em; text-align: center; font-size: clamp(16px, 2.4vw, 34px)">MIT · FALL 2026</div>
+<h1 class="huge lit heroWord" aria-label="Clubs" style="position: absolute; left: 0; right: 0; top: 150px; margin: 0; overflow: hidden; text-align: center; font-size: clamp(150px, 36vw, 518px)"><span class="ch" style="animation-delay: 0s">C</span><span class="ch" style="animation-delay: 0.07s">L</span><span class="ch" style="animation-delay: 0.14s">U</span><span class="ch" style="animation-delay: 0.21s">B</span><span class="ch" style="animation-delay: 0.28s">S</span></h1>
+</div>
+<div class="halo glowin" style="left: 50%; top: 300px; z-index: 2; width: 1100px; height: 900px; margin-left: -550px; background-image: radial-gradient(closest-side, {{halo}}, {{haloSoft}} 45%, transparent 75%)"></div>
+<div class="heroFig" style="position: absolute; left: 50%; top: 0; z-index: 3; width: 1440px; height: 900px; margin-left: -720px; pointer-events: none">
+<div class="deal" style="position: absolute; left: 270px; top: 580px; animation-delay: 0.4s">
+<svg role="img" aria-label="MIT Satellite Team patch" width="300" height="300" viewBox="0 0 300 300" style="transform: rotate(-8deg)">
+<defs>
+<filter id="patchShadowA" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow></filter>
+<radialGradient id="patchFaceA" cx="35%" cy="25%" r="80%"><stop offset="0" style="stop-color: var(--card2)"></stop><stop offset="1" style="stop-color: var(--card)"></stop></radialGradient>
+<path id="ringA" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>
+</defs>
+<circle cx="150" cy="150" r="140" fill="url(#patchFaceA)" filter="url(#patchShadowA)" style="stroke: var(--ink2); stroke-width: 6"></circle>
+<circle cx="150" cy="150" r="131" style="fill: none; stroke: var(--ink3); stroke-width: 1.4; stroke-dasharray: 3 4"></circle>
+<circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
+<g class="spinslow" style="transform-origin: 150px 150px"><text style="fill: var(--ink); font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.22em"><textPath href="#ringA">MIT SATELLITE TEAM / FLIGHT SOFTWARE / FALL 2026 / MIT SATELLITE TEAM /</textPath></text></g>
+<ellipse cx="150" cy="150" rx="64" ry="22" transform="rotate(-24 150 150)" style="fill: none; stroke-width: 2.5; stroke: {{accent}}"></ellipse>
+<circle cx="150" cy="150" r="26" style="fill: var(--ink)"></circle>
+<circle cx="206" cy="124" r="8" style="fill: {{rimLight}}"></circle>
+</svg>
+</div>
+<div class="deal" style="position: absolute; left: 570px; top: 556px; animation-delay: 0.5s">
+<svg role="img" aria-label="AI Safety Fundamentals reading group patch" width="300" height="300" viewBox="0 0 300 300">
+<defs>
+<filter id="patchShadowB" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow></filter>
+<radialGradient id="patchFaceB" cx="35%" cy="25%" r="80%"><stop offset="0" style="stop-color: var(--card2)"></stop><stop offset="1" style="stop-color: var(--card)"></stop></radialGradient>
+<path id="ringB" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>
+</defs>
+<circle cx="150" cy="150" r="140" fill="url(#patchFaceB)" filter="url(#patchShadowB)" style="stroke-width: 6; stroke: {{accent}}"></circle>
+<circle cx="150" cy="150" r="131" style="fill: none; stroke-width: 1.4; stroke-dasharray: 3 4; stroke: {{rimLight}}"></circle>
+<circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
+<g class="spinslow" style="transform-origin: 150px 150px; animation-direction: reverse"><text style="fill: var(--ink); font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.22em"><textPath href="#ringB">AI SAFETY FUNDAMENTALS / READING GROUP / PATH TO MAIA /</textPath></text></g>
+<text x="150" y="176" text-anchor="middle" style="fill: var(--ink); font-family: 'Archivo', sans-serif; font-weight: 900; font-stretch: 62%; font-size: 76px">AISF</text>
+</svg>
+</div>
+<div class="deal" style="position: absolute; left: 870px; top: 588px; animation-delay: 0.6s">
+<svg role="img" aria-label="Empty patch for a future club" width="300" height="300" viewBox="0 0 300 300" style="transform: rotate(7deg)">
+<defs><path id="ringC" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path></defs>
+<circle cx="150" cy="150" r="140" style="fill: rgba(255,255,255,0.02); stroke: var(--ink3); stroke-width: 2; stroke-dasharray: 6 8"></circle>
+<g class="spinslow" style="transform-origin: 150px 150px"><text style="fill: var(--ink3); font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.22em"><textPath href="#ringC">NEXT CLUB / TO BE ANNOUNCED / NEXT CLUB / TO BE ANNOUNCED /</textPath></text></g>
+<text x="150" y="182" text-anchor="middle" style="fill: var(--ink3); font-family: 'Archivo', sans-serif; font-weight: 900; font-stretch: 62%; font-size: 100px">?</text>
+</svg>
+</div>
+</div>
+<div class="vignette" style="z-index: 4"></div>
+<div class="floor" style="z-index: 4; height: 140px"></div>
+<div class="frame heroFade" style="z-index: 5; pointer-events: none">
+<div class="mono faint sm-hide" style="position: absolute; left: 30px; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); letter-spacing: 0.14em">MIT / FALL 2026</div>
+<div class="mono faint sm-hide" style="position: absolute; right: 30px; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%); letter-spacing: 0.14em">42.3601° N · 71.0942° W / CAMBRIDGE, MA</div>
+<div class="fade2 sm-hide" style="position: absolute; left: 72px; top: 920px; width: 300px">
+<div class="cap muted">About</div>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 24px">Flight software on the MIT Satellite Team and an AI safety reading group.</p>
+</div>
+<div class="fade2 sm-hide" style="position: absolute; right: 72px; top: 920px; display: flex; gap: 20px">
+<div style="width: 96px; display: flex; flex-direction: column; align-items: center; gap: 10px"><div class="huge" style="width: 72px; height: 72px; border-radius: 36px; display: flex; align-items: center; justify-content: center; font-size: 30px; line-height: 1; background-color: {{accent}}; color: {{onAccent}}; box-shadow: {{glowShadow}}">2</div><div class="cap muted" style="font-size: 10px; text-align: center">Active</div></div>
+<div style="width: 96px; display: flex; flex-direction: column; align-items: center; gap: 10px"><div class="huge glass" style="width: 72px; height: 72px; box-sizing: border-box; border-radius: 36px; border-style: dashed; display: flex; align-items: center; justify-content: center; font-size: 30px; line-height: 1; color: var(--ink2)">+1</div><div class="cap muted" style="font-size: 10px; text-align: center">Open slot</div></div>
+</div>
+</div>
+</section>
+<section class="wrap" style="padding-top: 170px">
+<div class="mono faint">CURRENT</div>
+<h2 class="huge litx drift" style="margin: 20px 0 0; font-size: clamp(72px, 10.5vw, 150px)">MIT CLUBS</h2>
+<div style="margin-top: 52px; display: flex; flex-direction: column; gap: 24px">
+<div class="surface reveal sm-grid1" style="position: relative; overflow: hidden; display: grid; grid-template-columns: 200px 400px minmax(0, 1fr); gap: 40px; padding: 44px; border-radius: 20px">
+<div style="position: relative"><div class="huge outline" style="font-size: 140px">01</div></div>
+<div style="position: relative">
+<div class="mono faint">SOFTWARE DEVELOPER · SINCE FALL 2026</div>
+<div class="cond" style="margin-top: 12px; font-size: 42px; line-height: 44px">MIT Satellite Team</div>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px"><span class="chip cap">F Prime</span><span class="chip cap">Flight software</span></div>
+</div>
+<div style="position: relative">
+<p style="margin: 0; font-size: 17px; line-height: 26px">The team is working through F Prime, NASA JPL's flight software framework, which it will use for its next satellite launch. I joined as a software developer and I'm still ramping up.</p>
+<a href="Experience.dc.html" class="mono" style="margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: {{rimLight}}">BEFORE THIS: 2 YEARS ON THE CAPE CUBESAT TEAM <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</div>
+<div class="surface reveal sm-grid1" style="position: relative; overflow: hidden; display: grid; grid-template-columns: 200px 400px minmax(0, 1fr); gap: 40px; padding: 44px; border-radius: 20px">
+<div style="position: relative"><div class="huge outline" style="font-size: 140px">02</div></div>
+<div style="position: relative">
+<div class="mono faint">MEMBER · FALL 2026</div>
+<div class="cond" style="margin-top: 12px; font-size: 42px; line-height: 44px">AI Safety Fundamentals</div>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px"><span class="chip cap">AI safety</span><span class="chip cap">Alignment</span></div>
+</div>
+<div style="position: relative"><p style="margin: 0; font-size: 17px; line-height: 26px">A reading group on AI safety and alignment, and my path into MAIA, MIT's AI alignment group.</p></div>
+</div>
+<div class="glass reveal sm-grid1" style="display: grid; grid-template-columns: 200px 400px minmax(0, 1fr); gap: 40px; padding: 44px; border-radius: 20px; border-style: dashed">
+<div><div class="huge outline" style="font-size: 140px">03</div></div>
+<div><div class="mono faint">[ROLE · TERM]</div><div class="cond muted" style="margin-top: 12px; font-size: 42px; line-height: 44px">[Next club]</div></div>
+<div><p class="muted" style="margin: 0; font-size: 17px; line-height: 26px">[Add a club here once it's official.]</p></div>
+</div>
+</div>
+</section>
+<footer style="position: relative; padding-top: 180px">
+<div class="stripe" style="height: 56px; margin: 0 -40px; overflow: hidden; display: flex; align-items: center; transform: rotate(-1.2deg); background-color: {{accent}}; color: {{onAccent}}; box-shadow: 0 24px 70px -12px {{halo}}">
+<div class="marq" style="font-weight: 800; font-stretch: 80%; font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase"><span style="padding-right: 36px">Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; </span><span style="padding-right: 36px">Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; </span></div>
+</div>
+<div class="wrap reveal" style="padding-top: 110px; padding-bottom: 44px">
+<div class="mono faint">OPEN TO</div>
+<div class="huge litx" style="margin-top: 18px; font-size: clamp(90px, 17vw, 245px)">SUMMER 2027</div>
+<p class="muted" style="margin: 26px 0 0; max-width: 560px; font-size: 18px; line-height: 27px">Looking for a research or internship role in AI security for Summer 2027. Email is the fastest way to reach me.</p>
+<div class="sm-stack" style="margin-top: 44px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<a href="mailto:rudrak@mit.edu" class="cond" style="font-size: 46px; text-decoration: none">rudrak@mit.edu</a>
+<div class="cap" style="display: flex; gap: 28px"><a href="https://www.linkedin.com/in/rudra-karadkhelkar" style="text-decoration: none">LinkedIn</a><a href="#" style="text-decoration: none">GitHub</a><a href="Resume.dc.html" style="text-decoration: none">Resume</a></div>
+</div>
+<div class="rule" style="margin-top: 44px"></div>
+<div class="mono faint sm-stack" style="margin-top: 20px; display: flex; justify-content: space-between; gap: 12px"><span>© 2026 RUDRA KARADKHELKAR</span><span>LAFAYETTE, LA → CAMBRIDGE, MA</span></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2382E","options":["#F2382E","#FF6A1A","#C6FF3D","#3D5AFE"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":3010}}'>
+class Component extends DCLogic {
+  state = { mode: null, play: true };
+
+  rgb(hex) {
+    const h = String(hex || '').replace('#', '');
+    const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h.slice(0, 6);
+    if (full.length < 6) return [242, 56, 46];
+    return [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16));
+  }
+
+  tone(hex) {
+    const c = this.rgb(hex);
+    const lin = c.map((v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+    const L = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    const a = (o) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + o + ')';
+    const lift = c.map((v) => Math.round(v + (255 - v) * 0.35).toString(16).padStart(2, '0')).join('');
+    return {
+      onAccent: 1.05 / (L + 0.05) >= (L + 0.05) / 0.0535 ? '#FFFFFF' : '#0B0B0C',
+      halo: a(0.42), haloSoft: a(0.15), glowShadow: '0 14px 36px -10px ' + a(0.75), rimLight: '#' + lift
+    };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#F2382E';
+    const t = this.tone(accent);
+    const mode = this.state.mode || this.props.mode || 'dark';
+    const light = mode === 'light';
+    return {
+      rootClass: (light ? 'light' : '') + (this.state.play ? ' play' : ''),
+      accent: accent,
+      onAccent: t.onAccent,
+      halo: t.halo,
+      haloSoft: t.haloSoft,
+      glowShadow: t.glowShadow,
+      rimLight: t.rimLight,
+      light: light,
+      dark: !light,
+      modeLabel: light ? 'Switch to dark mode' : 'Switch to light mode',
+      toggleMode: () => this.setState({ mode: light ? 'dark' : 'light' })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "ASTRO_TELEMETRY_DISABLED": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm ci *)",
+      "Bash(npm run *)",
+      "Bash(npm create *)",
+      "Bash(npx astro *)",
+      "Bash(npx playwright *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "mcp__playwright__*",
+      "mcp__context7__*",
+      "mcp__astro-docs__*"
+    ],
+    "ask": [
+      "Bash(rm -rf *)",
+      "Bash(git reset *)",
+      "Bash(git clean *)",
+      "Bash(git checkout *)",
+      "Bash(git rebase *)",
+      "Bash(npm uninstall *)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(git -C * push *)",
+      "Bash(git remote *)",
+      "Bash(git config *)",
+      "Bash(gh *)",
+      "Bash(npm publish *)",
+      "Bash(npm login *)",
+      "Bash(sudo *)",
+      "Edit(/design-handoff/**)",
+      "Edit(/assets-incoming/**)",
+      "Edit(/.claude/**)",
+      "Edit(/CLAUDE.md)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.npmrc)"
+    ]
+  }
+}

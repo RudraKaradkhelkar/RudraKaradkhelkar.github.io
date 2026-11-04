@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Projects</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/e9c24b0a30736cf32e45ab8af2ecf781">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Courier+Prime:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#F4F2EE}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div class="p {{rootClass}}">
+<header class="navbar">
+<div class="wrap" style="height: 76px; display: flex; align-items: center; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Main.dc.html" aria-label="Home" class="huge" style="color: var(--ink); text-decoration: none; font-size: 30px; line-height: 1">R/K</a>
+</div>
+<nav class="cap sm-hide" aria-label="Sections" style="display: flex; gap: 30px">
+<a href="Research.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Research</a>
+<a href="Experience.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Experience</a>
+<a href="Projects.dc.html" aria-current="page" style="color: var(--ink); text-decoration: none; padding-bottom: 4px; border-bottom: 2px solid {{accent}}">Projects</a>
+<a href="Clubs.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Clubs</a>
+<a href="HighSchool.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">High School</a>
+<a href="Drawings.dc.html" class="navlink" style="color: var(--ink2); text-decoration: none">Drawings &amp; Life</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+<a href="Resume.dc.html" class="cap glass rbtn" style="height: 40px; box-sizing: border-box; padding: 0 18px; border-radius: 20px; color: var(--ink); text-decoration: none; display: flex; align-items: center">Resume</a>
+<button type="button" class="glass rbtn" aria-label="{{soundLabel}}" aria-pressed="{{soundOn}}" onClick="{{toggleSound}}" style="width: 40px; height: 40px; padding: 0; border-radius: 20px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"></path><sc-if value="{{soundOn}}" hint-placeholder-val="{{ false }}"><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path></sc-if><sc-if value="{{soundOff}}" hint-placeholder-val="{{ true }}"><path d="M17 9l5 6M22 9l-5 6"></path></sc-if></svg>
+</button>
+<button type="button" class="glass rbtn" aria-label="{{modeLabel}}" onClick="{{toggleMode}}" style="width: 40px; height: 40px; padding: 0; border-radius: 20px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<sc-if value="{{dark}}" hint-placeholder-val="{{ true }}"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+<sc-if value="{{light}}" hint-placeholder-val="{{ false }}"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+</button>
+</div>
+</div>
+</header>
+<section style="position: relative; height: 1060px; overflow: hidden">
+<div class="toplight"></div>
+<div class="frame" style="z-index: 1">
+<div class="brk tl sm-hide" style="left: 40px; top: 96px"></div><div class="brk tr sm-hide" style="right: 40px; top: 96px"></div><div class="brk bl sm-hide" style="left: 40px; bottom: 24px"></div><div class="brk br sm-hide" style="right: 40px; bottom: 24px"></div>
+<div class="cap fade sm-hide" style="position: absolute; left: 72px; top: 112px; display: flex; gap: 40px; color: var(--ink2)"><span>2 in progress</span><span>1 locked</span></div>
+<div class="cap fade sm-hide" style="position: absolute; right: 72px; top: 112px; display: flex; gap: 40px; color: var(--ink2)"><span>Pick a cover</span><span>Fall 2026</span></div>
+<div class="wide fade" style="position: absolute; left: 0; right: 0; top: 100px; padding-left: 0.3em; text-align: center; font-size: clamp(16px, 2.4vw, 34px)">SELECT A LEVEL</div>
+<h1 class="huge lit heroWord" aria-label="Projects" style="position: absolute; left: 0; right: 0; top: 160px; margin: 0; overflow: hidden; text-align: center; font-size: clamp(110px, 23vw, 330px)"><span class="ch" style="animation-delay: 0s">P</span><span class="ch" style="animation-delay: 0.04s">R</span><span class="ch" style="animation-delay: 0.08s">O</span><span class="ch" style="animation-delay: 0.12s">J</span><span class="ch" style="animation-delay: 0.16s">E</span><span class="ch" style="animation-delay: 0.2s">C</span><span class="ch" style="animation-delay: 0.24s">T</span><span class="ch" style="animation-delay: 0.28s">S</span></h1>
+</div>
+<div class="halo glowin" style="left: 50%; top: 330px; z-index: 2; width: 1200px; height: 760px; margin-left: -600px; background-image: radial-gradient(closest-side, {{halo}}, {{haloSoft}} 45%, transparent 75%)"></div>
+<div style="position: absolute; left: 50%; top: 830px; z-index: 2; width: 1000px; height: 90px; margin-left: -500px; background-image: radial-gradient(closest-side, rgba(0,0,0,0.75), transparent)"></div>
+<div class="heroFig" style="position: absolute; left: 50%; top: 450px; z-index: 3; margin-left: -441px; display: flex; gap: 36px">
+<div class="deal" style="animation-delay: 0.45s">
+<button type="button" class="{{cyberClass}}" aria-pressed="{{cyberPressed}}" onClick="{{pickCyber}}" style="position: relative; width: 270px; height: 390px; box-sizing: border-box; padding: 0; border-radius: 18px; border: 1px solid var(--line2); background-color: var(--card); color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; overflow: visible; box-shadow: inset 0 1px 0 var(--sheen), 0 40px 80px -30px var(--shadow)">
+<sc-if value="{{cyberRing}}" hint-placeholder-val="{{ false }}"><span class="ring" aria-hidden="true" style="border-color: {{accent}}; box-shadow: 0 0 0 6px {{glow}}, 0 0 60px {{glow}}"></span></sc-if>
+<span style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border-radius: 18px; overflow: hidden">
+<span class="mono" style="position: absolute; left: 0; right: 0; top: 0; height: 34px; padding: 0 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); color: var(--ink2)"><span>R/K · LVL 01</span><span style="color: {{rimLight}}">IN PROGRESS</span></span>
+<span class="scan" style="position: absolute; left: 14px; right: 14px; top: 48px; height: 182px; border-radius: 10px; overflow: hidden; background-color: var(--bg)">
+<span style="position: absolute; left: 50%; top: 50%; width: 260px; height: 260px; margin: -130px 0 0 -130px; background-image: radial-gradient(closest-side, {{glow}}, transparent)"></span>
+<svg width="240" height="182" viewBox="0 0 240 182" aria-hidden="true" style="position: absolute; left: 1px; top: 0">
+<defs><filter id="sweepGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter></defs>
+<circle class="art" cx="120" cy="91" r="76"></circle><circle class="art" cx="120" cy="91" r="52"></circle><circle class="art" cx="120" cy="91" r="28"></circle>
+<path class="art" d="M44 91 L196 91 M120 15 L120 167"></path>
+<g class="spin" style="transform-origin: 120px 91px"><path d="M120 91 L196 91 A76 76 0 0 0 173.7 37.3 Z" opacity="0.5" filter="url(#sweepGlow)" style="fill: {{accent}}"></path><path d="M120 91 L196 91" style="stroke-width: 2; stroke: {{rimLight}}"></path></g>
+<circle cx="160" cy="60" r="7" filter="url(#sweepGlow)" style="fill: {{accent}}"></circle><circle cx="160" cy="60" r="3.5" style="fill: {{rimLight}}"></circle>
+<circle cx="84" cy="122" r="3" style="fill: {{rimLight}}"></circle>
+</svg>
+</span>
+<span class="huge litx" style="position: absolute; left: 18px; top: 246px; font-size: 58px; line-height: 0.86">CYBER<br>DEFENDER</span>
+<span class="mono faint" style="position: absolute; left: 18px; right: 18px; bottom: 14px; display: flex; justify-content: space-between"><span>AI SECURITY</span><span>2026</span></span>
+<span class="gloss" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; pointer-events: none"></span>
+</span>
+</button>
+</div>
+<div class="deal" style="animation-delay: 0.55s">
+<button type="button" class="{{gloveClass}}" aria-pressed="{{glovePressed}}" onClick="{{pickGlove}}" style="position: relative; width: 270px; height: 390px; box-sizing: border-box; padding: 0; border-radius: 18px; border: 1px solid var(--line2); background-color: var(--card); color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; overflow: visible; box-shadow: inset 0 1px 0 var(--sheen), 0 40px 80px -30px var(--shadow)">
+<sc-if value="{{gloveRing}}" hint-placeholder-val="{{ false }}"><span class="ring" aria-hidden="true" style="border-color: {{accent}}; box-shadow: 0 0 0 6px {{glow}}, 0 0 60px {{glow}}"></span></sc-if>
+<span style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border-radius: 18px; overflow: hidden">
+<span class="mono" style="position: absolute; left: 0; right: 0; top: 0; height: 34px; padding: 0 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); color: var(--ink2)"><span>R/K · LVL 02</span><span style="color: {{rimLight}}">IN PROGRESS</span></span>
+<span class="scan" style="position: absolute; left: 14px; right: 14px; top: 48px; height: 182px; border-radius: 10px; overflow: hidden; background-color: var(--bg)">
+<span style="position: absolute; left: 50%; top: 50%; width: 260px; height: 260px; margin: -130px 0 0 -130px; background-image: radial-gradient(closest-side, {{glow}}, transparent)"></span>
+<svg width="240" height="182" viewBox="0 0 240 182" aria-hidden="true" style="position: absolute; left: 1px; top: 0">
+<defs><filter id="rotorGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"></feGaussianBlur></filter></defs>
+<path d="M70 41 L170 141 M170 41 L70 141" style="fill: none; stroke: var(--ink3); stroke-width: 4; stroke-linecap: round"></path>
+<circle cx="70" cy="41" r="27" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle><circle cx="170" cy="41" r="27" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle><circle cx="70" cy="141" r="27" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle><circle cx="170" cy="141" r="27" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
+<g class="spinfast" style="transform-origin: 70px 41px"><path d="M48 41 L92 41" style="stroke: var(--ink); stroke-width: 3; stroke-linecap: round; opacity: 0.8"></path></g>
+<g class="spinfast" style="transform-origin: 170px 41px"><path d="M148 41 L192 41" style="stroke: var(--ink); stroke-width: 3; stroke-linecap: round; opacity: 0.8"></path></g>
+<g class="spinfast" style="transform-origin: 70px 141px"><path d="M48 141 L92 141" style="stroke: var(--ink); stroke-width: 3; stroke-linecap: round; opacity: 0.8"></path></g>
+<g class="spinfast" style="transform-origin: 170px 141px"><path d="M148 141 L192 141" style="stroke: var(--ink); stroke-width: 3; stroke-linecap: round; opacity: 0.8"></path></g>
+<rect x="100" y="76" width="40" height="30" rx="8" style="fill: var(--fig3); stroke: var(--line2)"></rect>
+<circle cx="120" cy="91" r="8" filter="url(#rotorGlow)" style="fill: {{accent}}"></circle><circle cx="120" cy="91" r="4" style="fill: {{rimLight}}"></circle>
+</svg>
+</span>
+<span class="huge litx" style="position: absolute; left: 18px; top: 246px; font-size: 58px; line-height: 0.86">DRONE<br>GLOVE</span>
+<span class="mono faint" style="position: absolute; left: 18px; right: 18px; bottom: 14px; display: flex; justify-content: space-between"><span>ML · EMBEDDED</span><span>2026</span></span>
+<span class="gloss" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; pointer-events: none"></span>
+</span>
+</button>
+</div>
+<div class="deal" style="animation-delay: 0.65s">
+<button type="button" disabled aria-label="Level 3, locked" class="glass" style="position: relative; width: 270px; height: 390px; box-sizing: border-box; padding: 0; border-radius: 18px; border: 1.5px dashed var(--line2); color: var(--ink2); font-family: inherit; cursor: not-allowed; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px">
+<span class="mono" style="position: absolute; left: 16px; right: 16px; top: 12px; display: flex; justify-content: space-between"><span>R/K · LVL 03</span><span>LOCKED</span></span>
+<svg class="ico" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<span class="huge" style="font-size: 110px; line-height: 0.9">???</span>
+<span class="mono faint">NEXT BUILD</span>
+</button>
+</div>
+</div>
+<div class="vignette" style="z-index: 4; pointer-events: none"></div>
+<div class="frame heroFade" style="z-index: 5; pointer-events: none">
+<div class="mono faint sm-hide" style="position: absolute; left: 30px; top: 40%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); letter-spacing: 0.14em">PRESS A COVER TO SELECT / 2 OF 3 UNLOCKED</div>
+<div style="position: absolute; left: 72px; right: 72px; top: 900px; height: 128px; pointer-events: auto">
+<sc-if value="{{isCyber}}" hint-placeholder-val="{{ true }}">
+<div class="detail sm-stack" style="height: 128px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div style="max-width: 640px">
+<div class="mono" style="color: {{rimLight}}">LVL 01 · IN PROGRESS</div>
+<div class="cond" style="margin-top: 10px; font-size: 42px; line-height: 44px">Cyberdefender Agent</div>
+<p class="muted" style="margin: 8px 0 0; font-size: 15px; line-height: 22px">An AI agent that monitors a home-lab server, spots intrusions, and responds. Runs on a VM or an old laptop turned server.</p>
+</div>
+<div style="display: flex; align-items: center; gap: 16px">
+<div style="width: 160px; height: 4px; border-radius: 2px; overflow: hidden; background-color: var(--line2)"><div style="width: 35%; height: 4px; background-color: {{accent}}; box-shadow: 0 0 12px {{glow}}"></div></div>
+<span class="mono faint">[X]% BUILT</span>
+<a href="#lvl1" class="cap" style="height: 50px; padding: 0 24px; border-radius: 25px; display: flex; align-items: center; text-decoration: none; background-color: {{accent}}; color: {{onAccent}}; box-shadow: {{glowShadow}}">Enter level</a>
+<button type="button" class="glass rbtn" aria-label="Previous level" onClick="{{prev}}" style="width: 50px; height: 50px; padding: 0; border-radius: 25px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<button type="button" class="glass rbtn" aria-label="Next level" onClick="{{next}}" style="width: 50px; height: 50px; padding: 0; border-radius: 25px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isGlove}}" hint-placeholder-val="{{ false }}">
+<div class="detail sm-stack" style="height: 128px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div style="max-width: 640px">
+<div class="mono" style="color: {{rimLight}}">LVL 02 · IN PROGRESS</div>
+<div class="cond" style="margin-top: 10px; font-size: 42px; line-height: 44px">Drone Gesture Glove</div>
+<p class="muted" style="margin: 8px 0 0; font-size: 15px; line-height: 22px">A wearable glove that reads hand gestures and turns them into flight commands for a drone.</p>
+</div>
+<div style="display: flex; align-items: center; gap: 16px">
+<div style="width: 160px; height: 4px; border-radius: 2px; overflow: hidden; background-color: var(--line2)"><div style="width: 20%; height: 4px; background-color: {{accent}}; box-shadow: 0 0 12px {{glow}}"></div></div>
+<span class="mono faint">[X]% BUILT</span>
+<a href="#lvl2" class="cap" style="height: 50px; padding: 0 24px; border-radius: 25px; display: flex; align-items: center; text-decoration: none; background-color: {{accent}}; color: {{onAccent}}; box-shadow: {{glowShadow}}">Enter level</a>
+<button type="button" class="glass rbtn" aria-label="Previous level" onClick="{{prev}}" style="width: 50px; height: 50px; padding: 0; border-radius: 25px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<button type="button" class="glass rbtn" aria-label="Next level" onClick="{{next}}" style="width: 50px; height: 50px; padding: 0; border-radius: 25px; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+<section id="lvl1" class="wrap" style="padding-top: 170px">
+<div class="mono" style="color: {{rimLight}}">LVL 01 / IN PROGRESS</div>
+<h2 class="huge litx drift" style="margin: 20px 0 0; font-size: clamp(72px, 10.5vw, 150px)">CYBER DEFENDER</h2>
+<p class="reveal" style="margin: 26px 0 0; max-width: 840px; font-size: 20px; line-height: 30px">A home-lab server watched by AI. One agent classifies incoming traffic, a second one responds to anything suspicious, and I play the attacker. Approved by my advisor as a semester project alongside my UROP.</p>
+<div class="reveal sm-stack" style="margin-top: 60px; display: flex; align-items: stretch">
+<div class="glass" style="flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 26px; border-radius: 18px; border-style: dashed"><div class="mono faint">01 / THE ATTACKER</div><div class="cond" style="margin-top: 12px; font-size: 28px; line-height: 30px">Attacker VM</div><p class="muted" style="margin: 10px 0 0; font-size: 15px; line-height: 22px">Attacks launched from a VM on my own laptop.</p></div>
+<div class="sm-hide" style="width: 60px; display: flex; align-items: center"><div style="width: 100%; height: 2px; background-image: linear-gradient(90deg, var(--line2), {{accent}})"></div></div>
+<div class="surface" style="flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 26px; border-radius: 18px"><div class="mono faint">02 / THE TARGET</div><div class="cond" style="margin-top: 12px; font-size: 28px; line-height: 30px">Home-lab server</div><p class="muted" style="margin: 10px 0 0; font-size: 15px; line-height: 22px">A VM or an old laptop turned server.</p></div>
+<div class="sm-hide" style="width: 60px; display: flex; align-items: center"><div style="width: 100%; height: 2px; background-image: linear-gradient(90deg, var(--line2), {{accent}})"></div></div>
+<div class="surface" style="flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 26px; border-radius: 18px"><div class="mono faint">03 / THE WATCHER</div><div class="cond" style="margin-top: 12px; font-size: 28px; line-height: 30px">Classifier agent</div><p class="muted" style="margin: 10px 0 0; font-size: 15px; line-height: 22px">Reads incoming traffic and flags what looks wrong.</p></div>
+<div class="sm-hide" style="width: 60px; display: flex; align-items: center"><div style="width: 100%; height: 2px; background-image: linear-gradient(90deg, var(--line2), {{accent}})"></div></div>
+<div style="flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 26px; border-radius: 18px; background-color: var(--card); border: 1.5px solid {{accent}}; box-shadow: 0 30px 80px -30px {{halo}}"><div class="mono" style="color: {{rimLight}}">04 / THE RESPONDER</div><div class="cond" style="margin-top: 12px; font-size: 28px; line-height: 30px">Security agent</div><p class="muted" style="margin: 10px 0 0; font-size: 15px; line-height: 22px">Picks a response from a fixed, typed set of actions.</p></div>
+</div>
+<div class="sm-grid1" style="margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div class="surface reveal" style="padding: 34px; border-radius: 20px">
+<div class="mono faint">DESIGN CHOICES</div>
+<div style="margin-top: 14px">
+<div style="padding: 20px 0; border-bottom: 1px solid var(--line); font-size: 17px; line-height: 26px">A model-agnostic harness I'm writing myself, so frontier and local models can swap in and out.</div>
+<div style="padding: 20px 0; border-bottom: 1px solid var(--line); font-size: 17px; line-height: 26px">A typed decision layer: the agent chooses from defined actions instead of running free-form commands.</div>
+<div style="padding: 20px 0 0; font-size: 17px; line-height: 26px">Tested by attacking it myself, with every attempt logged.</div>
+</div>
+</div>
+<div class="surface reveal" style="padding: 34px; border-radius: 20px">
+<div class="mono faint">MILESTONES</div>
+<div style="margin-top: 14px">
+<div style="padding: 20px 0; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px"><span style="width: 20px; height: 20px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; border: 1.5px solid var(--line2)"></span><span style="flex-grow: 1; font-size: 17px">Server up, with traffic logging</span><span class="mono faint">[STATUS]</span></div>
+<div style="padding: 20px 0; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px"><span style="width: 20px; height: 20px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; border: 1.5px solid var(--line2)"></span><span style="flex-grow: 1; font-size: 17px">Classifier flags suspicious traffic</span><span class="mono faint">[STATUS]</span></div>
+<div style="padding: 20px 0; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px"><span style="width: 20px; height: 20px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; border: 1.5px solid var(--line2)"></span><span style="flex-grow: 1; font-size: 17px">Security agent takes a response action</span><span class="mono faint">[STATUS]</span></div>
+<div style="padding: 20px 0 0; display: flex; align-items: center; gap: 16px"><span style="width: 20px; height: 20px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; border: 1.5px solid var(--line2)"></span><span style="flex-grow: 1; font-size: 17px">Write-up of the attacks I ran and what held</span><span class="mono faint">[STATUS]</span></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lvl2" class="wrap" style="padding-top: 170px">
+<div class="mono" style="color: {{rimLight}}">LVL 02 / IN PROGRESS</div>
+<h2 class="huge litx driftR" style="margin: 20px 0 0; font-size: clamp(72px, 10.5vw, 150px)">DRONE GLOVE</h2>
+<div class="sm-grid1" style="margin-top: 52px; display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 72px; align-items: center">
+<div class="media reveal" style="height: 520px; border-radius: 20px; display: flex; align-items: center; justify-content: center">
+<svg role="img" aria-label="Schematic of the glove: a motion sensor on each finger wired to a board on the back of the hand" width="320" height="420" viewBox="0 0 320 420" style="position: relative">
+<defs><filter id="imuGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter></defs>
+<rect x="92" y="40" width="30" height="140" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<rect x="132" y="20" width="30" height="160" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<rect x="172" y="34" width="30" height="146" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<rect x="212" y="70" width="28" height="110" rx="14" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<rect x="40" y="190" width="30" height="110" rx="15" transform="rotate(-35 55 245)" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<rect x="84" y="160" width="160" height="150" rx="30" style="fill: var(--fig3); stroke: var(--ink3); stroke-width: 1.5"></rect>
+<path d="M107 80 L150 330 M147 60 L160 330 M187 74 L170 330 M226 104 L182 330 M58 222 L140 330" style="fill: none; stroke: var(--edge); stroke-width: 1.2; stroke-dasharray: 3 5"></path>
+<rect x="110" y="320" width="110" height="64" rx="8" style="fill: var(--bg); stroke-width: 1.5; stroke: {{accent}}"></rect>
+<rect x="148" y="338" width="34" height="28" rx="4" style="fill: {{accent}}"></rect>
+<circle cx="107" cy="80" r="10" filter="url(#imuGlow)" style="fill: {{accent}}"></circle><circle cx="147" cy="60" r="10" filter="url(#imuGlow)" style="fill: {{accent}}"></circle><circle cx="187" cy="74" r="10" filter="url(#imuGlow)" style="fill: {{accent}}"></circle><circle cx="226" cy="104" r="10" filter="url(#imuGlow)" style="fill: {{accent}}"></circle><circle cx="58" cy="222" r="10" filter="url(#imuGlow)" style="fill: {{accent}}"></circle>
+<circle cx="107" cy="80" r="6" style="fill: {{rimLight}}"></circle><circle cx="147" cy="60" r="6" style="fill: {{rimLight}}"></circle><circle cx="187" cy="74" r="6" style="fill: {{rimLight}}"></circle><circle cx="226" cy="104" r="6" style="fill: {{rimLight}}"></circle><circle cx="58" cy="222" r="6" style="fill: {{rimLight}}"></circle>
+</svg>
+<div class="mono faint" style="position: absolute; left: 30px; top: 28px">SENSOR LAYOUT</div>
+<div class="mono faint" style="position: absolute; right: 30px; bottom: 26px">5 × IMU · 1 × BOARD</div>
+</div>
+<div class="reveal">
+<p style="margin: 0; max-width: 640px; font-size: 20px; line-height: 30px">A glove that flies a drone. Motion sensors on every finger feed a model that recognizes hand poses, and each pose maps to a flight command. It pulls together machine learning, embedded systems, CAD, and circuit design.</p>
+<div style="margin-top: 32px; border-top: 1px solid var(--line2)">
+<div class="rowh" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="color: {{rimLight}}">01</span><span class="cond" style="font-size: 26px">An IMU on every finger</span></div>
+<div class="rowh" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="color: {{rimLight}}">02</span><span class="cond" style="font-size: 26px">A back-of-hand board, designed in KiCad</span></div>
+<div class="rowh" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="color: {{rimLight}}">03</span><span class="cond" style="font-size: 26px">A CAD hand harness to hold it all</span></div>
+<div class="rowh" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="color: {{rimLight}}">04</span><span class="cond" style="font-size: 26px">A PyTorch model that classifies hand poses</span></div>
+<div class="rowh" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line)"><span class="mono" style="color: {{rimLight}}">05</span><span class="cond" style="font-size: 26px">A simple drone that follows the gestures</span></div>
+</div>
+<div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px"><span class="chip cap">PyTorch</span><span class="chip cap">KiCad</span><span class="chip cap">CAD</span><span class="chip cap">Embedded</span><span class="chip mono faint">[X]% BUILT</span></div>
+</div>
+</div>
+</section>
+<section class="wrap" style="padding-top: 130px">
+<div class="glass reveal sm-stack" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 52px; border-radius: 20px; border-style: dashed">
+<div style="display: flex; align-items: center; gap: 28px">
+<svg class="ico faint" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<div><div class="mono faint">LVL 03 / LOCKED</div><div class="huge" style="margin-top: 14px; font-size: 110px">NEXT LEVEL</div></div>
+</div>
+<p class="muted" style="margin: 0; max-width: 420px; font-size: 17px; line-height: 26px">Unlocks when one of the first two ships. [What's next, in one line.]</p>
+</div>
+</section>
+<footer style="position: relative; padding-top: 180px">
+<div class="stripe" style="height: 56px; margin: 0 -40px; overflow: hidden; display: flex; align-items: center; transform: rotate(-1.2deg); background-color: {{accent}}; color: {{onAccent}}; box-shadow: 0 24px 70px -12px {{halo}}">
+<div class="marq" style="font-weight: 800; font-stretch: 80%; font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase"><span style="padding-right: 36px">Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; </span><span style="padding-right: 36px">Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; Open to Summer 2027 roles &#160;/&#160; rudrak@mit.edu &#160;/&#160; Cambridge, MA &#160;/&#160; </span></div>
+</div>
+<div class="wrap reveal" style="padding-top: 110px; padding-bottom: 44px">
+<div class="mono faint">OPEN TO</div>
+<div class="huge litx" style="margin-top: 18px; font-size: clamp(90px, 17vw, 245px)">SUMMER 2027</div>
+<p class="muted" style="margin: 26px 0 0; max-width: 560px; font-size: 18px; line-height: 27px">Looking for a research or internship role in AI security for Summer 2027. Email is the fastest way to reach me.</p>
+<div class="sm-stack" style="margin-top: 44px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<a href="mailto:rudrak@mit.edu" class="cond" style="font-size: 46px; text-decoration: none">rudrak@mit.edu</a>
+<div class="cap" style="display: flex; gap: 28px"><a href="https://www.linkedin.com/in/rudra-karadkhelkar" style="text-decoration: none">LinkedIn</a><a href="#" style="text-decoration: none">GitHub</a><a href="Resume.dc.html" style="text-decoration: none">Resume</a></div>
+</div>
+<div class="rule" style="margin-top: 44px"></div>
+<div class="mono faint sm-stack" style="margin-top: 20px; display: flex; justify-content: space-between; gap: 12px"><span>© 2026 RUDRA KARADKHELKAR</span><span>LAFAYETTE, LA → CAMBRIDGE, MA</span></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2382E","options":["#F2382E","#FF6A1A","#C6FF3D","#3D5AFE"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":4240}}'>
+class Component extends DCLogic {
+  state = { mode: null, play: true, sound: false, selected: 'cyber', ringOn: false };
+
+  componentDidMount() { this.later(() => this.charm(), 1300); }
+  componentWillUnmount() { this.clearTimers(); }
+
+  clearTimers() { (this.timers || []).forEach((t) => clearTimeout(t)); this.timers = []; }
+  later(fn, ms) { if (!this.timers) this.timers = []; this.timers.push(setTimeout(fn, ms)); }
+
+  charm() {
+    this.setState({ ringOn: false });
+    this.later(() => { this.setState({ ringOn: true }); this.tick(); }, 40);
+  }
+
+  pick(id) {
+    this.setState({ selected: id });
+    this.charm();
+  }
+
+  tick() {
+    if (!this.state.sound) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!this.audio) this.audio = new AC();
+      const ac = this.audio;
+      if (ac.state === 'suspended') ac.resume();
+      const t0 = ac.currentTime + 0.01;
+      [[1250, 0, 0.05], [1875, 0.045, 0.07]].forEach(([freq, at, len]) => {
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t0 + at);
+        gain.gain.setValueAtTime(0.0001, t0 + at);
+        gain.gain.exponentialRampToValueAtTime(0.16, t0 + at + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + at + len);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(t0 + at);
+        osc.stop(t0 + at + len + 0.02);
+      });
+    } catch (e) {}
+  }
+
+  rgb(hex) {
+    const h = String(hex || '').replace('#', '');
+    const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h.slice(0, 6);
+    if (full.length < 6) return [242, 56, 46];
+    return [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16));
+  }
+
+  tone(hex) {
+    const c = this.rgb(hex);
+    const lin = c.map((v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+    const L = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    const a = (o) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + o + ')';
+    const lift = c.map((v) => Math.round(v + (255 - v) * 0.35).toString(16).padStart(2, '0')).join('');
+    return {
+      onAccent: 1.05 / (L + 0.05) >= (L + 0.05) / 0.0535 ? '#FFFFFF' : '#0B0B0C',
+      halo: a(0.42), haloSoft: a(0.15), glow: a(0.3), glowShadow: '0 14px 36px -10px ' + a(0.75), rimLight: '#' + lift
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const accent = this.props.accent ?? '#F2382E';
+    const t = this.tone(accent);
+    const mode = s.mode || this.props.mode || 'dark';
+    const light = mode === 'light';
+    const coverClass = (id) => 'cover' + (s.selected === id ? ' is-selected' : '') + (s.selected === id && s.ringOn ? ' pop' : '');
+    const other = s.selected === 'cyber' ? 'glove' : 'cyber';
+    return {
+      rootClass: (light ? 'light' : '') + (s.play ? ' play' : ''),
+      accent: accent,
+      onAccent: t.onAccent,
+      halo: t.halo,
+      haloSoft: t.haloSoft,
+      glow: t.glow,
+      glowShadow: t.glowShadow,
+      rimLight: t.rimLight,
+      light: light,
+      dark: !light,
+      modeLabel: light ? 'Switch to dark mode' : 'Switch to light mode',
+      soundOn: s.sound,
+      soundOff: !s.sound,
+      soundLabel: s.sound ? 'Turn selection sound off' : 'Turn selection sound on',
+      cyberClass: coverClass('cyber'),
+      gloveClass: coverClass('glove'),
+      cyberRing: s.selected === 'cyber' && s.ringOn,
+      gloveRing: s.selected === 'glove' && s.ringOn,
+      cyberPressed: s.selected === 'cyber',
+      glovePressed: s.selected === 'glove',
+      isCyber: s.selected === 'cyber',
+      isGlove: s.selected === 'glove',
+      pickCyber: () => this.pick('cyber'),
+      pickGlove: () => this.pick('glove'),
+      prev: () => this.pick(other),
+      next: () => this.pick(other),
+      toggleMode: () => this.setState({ mode: light ? 'dark' : 'light' }),
+      toggleSound: () => this.setState({ sound: !s.sound }, () => this.tick())
+    };
+  }
+}
+</script>
+</body>
+</html>
