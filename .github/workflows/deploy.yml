@@ -1,0 +1,51 @@
+# Builds the site with Astro's official action and publishes it to GitHub Pages.
+# Versions checked against the Astro docs (docs.astro.build/en/guides/deploy/github/) on 2026-11-05.
+#
+# One-time setup on GitHub: Settings > Pages > Source: GitHub Actions.
+# This is a user site (repository RudraKaradkhelkar.github.io), so it is served from the root
+# and astro.config.mjs sets `site` with no `base`.
+name: Deploy to GitHub Pages
+
+on:
+  # Every push to main.
+  push:
+    branches: [main]
+  # Every January 1 at 06:00 UTC, so the footer's copyright year (taken from the build date)
+  # rolls over even if nothing was pushed.
+  schedule:
+    - cron: '0 6 1 1 *'
+  # By hand, from the Actions tab.
+  workflow_dispatch:
+
+# Allow this job to clone the repo and create a page deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer run replaces a queued one but never cancels one in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v7
+      - name: Install, build, and upload your site
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
