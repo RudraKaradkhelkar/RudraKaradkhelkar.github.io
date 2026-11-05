@@ -4,18 +4,18 @@ Running log for the portfolio build. Read at the start of every session and afte
 
 ## Status
 
-Phase 1 complete (overnight run, 2026-11-05). Phase 2 (motion) next.
+Phases 1 and 2 complete (overnight run, 2026-11-05). Phase 3 (quality pass) next.
 
-- All nine routes are real pages: Home, Research, Experience, Projects, Clubs, High School, Drawings & Life, Resume, and the styled 404. `StubHero` is gone.
-- `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes: no horizontal scroll, headline on one line inside the padding, one h1, no console errors, and no overlap between hero text boxes and the visible art (new check).
+- All nine routes are real pages; `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes, with reduced motion (default) and with `--motion`.
+- Motion: CSS intro on every poster, GSAP ScrollTrigger scroll effects, Lenis on mouse and trackpad only, Projects selection charm, ambient loops. Reduced motion shows final states with no Lenis.
 - `npx astro check`: 0 errors, 0 warnings, 0 hints.
-- Motion so far is CSS-only ambient loops (marquee, radar, rotors, badge swing, patch and medal ring spin, medal shine, packets, hub pulse) and the Projects selection charm. Intro and scroll effects are Phase 2.
 
 ## Done
 
 | Commit | What |
 | - | - |
 | `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| `e9bfab2` | Phase 2: CSS intro (`src/styles/motion.css`), scroll effects and Lenis (`src/scripts/motion.ts`), Home replay, skip link focus with Lenis |
 | `0ac6c60` | Phase 1: Research (graph in a size container with slice scaling; hub label tracks its node), hero overlap check in `shoot.mjs` |
 | `421c6d1` | Phase 1: Experience (badge rail on a board, fanned hand on phones; case cards; EcoChamps fitted heading and phone-frame slot) |
 | `1bf5bec` | Phase 1: High School (medal, timeline, Dean's List and podcast cards, subteams, photo slots sharing one height) |
@@ -81,6 +81,14 @@ Phase 1 complete (overnight run, 2026-11-05). Phase 2 (motion) next.
 - **Nav Resume pill** fills with the accent on the Resume page, as in the design.
 - **Badges** can be `dashed` (Clubs' "+1 open slot"); long badge labels wrap like the design.
 
+- **Intro is CSS, scroll is GSAP (Phase 2).** The intro keyframes start with the first paint, so the poster never flashes its final state and then hides it while JavaScript loads, and no-JS visitors still see everything. They animate the individual `translate` / `rotate` / `scale` properties (which compose with each element's own tilt) with `backwards` fill, so after the intro the scroll tweens own the element. Scroll tweens use `fromTo()` with explicit start values for the same reason.
+- **Scroll ranges** follow the design's scroll-driven CSS: headline 0 to 900 px (up 160 px, scale .96, opacity .1), art 0 to 860 px (down 90 px, scale .82, fade out), captions and bottom row 0 to 500 px (up 30 px, fade), Home avatar 560 to 860 px. Side labels only fade (they already carry a translate and rotation).
+- **Reveals** use `ScrollTrigger.batch` once per block, and only blocks still below the screen at load start hidden, so nothing on screen blinks out. Transforms are cleared afterwards so CSS hover lifts work.
+- **Drift** (headings 4% to -4%, or the reverse) runs at 1100 px and up only; phones and tablets keep the fades and reveals.
+- **Lenis** runs only on `(pointer: fine)` with reduced motion off (`anchors: true`, `autoRaf: false`, driven by the GSAP ticker with `lagSmoothing(0)` as the Lenis docs show). It stops while the menu dialog is open. Touch devices scroll natively.
+- **Home nav avatar** starts hidden through an `html.motion` class set in the head (only when motion is allowed), so it doesn't blink on load.
+- **Research hub label** got a solid background so the travelling packets never cross its text.
+
 ## Questions for Rudra
 
 The five Phase 0 questions were answered; see Decisions. New ones from the overnight run (each already has a working default):
@@ -113,12 +121,11 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Next
 
-**Phase 2: motion and theme.** Check GSAP, ScrollTrigger, and Lenis APIs with Context7 first.
+**Phase 3: quality pass.**
 
-1. `src/scripts/motion.ts`, loaded once from Layout: Lenis on fine pointers only (native scroll on touch), wired to ScrollTrigger the way the GSAP docs recommend; stopped while the menu is open (`rk:menu`). Everything inside `gsap.matchMedia()` with a `prefers-reduced-motion: no-preference` condition, so reduced motion shows final states and no Lenis.
-2. Intro (once on load; Home replays on `rk:replay`): `.ch` letters rise (1.05 s expo out, staggered), `[data-hero-art]` fades up, Home band scales in from the left (`[data-hero-band]`), `[data-hero-fade]` captions fade in, cards deal in, Research edges draw (`.edge.drawn`, `pathLength=1`) and nodes pop (`.popin`, delays in `--d`).
-3. Scroll: `[data-hero-word]` drifts up and fades to 10% over 900 px, `[data-hero-art]` sinks and fades, `[data-hero-fade]` fade, Home nav avatar fades in (560 to 860 px), `[data-reveal]` blocks rise 60 px, `[data-drift]` headings drift sideways a few percent on desktop only.
-4. Nav background after 260 px: keep the passive listener (works with Lenis).
-5. Set initial states from JS only, never in CSS, so no-JS and reduced motion show everything.
-6. Re-shoot everything (also with `--motion`), commit, update this file.
-7. Phase 4 reminder: `deploy.yml` needs a `schedule` trigger every January 1 so the copyright year rebuilds.
+1. `npx astro check` and `npm run build` clean.
+2. Install `@axe-core/playwright` (dev only) and add `scripts/a11y.mjs`: axe on every route in both themes; fix what it finds. One h1 per page, real buttons and links, visible focus rings, alt text, decorative SVGs `aria-hidden`, AA contrast for body text.
+3. No console errors on any route (shoot already checks). Check every internal link in `dist/` resolves.
+4. Grep `src/` and `dist/` for em dashes, sparkle glyphs, "Inter", `backdrop-filter` outside the nav, gradient text outside the hero headline, phone-number-like strings.
+5. Performance: no layout shift from fonts (consider a metric-matched fallback for Archivo), images sized, hero photo preload on Home (already wired for when the slot exists), JS only where needed.
+6. Commit, update this file. Then Phase 4 (`deploy.yml` with the January 1 schedule, README, Morning review).
