@@ -14,6 +14,9 @@
   --glow: color-mix(in srgb, var(--accent) 30%, transparent);
   --glow-shadow: 0 14px 36px -10px color-mix(in srgb, var(--accent) 75%, transparent);
   --rim: color-mix(in srgb, var(--accent), #FFFFFF 35%);
+  /* Small text in the accent or rim color, adjusted per theme to reach WCAG AA (src/lib/accent.ts). */
+  --accent-ink: var(--accent-ink-dark, var(--accent));
+  --rim-ink: var(--rim-ink-dark, var(--rim));
 
   /* Type */
   --font-sans: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
@@ -62,6 +65,9 @@
   --row-hover: rgba(255, 255, 255, .025);
   --halo-blend: screen;
   --halo-opacity: 1;
+  --scanline: rgba(255, 255, 255, .035);
+  --gloss: rgba(255, 255, 255, .09);
+  --gloss2: rgba(255, 255, 255, .02);
 }
 
 :root[data-theme='light'] {
@@ -93,6 +99,11 @@
   --row-hover: rgba(0, 0, 0, .03);
   --halo-blend: multiply;
   --halo-opacity: .55;
+  --accent-ink: var(--accent-ink-light, var(--accent));
+  --rim-ink: var(--rim-ink-light, var(--rim));
+  --scanline: rgba(255, 255, 255, .035);
+  --gloss: rgba(255, 255, 255, .09);
+  --gloss2: rgba(255, 255, 255, .02);
 }
 
 @media (max-width: 767px) {

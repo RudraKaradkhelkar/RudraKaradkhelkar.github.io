@@ -408,6 +408,12 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
     align-self: end;
   }
 
+  /* A slotted bottom row with nothing beside it (Projects' detail strip) takes the full width. */
+  .ph__foot-l:only-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .ph__about {
     width: clamp(280px, 24cqi, 420px);
   }

@@ -1,0 +1,176 @@
+---
+// Projects detail strip under the covers (design/Projects.dc.html). One entry per unlocked level,
+// stacked in the same grid cell so swapping never changes the strip's height. The arrow buttons
+// are shared. ../scripts/level-select.ts swaps which entry is active.
+import { levels, controls } from '../content/projects';
+
+const unlocked = levels.filter((l) => !l.locked && l.detail);
+---
+
+<div class="ldet" data-level-controls>
+  <div class="ldet__stack" aria-live="polite">
+    {
+      unlocked.map((l, i) => (
+        <div class:list={['ldet__item', { 'is-in': i === 0 }]} data-level-detail={l.id} data-active={i === 0 ? '' : undefined} inert={i !== 0}>
+          <div class="ldet__info">
+            <p class="mono ldet__label">{l.detail!.label}</p>
+            <p class="ldet__title cond">{l.detail!.title}</p>
+            <p class="ldet__text muted">{l.detail!.text}</p>
+          </div>
+          <div class="ldet__meta">
+            <div class="ldet__bar" role="img" aria-label={l.detail!.progressLabel}>
+              <span style={`width:${l.detail!.progress}%`} />
+            </div>
+            <span class="mono faint ldet__pct" aria-hidden="true">
+              {l.detail!.progressLabel}
+            </span>
+            <a href={l.detail!.enter.href} class="btn-accent cap ldet__enter">
+              {l.detail!.enter.label}
+            </a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="ldet__arrows">
+    <button type="button" class="ghost rbtn ldet__arrow" aria-label={controls.previous} data-level-prev>
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+    </button>
+    <button type="button" class="ghost rbtn ldet__arrow" aria-label={controls.next} data-level-next>
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .ldet {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .ldet__stack {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: grid;
+  }
+
+  .ldet__item {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    visibility: hidden;
+  }
+
+  .ldet__item[data-active] {
+    visibility: visible;
+  }
+
+  .ldet__item.is-in[data-active] {
+    animation: detail-in .55s var(--ease-out) both;
+  }
+
+  .ldet__info {
+    max-width: 640px;
+    min-width: 0;
+  }
+
+  .ldet__label {
+    color: var(--rim-ink);
+  }
+
+  .ldet__title {
+    margin-top: 10px;
+    font-size: clamp(32px, 2.92vw, 50px);
+    line-height: 1.05;
+  }
+
+  .ldet__text {
+    margin-top: 8px;
+    font-size: clamp(15px, 1.04vw, 18px);
+    line-height: 1.47;
+  }
+
+  .ldet__meta {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ldet__bar {
+    width: 160px;
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    background-color: var(--line2);
+  }
+
+  .ldet__bar span {
+    display: block;
+    height: 100%;
+    background-color: var(--accent);
+    box-shadow: 0 0 12px var(--glow);
+  }
+
+  .ldet__enter {
+    min-height: 50px;
+    white-space: nowrap;
+  }
+
+  .ldet__arrows {
+    flex: none;
+    display: flex;
+    gap: 16px;
+  }
+
+  .ldet__arrow {
+    width: 50px;
+    height: 50px;
+  }
+
+  @keyframes detail-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Tablet: the meta row drops under the text. */
+  @media (max-width: 1099px) {
+    .ldet__item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+  }
+
+  /* Phones: text, then progress, then Enter level next to the arrows. */
+  @media (max-width: 767px) {
+    .ldet {
+      display: block;
+      position: relative;
+    }
+    .ldet__item {
+      gap: 16px;
+    }
+    .ldet__meta {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 14px 16px;
+    }
+    .ldet__bar {
+      width: 120px;
+    }
+    .ldet__enter {
+      width: calc(100% - 124px);
+    }
+    .ldet__arrows {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      gap: 10px;
+    }
+  }
+</style>

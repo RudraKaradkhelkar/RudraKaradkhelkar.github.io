@@ -15,7 +15,7 @@ const { href, label, title, text, accentLabel = true } = Astro.props;
 
 <li class="rowl">
   <a href={href} class="rowl__a rowh" data-reveal>
-    <span class:list={['rowl__label mono', accentLabel ? 'accent-text' : 'faint']}>{label}</span>
+    <span class:list={['rowl__label mono', accentLabel ? 'accent-ink' : 'faint']}>{label}</span>
     <span class="rowl__title cond">{title}</span>
     {text && <span class="rowl__text muted">{text}</span>}
     <svg class="rowl__arrow ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">

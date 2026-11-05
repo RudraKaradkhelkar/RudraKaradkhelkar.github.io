@@ -13,16 +13,18 @@ interface Props {
   /** Size preset: "big" for the main section headings, "mid" for secondary ones. */
   size?: 'big' | 'mid';
   id?: string;
+  /** Label in the rim-light accent (Projects' "LVL 01 / IN PROGRESS") instead of faint ink. */
+  accentLabel?: boolean;
   class?: string;
 }
 
-const { label, heading, meta, drift = 'left', level = 2, size = 'big', id, class: className } = Astro.props;
+const { label, heading, meta, drift = 'left', level = 2, size = 'big', id, accentLabel = false, class: className } = Astro.props;
 const H = `h${level}` as 'h2' | 'h3';
 ---
 
 <div class:list={['shead', `shead--${size}`, className]}>
   <div class="shead__main">
-    <p class="mono faint" data-reveal>{label}</p>
+    <p class:list={['mono', accentLabel ? 'shead__label--accent' : 'faint']} data-reveal>{label}</p>
     <H class="shead__h huge litx" id={id} data-drift={drift === 'none' ? undefined : drift}>{heading}</H>
   </div>
   {meta && <p class="shead__meta mono faint">{meta}</p>}
@@ -48,6 +50,10 @@ const H = `h${level}` as 'h2' | 'h3';
 
   .shead--mid .shead__h {
     font-size: clamp(48px, 7.2vw, 128px);
+  }
+
+  .shead__label--accent {
+    color: var(--rim-ink);
   }
 
   .shead__meta {

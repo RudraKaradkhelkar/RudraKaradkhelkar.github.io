@@ -1,10 +1,431 @@
 ---
-// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/projects.ts.
+// Projects. Copy: src/content/projects.ts. Design: design-handoff/reference/Projects.html and
+// design/Projects.dc.html (selection logic, LVL 02 detail strip).
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, hero } from '../content/projects';
+import PosterHero from '../components/PosterHero.astro';
+import ProjectsArt from '../components/art/ProjectsArt.astro';
+import LevelDetail from '../components/LevelDetail.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import Chip from '../components/Chip.astro';
+import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '../content/projects';
 ---
 
 <Layout meta={meta} nav="projects">
-  <StubHero hero={hero} />
+  <PosterHero hero={hero} headlineSize={330} artGap={26} footGap={70} padBottom={32} halo={{ y: 260, w: 1200, h: 760, alpha: 0.42 }}>
+    <ProjectsArt slot="art" />
+    <LevelDetail slot="foot-left" />
+  </PosterHero>
+
+  <section class="section wrap" id={cd.id} aria-labelledby="lvl1-h">
+    <SectionHead label={cd.label} heading={cd.heading} id="lvl1-h" drift="left" accentLabel />
+    <p class="pj-intro" data-reveal>{cd.intro}</p>
+
+    <ol role="list" class="pipe" data-reveal>
+      {
+        cd.pipeline.map((step, i) => (
+          <li class:list={['pipe__step', i === 0 && 'pipe__step--src', i === cd.pipeline.length - 1 && 'pipe__step--end', i > 0 && i < cd.pipeline.length - 1 && 'surface']}>
+            <p class:list={['mono', i === cd.pipeline.length - 1 ? 'pipe__label--end' : 'faint']}>{step.label}</p>
+            <p class="pipe__title cond">{step.title}</p>
+            <p class="pipe__text muted">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="pj-two">
+      <Surface class="pj-list" data-reveal>
+        <h3 class="mono faint">{cd.designChoices.label}</h3>
+        <ul role="list" class="pj-list__items">
+          {cd.designChoices.items.map((t) => <li class="pj-list__item">{t}</li>)}
+        </ul>
+      </Surface>
+      <Surface class="pj-list" data-reveal>
+        <h3 class="mono faint">{cd.milestones.label}</h3>
+        <ul role="list" class="pj-list__items">
+          {
+            cd.milestones.items.map((m) => (
+              <li class="pj-list__item pj-ms">
+                <span class="pj-ms__box" aria-hidden="true" />
+                <span class="pj-ms__title">{m.title}</span>
+                <span class="pj-ms__status mono faint">{m.status}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </Surface>
+    </div>
+  </section>
+
+  <section class="section wrap" id={dg.id} aria-labelledby="lvl2-h">
+    <SectionHead label={dg.label} heading={dg.heading} id="lvl2-h" drift="right" accentLabel />
+    <div class="glove">
+      <figure class="glove__fig media" data-reveal>
+        <svg class="glove__svg" role="img" aria-label={dg.figure.alt} viewBox="0 0 320 420">
+          <defs>
+            <filter id="imuGlow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+            </filter>
+          </defs>
+          <rect x="92" y="40" width="30" height="140" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <rect x="132" y="20" width="30" height="160" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <rect x="172" y="34" width="30" height="146" rx="15" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <rect x="212" y="70" width="28" height="110" rx="14" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <rect x="40" y="190" width="30" height="110" rx="15" transform="rotate(-35 55 245)" style="fill: var(--fig2); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <rect x="84" y="160" width="160" height="150" rx="30" style="fill: var(--fig3); stroke: var(--ink3); stroke-width: 1.5"></rect>
+          <path d="M107 80 L150 330 M147 60 L160 330 M187 74 L170 330 M226 104 L182 330 M58 222 L140 330" style="fill: none; stroke: var(--edge); stroke-width: 1.2; stroke-dasharray: 3 5"></path>
+          <rect x="110" y="320" width="110" height="64" rx="8" style="fill: var(--bg); stroke-width: 1.5; stroke: var(--accent)"></rect>
+          <rect x="148" y="338" width="34" height="28" rx="4" style="fill: var(--accent)"></rect>
+          <circle cx="107" cy="80" r="10" filter="url(#imuGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="147" cy="60" r="10" filter="url(#imuGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="187" cy="74" r="10" filter="url(#imuGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="226" cy="104" r="10" filter="url(#imuGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="58" cy="222" r="10" filter="url(#imuGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="107" cy="80" r="6" style="fill: var(--rim)"></circle>
+          <circle cx="147" cy="60" r="6" style="fill: var(--rim)"></circle>
+          <circle cx="187" cy="74" r="6" style="fill: var(--rim)"></circle>
+          <circle cx="226" cy="104" r="6" style="fill: var(--rim)"></circle>
+          <circle cx="58" cy="222" r="6" style="fill: var(--rim)"></circle>
+        </svg>
+        <figcaption>
+          <span class="glove__cap glove__cap--tl mono faint">{dg.figure.label}</span>
+          <span class="glove__cap glove__cap--br mono faint">{dg.figure.tag}</span>
+        </figcaption>
+      </figure>
+      <div class="glove__body" data-reveal>
+        <p class="pj-intro pj-intro--tight">{dg.intro}</p>
+        <ol role="list" class="glove__parts">
+          {
+            dg.parts.map((p, i) => (
+              <li class="glove__part rowh">
+                <span class="mono glove__num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="cond glove__part-t">{p}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="glove__chips">
+          {dg.chips.map((c) => <Chip label={c.label} class="cap" />)}
+          <Chip label={dg.progressLabel} mono class="faint" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap pj-next-wrap" aria-labelledby="lvl3-h">
+    <div class="pj-next ghost" data-reveal>
+      <div class="pj-next__main">
+        <svg class="ico faint pj-next__lock" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+          <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+        </svg>
+        <div>
+          <p class="mono faint">{nextLevel.label}</p>
+          <h2 class="pj-next__h huge" id="lvl3-h">{nextLevel.heading}</h2>
+        </div>
+      </div>
+      <p class="pj-next__text muted">
+        {nextLevel.text} <span class="placeholder">{nextLevel.textPlaceholder}</span>
+      </p>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .pj-intro {
+    margin-top: 26px;
+    max-width: 840px;
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .pj-intro--tight {
+    margin-top: 0;
+    max-width: 640px;
+  }
+
+  /* ---------- Pipeline: attacker, target, watcher, responder ---------- */
+  .pipe {
+    margin: 60px 0 0;
+    display: flex;
+    align-items: stretch;
+    gap: 60px;
+  }
+
+  .pipe__step {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 26px;
+    border-radius: 18px;
+  }
+
+  /* Connector line into every step after the first. */
+  .pipe__step + .pipe__step::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 60px;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--line2), var(--accent));
+  }
+
+  .pipe__step--src {
+    border: 1px dashed var(--line2);
+  }
+
+  .pipe__step--end {
+    background-color: var(--card);
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 30px 80px -30px var(--halo);
+  }
+
+  .pipe__label--end {
+    color: var(--rim-ink);
+  }
+
+  .pipe__title {
+    margin-top: 12px;
+    font-size: clamp(24px, 1.94vw, 32px);
+    line-height: 1.08;
+  }
+
+  .pipe__text {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  @media (max-width: 1099px) {
+    .pipe {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .pipe__step + .pipe__step::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pipe {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+    .pipe__step + .pipe__step::before {
+      display: block;
+      right: auto;
+      left: 32px;
+      top: auto;
+      bottom: 100%;
+      width: 2px;
+      height: 28px;
+      background-image: linear-gradient(180deg, var(--line2), var(--accent));
+    }
+    .pipe__text {
+      font-size: 16px;
+    }
+  }
+
+  /* ---------- Design choices and milestones ---------- */
+  .pj-two {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .pj-two :global(.pj-list) {
+    padding: 34px;
+    border-radius: 20px;
+  }
+
+  .pj-list__items {
+    margin: 14px 0 0;
+  }
+
+  .pj-list__item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  .pj-list__item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .pj-ms {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pj-ms__box {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    border-radius: 6px;
+    border: 1.5px solid var(--line2);
+  }
+
+  .pj-ms__title {
+    flex: 1 1 auto;
+  }
+
+  .pj-ms__status {
+    flex: none;
+  }
+
+  @media (max-width: 899px) {
+    .pj-two {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pj-two :global(.pj-list) {
+      padding: 24px;
+    }
+  }
+
+  /* ---------- Drone glove ---------- */
+  .glove {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 88px);
+    align-items: center;
+  }
+
+  .glove__fig {
+    aspect-ratio: 440 / 520;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glove__svg {
+    position: relative;
+    width: 72%;
+    height: auto;
+  }
+
+  .glove__cap {
+    position: absolute;
+  }
+  .glove__cap--tl {
+    left: 30px;
+    top: 28px;
+  }
+  .glove__cap--br {
+    right: 30px;
+    bottom: 26px;
+  }
+
+  .glove__parts {
+    margin: 32px 0 0;
+    border-top: 1px solid var(--line2);
+  }
+
+  .glove__part {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .glove__num {
+    color: var(--rim-ink);
+  }
+
+  .glove__part-t {
+    font-size: clamp(22px, 1.81vw, 30px);
+    line-height: 1.15;
+  }
+
+  .glove__chips {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 899px) {
+    .glove {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .glove__fig {
+      max-width: 440px;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .glove__part {
+      grid-template-columns: 44px minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- Next level (locked) ---------- */
+  .pj-next-wrap {
+    padding-top: clamp(88px, 9vw, 160px);
+  }
+
+  .pj-next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(28px, 3.6vw, 64px);
+    border-radius: 20px;
+    border-style: dashed;
+  }
+
+  .pj-next__main {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+  }
+
+  .pj-next__lock {
+    flex: none;
+  }
+
+  .pj-next__h {
+    margin-top: 14px;
+    font-size: clamp(56px, 7.64vw, 134px);
+  }
+
+  .pj-next__text {
+    max-width: 420px;
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  @media (max-width: 899px) {
+    .pj-next {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pj-next__main {
+      gap: 18px;
+    }
+    .pj-next__lock {
+      width: 40px;
+      height: 40px;
+    }
+    .pj-next__text {
+      font-size: 16px;
+    }
+  }
+</style>

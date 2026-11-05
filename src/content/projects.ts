@@ -21,13 +21,38 @@ export const hero: PosterHeroContent = {
  * Covers in the level select, in order. `progress` is the bar fill (0 to 100); keep
  * `progressLabel` in step with it.
  */
-export const levels = [
+export interface LevelDetail {
+  label: string;
+  title: string;
+  text: string;
+  progress: number;
+  progressLabel: string;
+  enter: { label: string; href: string };
+}
+
+export interface Level {
+  id: string;
+  level: string;
+  status: string;
+  locked: boolean;
+  coverTitle: string[];
+  coverTag: string;
+  coverYear: string;
+  /** Accessible name for an unlocked cover button. */
+  coverLabel?: string;
+  /** Accessible name for the locked cover. */
+  lockedLabel?: string;
+  detail: LevelDetail | null;
+}
+
+export const levels: Level[] = [
   {
     id: 'cyber',
     level: 'LVL 01',
     status: 'IN PROGRESS',
     locked: false,
     coverTitle: ['CYBER', 'DEFENDER'],
+    coverLabel: 'Level 1, Cyberdefender Agent, in progress',
     coverTag: 'AI SECURITY',
     coverYear: '2026',
     detail: {
@@ -45,6 +70,7 @@ export const levels = [
     status: 'IN PROGRESS',
     locked: false,
     coverTitle: ['DRONE', 'GLOVE'],
+    coverLabel: 'Level 2, Drone Gesture Glove, in progress',
     coverTag: 'ML · EMBEDDED',
     coverYear: '2026',
     detail: {
@@ -62,6 +88,7 @@ export const levels = [
     status: 'LOCKED',
     locked: true,
     coverTitle: ['???'],
+    lockedLabel: 'Level 3, locked',
     coverTag: 'NEXT BUILD',
     coverYear: '',
     detail: null,
@@ -69,6 +96,7 @@ export const levels = [
 ];
 
 export const controls = {
+  groupLabel: 'Select a level',
   previous: 'Previous level',
   next: 'Next level',
   hint: 'PRESS A COVER TO SELECT / 2 OF 3 UNLOCKED',

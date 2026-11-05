@@ -152,8 +152,15 @@ ol[role='list'] {
   color: var(--ink3);
 }
 
+/* Accent-colored text. Big type uses the accent itself; small labels use the readable ink. */
 .accent-text {
   color: var(--accent);
+}
+.accent-ink {
+  color: var(--accent-ink);
+}
+.rim-ink {
+  color: var(--rim-ink);
 }
 
 /* The hero headline is the only text with a metallic gradient (DESIGN.md section 1). */
@@ -261,6 +268,35 @@ ol[role='list'] {
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ---------- Art primitives from poster3.css (hero SVGs) ---------- */
+.art {
+  fill: none;
+  stroke: var(--art);
+  stroke-width: 1.5;
+}
+.f1 { fill: var(--fig); }
+.f2 { fill: var(--fig2); }
+.f3 { fill: var(--fig3); }
+.node {
+  fill: var(--bg);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.edge {
+  fill: none;
+  stroke: var(--edge);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+/* CRT scanlines on cover screens, and the diagonal gloss on box art. */
+.scan {
+  background-image: repeating-linear-gradient(180deg, var(--scanline) 0 1px, transparent 1px 3px);
+}
+.gloss {
+  background-image: linear-gradient(115deg, var(--gloss) 0%, var(--gloss2) 32%, transparent 32.5%);
 }
 
 /* Round outline button (nav controls, arrows). */
