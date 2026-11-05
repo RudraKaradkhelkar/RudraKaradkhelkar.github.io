@@ -21,15 +21,26 @@ export const hero: PosterHeroContent = {
   },
   badges: [
     { value: '2', label: 'Active', filled: true },
-    { value: '+1', label: 'Open slot' },
+    { value: '+1', label: 'Open slot', dashed: true },
   ],
 };
 
 /** The three embroidered patches in the hero, left to right. */
 export const heroPatches = [
-  { alt: 'MIT Satellite Team patch' },
-  { alt: 'AI Safety Fundamentals reading group patch', text: 'AISF' },
-  { alt: 'Empty patch for a future club', text: '?' },
+  {
+    alt: 'MIT Satellite Team patch',
+    ring: 'MIT SATELLITE TEAM / FLIGHT SOFTWARE / FALL 2026 / MIT SATELLITE TEAM /',
+  },
+  {
+    alt: 'AI Safety Fundamentals reading group patch',
+    text: 'AISF',
+    ring: 'AI SAFETY FUNDAMENTALS / READING GROUP / PATH TO MAIA /',
+  },
+  {
+    alt: 'Empty patch for a future club',
+    text: '?',
+    ring: 'NEXT CLUB / TO BE ANNOUNCED / NEXT CLUB / TO BE ANNOUNCED /',
+  },
 ];
 
 export const current = {

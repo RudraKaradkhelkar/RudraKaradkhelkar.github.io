@@ -174,7 +174,7 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
                   {hero.badges.map((b) => (
                     <li class="ph__badge">
                       <span
-                        class:list={['ph__badge-val huge', b.filled ? 'ph__badge-val--fill' : 'ghost', { 'ph__badge-val--long': b.value.length >= 4 }]}>
+                        class:list={['ph__badge-val huge', b.filled ? 'ph__badge-val--fill' : 'ghost', { 'ph__badge-val--long': b.value.length >= 4, 'ph__badge-val--dash': b.dashed }]}>
                         {b.value}
                       </span>
                       <span class="ph__badge-label cap muted">{b.label}</span>
@@ -484,6 +484,11 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
     background-color: var(--accent);
     color: var(--on-accent);
     box-shadow: var(--glow-shadow);
+  }
+
+  .ph__badge-val--dash {
+    border-style: dashed;
+    color: var(--ink2);
   }
 
   .ph__badge-label {

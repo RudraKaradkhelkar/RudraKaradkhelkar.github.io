@@ -23,6 +23,8 @@ export interface Badge {
   label: string;
   /** The middle badge is filled with the accent. */
   filled?: boolean;
+  /** Dashed, muted outline for an open slot (Clubs "+1"). */
+  dashed?: boolean;
 }
 
 /** Every page's poster hero (DESIGN.md section 5). */
