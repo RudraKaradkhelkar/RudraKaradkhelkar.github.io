@@ -3,6 +3,7 @@
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/courier-prime/400.css';
 import '@fontsource/courier-prime/700.css';
+import 'lenis/dist/lenis.css';
 import '../styles/global.css';
 import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import Nav from '../components/Nav.astro';
@@ -50,6 +51,10 @@ const startBg = site.defaultTheme === 'light' ? '#F1F0EB' : '#09090A';
         var saved = localStorage.getItem(key);
         if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
       } catch (e) {}
+      // Scroll motion is allowed: the Home nav avatar starts hidden (src/styles/motion.css).
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('motion');
+      }
     </script>
     <slot name="head" />
   </head>
@@ -62,6 +67,10 @@ const startBg = site.defaultTheme === 'light' ? '#F1F0EB' : '#09090A';
     <Footer />
   </body>
 </html>
+
+<script>
+  import '../scripts/motion';
+</script>
 
 <style>
   main:focus {

@@ -15,7 +15,7 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
   <div class="xart__rail"></div>
   {
     heroBadges.map((b, i) => (
-      <div class="xart__set" style={`--i:${i}`} aria-hidden="true">
+      <div class="xart__set" style={`--i:${i};--dd:${(0.4 + i * 0.1).toFixed(2)}s`} aria-hidden="true" data-deal>
         <span class="xart__yard stripe" />
         <div class:list={['xart__swing', `xart__swing--${i}`]}>
           <span class="xart__clip" />

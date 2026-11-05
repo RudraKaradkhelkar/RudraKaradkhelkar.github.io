@@ -8,7 +8,7 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
 ---
 
 <div class="cart" data-box="art">
-  <div class="cart__p cart__p--a">
+  <div class="cart__p cart__p--a" data-deal style="--dd: .4s">
     <svg role="img" aria-label={a.alt} viewBox="0 0 300 300">
       <defs>
         <filter id="patchShadowA" x="-20%" y="-20%" width="140%" height="150%">
@@ -32,7 +32,7 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
     </svg>
   </div>
 
-  <div class="cart__p cart__p--b">
+  <div class="cart__p cart__p--b" data-deal style="--dd: .5s">
     <svg role="img" aria-label={b.alt} viewBox="0 0 300 300">
       <defs>
         <filter id="patchShadowB" x="-20%" y="-20%" width="140%" height="150%">
@@ -54,7 +54,7 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
     </svg>
   </div>
 
-  <div class="cart__p cart__p--c">
+  <div class="cart__p cart__p--c" data-deal style="--dd: .6s">
     <svg role="img" aria-label={c.alt} viewBox="0 0 300 300">
       <defs>
         <path id="ringC" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>

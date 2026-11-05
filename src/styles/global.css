@@ -1,6 +1,7 @@
 /* Global poster system. Port of design-handoff/reference/assets/poster3.css, made fluid per
    DESIGN.md section 11. Component-specific styles live in each component's <style> block. */
 @import './tokens.css';
+@import './motion.css';
 
 /* ---------- Base ---------- */
 *,

@@ -1,0 +1,99 @@
+/* Poster intro (DESIGN.md section 7), played once on load by every page's hero.
+   Pure CSS, so it starts with the first paint, needs no JavaScript, and never flashes the final
+   state first. Home's wordmark replays it by toggling .play on the hero (src/scripts/motion.ts).
+
+   Keyframes move the individual translate / rotate / scale properties, which compose with each
+   element's own transform (a polaroid's tilt, a badge's swing), and use backwards fill only, so
+   once an intro ends the scroll effects in motion.ts own the element again.
+   Nothing here applies with prefers-reduced-motion: reduce; every element shows its final state. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Letters rise from below in sequence. --i is the letter index, --step the delay between. */
+  .ph.play .ch {
+    animation: rise 1.05s var(--ease-expo) backwards;
+    animation-delay: calc(var(--i, 0) * var(--step, .05s));
+  }
+
+  .ph.play .ph__halo {
+    animation: glowin 1.6s ease .2s backwards;
+  }
+
+  .ph.play .ph__sub,
+  .ph.play .ph__caps {
+    animation: fade .9s ease .75s backwards;
+  }
+
+  .ph.play .ph__side,
+  .ph.play .ph__foot > *,
+  .ph.play .ph__below,
+  .ph.play [data-intro='fade2'] {
+    animation: fade .9s ease 1.05s backwards;
+  }
+
+  /* Home's figure and the High School medal fade up. */
+  .ph.play [data-hero-figure] {
+    animation: figin 1.3s var(--ease-expo) .3s backwards;
+  }
+
+  /* Home's accent band scales in from the left. */
+  .ph.play [data-hero-band] {
+    transform-origin: left center;
+    animation: band 1s cubic-bezier(.7, 0, .2, 1) .55s backwards;
+  }
+
+  /* Cards deal in: badges, covers, patches, polaroids, resume sheets. */
+  .ph.play [data-deal] {
+    animation: deal 1s var(--ease-expo) var(--dd, .4s) backwards;
+  }
+
+  /* Research: graph edges draw, then nodes pop. */
+  .ph.play .edge.drawn {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw .8s cubic-bezier(.45, 0, .2, 1) var(--d, .5s) forwards;
+  }
+
+  .ph.play .popin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: popin .6s cubic-bezier(.3, .7, .3, 1.4) var(--d, .6s) backwards;
+  }
+}
+
+@keyframes rise {
+  from { translate: 0 104%; }
+}
+
+@keyframes glowin {
+  from { opacity: 0; scale: .8; }
+}
+
+@keyframes fade {
+  from { opacity: 0; translate: 0 12px; }
+}
+
+@keyframes figin {
+  from { opacity: 0; translate: 0 50px; scale: 1.04; }
+}
+
+@keyframes band {
+  from { scale: 0 1; }
+}
+
+@keyframes deal {
+  from { opacity: 0; translate: 0 80px; rotate: 2deg; }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes popin {
+  from { scale: 0; }
+}
+
+/* Home: the nav avatar waits for the scroll effect in motion.ts (the class is set before first
+   paint in Layout, only when motion is allowed). */
+.motion [data-nav-avatar] {
+  opacity: 0;
+}

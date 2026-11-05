@@ -61,7 +61,7 @@ const hot = [
     <circle class="popin rart__hub" cx="720" cy="380" r="26" style="--d:.6s"></circle>
     <circle cx="720" cy="380" r="9" class="rart__hub-core"></circle>
   </svg>
-  <p class="rart__label cap" data-box="hub label">
+  <p class="rart__label cap" data-box="hub label" data-intro="fade2">
     {heroArt.hubCaption} · <span class="mono rim-ink">{heroArt.hubTag}</span>
   </p>
 </div>
@@ -122,6 +122,8 @@ const hot = [
     padding: 8px 14px;
     border-radius: 16px;
     border: 1px solid var(--line2);
+    /* Solid, so the packets travelling behind it never cross the text. */
+    background-color: var(--bg);
     color: var(--ink);
     white-space: nowrap;
   }
@@ -144,7 +146,6 @@ const hot = [
       left: 50cqw;
       top: calc(240 * var(--u));
       transform: translateX(-50%);
-      background-color: var(--bg);
     }
   }
 </style>

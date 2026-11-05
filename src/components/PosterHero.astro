@@ -79,12 +79,15 @@ const style = [
   .join(';');
 
 const letters = [...hero.headline];
+// The letters rise in sequence over about 0.28 s in total, as in the design (RUDRA .07 s apart,
+// RESEARCH .04 s, EXPERIENCE .03 s).
+const step = letters.length > 1 ? Math.round((0.28 / (letters.length - 1)) * 1000) / 1000 : 0;
 const hasFootLeft = Astro.slots.has('foot-left');
 const hasFootRight = Astro.slots.has('foot-right');
 const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length > 0;
 ---
 
-<section class:list={['ph', `ph--${artMode}`, className]} data-hero>
+<section class:list={['ph', 'play', `ph--${artMode}`, className]} data-hero>
   <div class="ph__stage">
     <div class="ph__grid" style={style}>
       <div class="ph__toplight" aria-hidden="true"></div>
@@ -104,10 +107,10 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
       </ul>
 
       <div class="ph__head">
-        <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word data-box="headline">
+        <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word data-box="headline" style={`--step:${step}s`}>
           {
-            letters.map((c) => (
-              <span class="ch" aria-hidden="true">
+            letters.map((c, i) => (
+              <span class="ch" aria-hidden="true" style={`--i:${i}`}>
                 {c === ' ' ? ' ' : c}
               </span>
             ))

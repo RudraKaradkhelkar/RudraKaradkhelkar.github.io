@@ -14,7 +14,7 @@ import { levels, controls } from '../../content/projects';
     {
       levels.map((l, i) =>
         l.locked ? (
-          <div class="lvl__slot" data-level-slot>
+          <div class="lvl__slot" data-level-slot data-deal style={`--dd:${(0.45 + i * 0.1).toFixed(2)}s`}>
             <button type="button" class="cv cv--locked" disabled aria-label={l.lockedLabel}>
               <span class="cv__in">
                 <span class="cv__bar mono">
@@ -35,7 +35,7 @@ import { levels, controls } from '../../content/projects';
             </button>
           </div>
         ) : (
-          <div class="lvl__slot" data-level-slot>
+          <div class="lvl__slot" data-level-slot data-deal style={`--dd:${(0.45 + i * 0.1).toFixed(2)}s`}>
             <button
               type="button"
               class:list={['cv', { 'is-selected': i === 0 }]}

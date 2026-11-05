@@ -15,7 +15,7 @@ const label = three.map((d) => `${d.title}, ${d.medium.toLowerCase()}`).join('; 
 <div class="dart" data-box="art" role="img" aria-label={`Three polaroids of drawings: ${label}`}>
   {
     three.map((d, i) => (
-      <div class:list={['dart__pol', `dart__pol--${i}`]} aria-hidden="true">
+      <div class:list={['dart__pol', `dart__pol--${i}`]} aria-hidden="true" data-deal style={`--dd:${(0.4 + i * 0.1).toFixed(1)}s`}>
         <div class="dart__photo" style={`background-color:${['#E3E0D8', '#ECEAE3', '#EEEBE3'][i]}`}>
           {d.image ? (
             <Image src={d.image} alt="" widths={[400, 800].filter((w) => w <= d.image!.width)} sizes="(min-width: 768px) 20vw, 40vw" class="dart__img" />
@@ -76,7 +76,7 @@ const label = three.map((d) => `${d.title}, ${d.medium.toLowerCase()}`).join('; 
       </div>
     ))
   }
-  <svg class="dart__pencil" aria-hidden="true" viewBox="0 0 440 60">
+  <svg class="dart__pencil" aria-hidden="true" viewBox="0 0 440 60" data-deal style="--dd: .8s">
     <defs>
       <linearGradient id="pencilBody" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" style="stop-color: #3A3A40" />
