@@ -1,10 +1,343 @@
 ---
-// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/resume.ts.
+// Resume. Copy: src/content/resume.ts. Design: design-handoff/reference/Resume.html.
+// The PDF goes in public/resume.pdf only after Rudra confirms it has no phone number; then set
+// pdf.href to '/resume.pdf'. Until then the download buttons are shown but are not links, so the
+// page never points at a file that does not exist.
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, hero } from '../content/resume';
+import PosterHero from '../components/PosterHero.astro';
+import ResumeArt from '../components/art/ResumeArt.astro';
+import Surface from '../components/Surface.astro';
+import Chip from '../components/Chip.astro';
+import { meta, hero, pdf, highlights as h } from '../content/resume';
+import { site } from '../content/site';
+
+const hasPdf = pdf.href.trim() !== '';
+const linkedin = site.links.linkedin;
+const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
 ---
 
-<Layout meta={meta} nav="default">
-  <StubHero hero={hero} />
+<Layout meta={meta}>
+  <PosterHero hero={hero} headlineSize={430} artGap={26} footGap={-316} padBottom={0}>
+    <ResumeArt slot="art" />
+    <div slot="foot-right" class="rs-actions">
+      {
+        hasPdf ? (
+          <a href={pdf.href} download class="btn-accent cap rs-btn">
+            <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4v12M6 10l6 6 6-6M5 20h14" />
+            </svg>
+            {pdf.downloadLabel}
+          </a>
+        ) : (
+          <span class="btn-accent cap rs-btn rs-btn--off" aria-disabled="true">
+            <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4v12M6 10l6 6 6-6M5 20h14" />
+            </svg>
+            {pdf.downloadLabel}
+          </span>
+        )
+      }
+      <a href={linkedin.href} rel="noopener" class="cap ghost rbtn rs-btn">{linkedin.label}</a>
+    </div>
+  </PosterHero>
+
+  <section class="wrap rs-main" aria-label={pdf.fileName}>
+    <div class="rs-grid">
+      <div class="rs-viewer" data-reveal>
+        <div class="rs-bar ghost">
+          <span class="mono faint rs-bar__file">{pdf.fileName}</span>
+          <span class="mono rs-bar__meta">
+            <span>{pdf.pageLabel}</span>
+            <span>{pdf.zoomLabel}</span>
+            {
+              hasPdf ? (
+                <a href={pdf.href} download class="rs-bar__dl">
+                  <svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4v12M6 10l6 6 6-6M5 20h14" />
+                  </svg>
+                  {pdf.toolbarDownload}
+                </a>
+              ) : (
+                <span class="rs-bar__dl rs-bar__dl--off" aria-disabled="true">
+                  <svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4v12M6 10l6 6 6-6M5 20h14" />
+                  </svg>
+                  {pdf.toolbarDownload}
+                </span>
+              )
+            }
+          </span>
+        </div>
+        <div class="rs-doc media">
+          {
+            hasPdf ? (
+              <object data={pdf.href} type="application/pdf" class="rs-doc__pdf" title={pdf.viewerTitle}>
+                <a href={pdf.href} class="mono">
+                  {pdf.viewerFallback}
+                </a>
+              </object>
+            ) : (
+              <div class="rs-doc__page">
+                <span class="mono rs-doc__ph">{pdf.placeholder}</span>
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="rs-cards">
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.education.label}</h2>
+          <p class="rs-card__title cond">{h.education.title}</p>
+          <p class="rs-card__text muted">{h.education.text}</p>
+        </Surface>
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.experience.label}</h2>
+          <ul role="list" class="rs-card__list">
+            {
+              h.experience.items.map((it) => (
+                <li>
+                  <p class="rs-card__sub cond">{it.title}</p>
+                  <p class="rs-card__text rs-card__text--tight muted">{it.text}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </Surface>
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.research.label}</h2>
+          <p class="rs-card__sub rs-card__sub--first cond">{h.research.title}</p>
+          <p class="rs-card__text rs-card__text--tight muted">{h.research.text}</p>
+        </Surface>
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.leadership.label}</h2>
+          <p class="rs-card__sub rs-card__sub--first cond">{h.leadership.title}</p>
+          <p class="rs-card__text rs-card__text--tight muted">{h.leadership.text}</p>
+        </Surface>
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.skills.label}</h2>
+          <div class="rs-card__chips">
+            {h.skills.chips.map((c) => <Chip label={c.label} />)}
+          </div>
+        </Surface>
+        <Surface class="rs-card" data-reveal>
+          <h2 class="mono rim-ink">{h.contact.label}</h2>
+          <a href={`mailto:${site.email}`} class="rs-card__mail cond">{site.email}</a>
+          <a href={linkedin.href} rel="noopener" class="rs-card__li muted">{linkedinText}</a>
+        </Surface>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ---------- Hero buttons ---------- */
+  .rs-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+  }
+
+  .rs-btn {
+    min-height: 54px;
+    padding: 0 26px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .rs-btn--off {
+    cursor: default;
+  }
+
+  @media (max-width: 767px) {
+    .rs-actions {
+      flex-direction: column;
+      margin-top: 0;
+    }
+    .rs-btn {
+      width: 100%;
+    }
+  }
+
+  /* ---------- Viewer and highlights ---------- */
+  .rs-main {
+    padding-top: clamp(80px, 10.4vw, 184px);
+  }
+
+  .rs-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(32px, 3.9vw, 68px);
+    align-items: start;
+  }
+
+  .rs-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    border-radius: 14px;
+  }
+
+  .rs-bar__file {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .rs-bar__meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: var(--ink2);
+    flex: none;
+  }
+
+  .rs-bar__dl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .rs-bar__dl--off {
+    color: var(--ink2);
+  }
+
+  .rs-doc {
+    margin-top: 16px;
+    aspect-ratio: 760 / 1000;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rs-doc__page {
+    position: relative;
+    width: 72%;
+    aspect-ratio: 600 / 780;
+    background-color: #F4F2EE;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(:root[data-theme='light']) .rs-doc__page {
+    box-shadow: 0 40px 90px rgba(40, 30, 20, .22);
+  }
+
+  .rs-doc__ph {
+    color: #6E6E74;
+  }
+
+  .rs-doc__pdf {
+    position: relative;
+    width: calc(100% - 28px);
+    height: calc(100% - 28px);
+    border: 0;
+  }
+
+  .rs-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rs-cards :global(.rs-card) {
+    padding: 28px;
+    border-radius: 18px;
+  }
+
+  .rs-card__title {
+    margin-top: 12px;
+    font-size: clamp(24px, 1.88vw, 32px);
+    line-height: 1.11;
+  }
+
+  .rs-card__sub {
+    font-size: clamp(20px, 1.53vw, 26px);
+    line-height: 1.2;
+  }
+
+  .rs-card__sub--first {
+    margin-top: 12px;
+  }
+
+  .rs-card__text {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  .rs-card__text--tight {
+    margin-top: 2px;
+  }
+
+  .rs-card__list {
+    margin: 14px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .rs-card__chips {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .rs-card__mail {
+    margin-top: 12px;
+    display: block;
+    font-size: clamp(26px, 1.94vw, 34px);
+    text-decoration: none;
+  }
+
+  .rs-card__li {
+    margin-top: 4px;
+    display: inline-block;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  @media (hover: hover) {
+    .rs-card__mail:hover,
+    .rs-card__li:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 5px;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .rs-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .rs-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .rs-doc {
+      aspect-ratio: 3 / 3.6;
+    }
+    .rs-doc__page {
+      width: 80%;
+    }
+    .rs-cards :global(.rs-card) {
+      padding: 22px;
+    }
+    .rs-card__text,
+    .rs-card__li {
+      font-size: 16px;
+    }
+  }
+</style>

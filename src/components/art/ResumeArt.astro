@@ -1,0 +1,189 @@
+---
+// Resume hero art: a paper-clipped resume sheet over a second sheet, rising out of the bottom of
+// the frame. Copied from design-handoff/reference/Resume.html onto a 560-unit board (x 460 to
+// 1020 of the 1440 design, from y 490). Desktop clips the sheets at the bottom of the poster;
+// phones show the whole sheet (DESIGN.md section 11). The sheet is a summary drawn as a page;
+// the real PDF is in the viewer below the hero.
+import { heroSheet } from '../../content/resume';
+---
+
+<div class="rsart" data-box="art" role="img" aria-label={heroSheet.alt}>
+  <div class="rsart__back" aria-hidden="true"></div>
+  <div class="rsart__sheet" aria-hidden="true">
+    <svg class="rsart__clip" viewBox="0 0 34 86">
+      <defs>
+        <linearGradient id="clipMetal" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" style="stop-color: #8E8E96"></stop>
+          <stop offset="0.5" style="stop-color: #F2F2F5"></stop>
+          <stop offset="1" style="stop-color: #8E8E96"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M10 70 L10 14 C10 6 24 6 24 14 L24 62 C24 70 14 70 14 62 L14 22" style="fill: none; stroke: url(#clipMetal); stroke-width: 3.5; stroke-linecap: round"></path>
+    </svg>
+    <p class="rsart__name">{heroSheet.name}</p>
+    <p class="rsart__contact">{heroSheet.contact}</p>
+    <div class="rsart__rule"></div>
+    {
+      heroSheet.sections.map((sec, i) => (
+        <div class:list={['rsart__sec', { 'rsart__sec--first': i === 0 }]}>
+          <p class="rsart__h">{sec.heading}</p>
+          {sec.entries.map((e, j) => (
+            <div class:list={['rsart__entry', { 'rsart__entry--next': j > 0 }]}>
+              <p class="rsart__row">
+                <span>{e.title}</span>
+                <span class="rsart__date">{e.date}</span>
+              </p>
+              {e.lines.map((line) => (
+                <p class="rsart__line">{e.plain ? line : `• ${line}`}</p>
+              ))}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+    <div class="rsart__bar" style="width: 82%"></div>
+    <div class="rsart__bar rsart__bar--2" style="width: 64%"></div>
+  </div>
+</div>
+
+<style>
+  .rsart {
+    --u: calc(100cqi / 560);
+    position: relative;
+    width: 38.9cqi;
+    margin-inline: auto;
+    aspect-ratio: 560 / 530;
+    container-type: inline-size;
+    /* Rising out of the bottom of the frame: clip only the bottom edge. */
+    clip-path: inset(-200px -200px 0 -200px);
+  }
+
+  .rsart__back,
+  .rsart__sheet {
+    position: absolute;
+    width: calc(400 * var(--u));
+    aspect-ratio: 400 / 540;
+  }
+
+  .rsart__back {
+    left: calc(106 * var(--u));
+    top: calc(50 * var(--u));
+    background-color: #D5D3CD;
+    transform: rotate(6deg);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .5);
+  }
+
+  /* Inside the sheet: 1cqi is 4 design px. */
+  .rsart__sheet {
+    left: calc(40 * var(--u));
+    top: calc(30 * var(--u));
+    padding: 8.5cqi 9cqi;
+    background-color: #F4F2EE;
+    background-image: linear-gradient(170deg, #FFFFFF, #EDEBE6);
+    color: #141416;
+    transform: rotate(-4deg);
+    box-shadow: 0 34px 80px rgba(0, 0, 0, .55), 0 2px 6px rgba(0, 0, 0, .3);
+    container-type: inline-size;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+  }
+
+  :global(:root[data-theme='light']) .rsart__back,
+  :global(:root[data-theme='light']) .rsart__sheet {
+    box-shadow: 0 30px 70px rgba(40, 30, 20, .25), 0 2px 6px rgba(40, 30, 20, .15);
+  }
+
+  .rsart__clip {
+    position: absolute;
+    left: 8.5cqi;
+    top: -6.5cqi;
+    width: 8.5cqi;
+    height: auto;
+  }
+
+  .rsart__name {
+    font-weight: 800;
+    font-stretch: 75%;
+    font-size: 6.75cqi;
+    letter-spacing: .02em;
+    line-height: 1.2;
+  }
+
+  .rsart__contact {
+    margin-top: 1cqi;
+    font-family: var(--font-mono);
+    font-size: 2cqi;
+    color: #55555A;
+  }
+
+  .rsart__rule {
+    margin-top: 4cqi;
+    height: .375cqi;
+    background-color: #141416;
+  }
+
+  .rsart__sec {
+    margin-top: 3cqi;
+  }
+  .rsart__sec--first {
+    margin-top: 3.5cqi;
+  }
+
+  .rsart__h {
+    font-weight: 700;
+    font-size: 2.125cqi;
+    letter-spacing: .16em;
+  }
+
+  .rsart__entry {
+    margin-top: 1.25cqi;
+  }
+  .rsart__entry--next {
+    margin-top: 1.75cqi;
+  }
+
+  .rsart__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2cqi;
+    font-size: 2.25cqi;
+    font-weight: 700;
+  }
+
+  .rsart__date {
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .rsart__line {
+    font-size: 2.125cqi;
+    line-height: 3cqi;
+    color: #3A3A3E;
+  }
+
+  .rsart__bar {
+    margin-top: 2.5cqi;
+    height: 1.25cqi;
+    border-radius: 3px;
+    background-color: #DDDAD3;
+  }
+  .rsart__bar--2 {
+    margin-top: 1.25cqi;
+    background-color: #E5E3DC;
+  }
+
+  /* Under 1280 the bottom row moves under the art, so the whole sheet shows (phones must). */
+  @media (max-width: 1279px) {
+    .rsart {
+      width: min(52cqi, 560px);
+      aspect-ratio: 560 / 640;
+      clip-path: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .rsart {
+      width: min(94cqi, 460px);
+    }
+  }
+</style>

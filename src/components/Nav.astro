@@ -333,6 +333,14 @@ const menuLinks = [...site.nav, site.links.resume];
     padding: 0 18px;
   }
 
+  /* On the Resume page the pill is the current page: filled with the accent, as in the design. */
+  .nav__pill[aria-current='page'] {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: var(--glow-shadow);
+  }
+
   .nav__icon-btn {
     width: 40px;
     height: 40px;

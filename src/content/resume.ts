@@ -32,10 +32,16 @@ export const pdf = {
   pageLabel: 'PAGE 1 / 2',
   zoomLabel: '100%',
   placeholder: '[EMBEDDED RESUME PDF]',
+  /** Accessible title for the embedded PDF viewer, once the PDF exists. */
+  viewerTitle: 'Resume PDF',
+  /** Shown inside the viewer if the browser cannot display PDFs inline. */
+  viewerFallback: 'Open the PDF',
 };
 
 /** The paper sheet in the hero art. A summary drawn as a page, not the PDF itself. */
 export const heroSheet = {
+  /** Accessible name for the drawn sheet in the hero. */
+  alt: 'A paper-clipped resume sheet over a second page',
   name: 'RUDRA KARADKHELKAR',
   contact: 'rudrak@mit.edu · linkedin.com/in/rudra-karadkhelkar',
   sections: [
