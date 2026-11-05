@@ -410,8 +410,10 @@ const menuLinks = [...site.nav, site.links.resume];
     height: 100%;
     max-width: none;
     max-height: none;
+    --inset: clamp(14px, 3vw, 40px);
     margin: 0;
-    padding: 0 0 max(24px, env(safe-area-inset-bottom));
+    /* Room under the email row for the bottom corner brackets (22 px plus a gap). */
+    padding: 0 0 max(calc(var(--inset) + 34px), env(safe-area-inset-bottom));
     border: 0;
     background-color: var(--bg);
     color: var(--ink);
@@ -452,9 +454,6 @@ const menuLinks = [...site.nav, site.links.resume];
     overflow: hidden;
   }
 
-  .menu .brk {
-    --inset: clamp(14px, 3vw, 40px);
-  }
   .menu .brk.tl { left: var(--inset); top: calc(var(--nav-h) + 8px); }
   .menu .brk.tr { right: var(--inset); top: calc(var(--nav-h) + 8px); }
   .menu .brk.bl { left: var(--inset); bottom: var(--inset); }
@@ -486,8 +485,16 @@ const menuLinks = [...site.nav, site.links.resume];
     line-height: .9;
   }
 
-  /* Short landscape screens: two columns so all links fit without scrolling. */
+  /* Short landscape screens: two columns so all links fit without scrolling, and the bottom
+     brackets tuck under the email row instead of touching it. */
   @media (orientation: landscape) and (max-height: 520px) {
+    .menu {
+      padding-bottom: max(34px, env(safe-area-inset-bottom));
+    }
+    .menu .brk.bl,
+    .menu .brk.br {
+      bottom: 8px;
+    }
     .menu__list {
       display: grid;
       grid-auto-flow: column;

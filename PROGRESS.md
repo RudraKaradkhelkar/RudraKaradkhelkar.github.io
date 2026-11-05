@@ -28,6 +28,7 @@ All four overnight phases are done (2026-11-05).
 | Commit | What |
 | - | - |
 | `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| (polish) | Resume viewer and page at the design's proportions; menu bottom brackets no longer touch the email row on phones or short landscape screens |
 | `cb47ff5` | Phase 4: deploy workflow (Astro action, January 1 schedule) and README |
 | `cde62e6` | Phase 3: `scripts/audit.mjs`, `--ink-faint` text token, wordmark and cover accessible names, metric-matched font fallback, fixed-width headline letters |
 | `e9bfab2` | Phase 2: CSS intro (`src/styles/motion.css`), scroll effects and Lenis (`src/scripts/motion.ts`), Home replay, skip link focus with Lenis |
@@ -137,7 +138,6 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 ## Known issues
 
 - This interactive session's Playwright MCP process targets Chrome until reconnected (`/mcp`, playwright, Reconnect). New sessions use the Edge config. The build's own scripts use Playwright's Chromium and are unaffected.
-- On short landscape screens (844 x 390) the menu's bottom corner brackets sit close to the email row. Cosmetic.
 - Projects progress-photo slots (`project-cyberdefender-N`, `project-drone-glove-N`) exist in `slots.ts` but the design has no place for them on the page yet, so photos dropped there won't show until a spot is designed.
 - The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
 

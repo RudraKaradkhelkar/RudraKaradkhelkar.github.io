@@ -206,9 +206,10 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
     color: var(--ink2);
   }
 
+  /* The design's viewer: 1000 px tall in a 723 px column, with a 600 x 780 page. */
   .rs-doc {
     margin-top: 16px;
-    aspect-ratio: 760 / 1000;
+    aspect-ratio: 723 / 1000;
     border-radius: 18px;
     display: flex;
     align-items: center;
@@ -217,7 +218,7 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
 
   .rs-doc__page {
     position: relative;
-    width: 72%;
+    width: 83%;
     aspect-ratio: 600 / 780;
     background-color: #F4F2EE;
     box-shadow: 0 40px 90px rgba(0, 0, 0, .55);
