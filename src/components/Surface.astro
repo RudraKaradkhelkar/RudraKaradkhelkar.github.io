@@ -1,0 +1,38 @@
+---
+// .surface card (DESIGN.md section 6): card color, faint top sheen, 1 px line border, long soft
+// shadow, 18 px radius. Renders as a link when given an href. `lift` adds the hover lift.
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  as?: 'div' | 'article' | 'li' | 'section' | 'figure';
+  href?: string;
+  lift?: boolean;
+  radius?: string;
+}
+
+const { as: Tag = 'div', href, lift = false, radius, class: className, style, ...rest } = Astro.props;
+const classes = ['surface', 'surf', { lift }, className];
+const styles = [radius && `--surf-r:${radius}`, style].filter(Boolean).join(';') || undefined;
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} style={styles} {...(rest as HTMLAttributes<'a'>)}>
+      <slot />
+    </a>
+  ) : (
+    <Tag class:list={classes} style={styles} {...rest}>
+      <slot />
+    </Tag>
+  )
+}
+
+<style>
+  .surf {
+    position: relative;
+    display: block;
+    border-radius: var(--surf-r, var(--radius-card));
+    color: var(--ink);
+    text-decoration: none;
+  }
+</style>

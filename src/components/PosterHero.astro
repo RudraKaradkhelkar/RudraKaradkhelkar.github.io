@@ -1,0 +1,563 @@
+---
+// The poster hero on every page (DESIGN.md sections 5 and 11).
+//
+// One scalable stage: the section bleeds to the screen edges, and inside it a stage of
+// min(100vw, 1760px) is an inline-size container. Everything on the poster is sized in cqi
+// (container units) with clamp() floors and caps, so the composition scales as one unit.
+// The stage is a CSS grid in flow, one row each for the subtitle, the captions (under 1280 only),
+// the headline, the art, and the bottom row. Art boxes hold their own aspect ratio and may
+// position things absolutely inside themselves.
+//
+// Layers, back to front, as in the design: top light (0), headline and captions (1), halo (2),
+// art (3), vignette and floor (4), side labels, About, and badges (5). Background layers bleed
+// past the stage to the screen edges above 1760 px.
+//
+// Slots:
+//   art         the page's hero art (required)
+//   foot-left   replaces the About block (Projects puts its detail strip here)
+//   foot-right  replaces the badges (Resume puts its buttons here)
+//   below       extra rows under the bottom row, still inside the poster
+import type { PosterHeroContent } from '../content/types';
+import { emWidth } from '../lib/fit';
+
+interface Props {
+  hero: PosterHeroContent;
+  /**
+   * The headline's font size at 1440 px in the design. The word is fitted to the content
+   * width; pages whose design word is narrower than that pass its size so the proportion holds.
+   */
+  headlineSize?: number;
+  /**
+   * How the art sits against the headline.
+   *   below  inner pages: the art starts under the headline and never covers it.
+   *   over   Home: the art stands in front of the headline and runs down past the bottom row.
+   */
+  artMode?: 'below' | 'over';
+  /** Halo behind the art, in design px at 1440 relative to the art box's top center. */
+  halo?: { y: number; w: number; h: number; alpha?: number };
+  /** Space between the headline's box and the art, in design px at 1440 (can be negative). */
+  artGap?: number;
+  /** Space between the art and the bottom row, in design px at 1440 (can be negative). */
+  footGap?: number;
+  /** Space under the bottom row, in design px at 1440. */
+  padBottom?: number;
+  class?: string;
+}
+
+const {
+  hero,
+  headlineSize,
+  artMode = 'below',
+  halo = { y: 300, w: 1100, h: 900, alpha: 0.55 },
+  artGap = 24,
+  footGap = 40,
+  padBottom = 80,
+  class: className,
+} = Astro.props;
+
+// Content width at 1440 is 1440 - 2 x 72.
+const CONTENT_1440 = 1296;
+const fit = await emWidth(hero.headline);
+const hscale = headlineSize ? Math.min(1, (headlineSize * fit) / CONTENT_1440) : 1;
+// Design px at 1440 to cqi.
+const cq = (px: number) => `${((px / 1440) * 100).toFixed(3)}cqi`;
+
+const style = [
+  `--fit:${fit}`,
+  `--hscale:${hscale.toFixed(4)}`,
+  `--art-gap:${cq(artGap)}`,
+  `--foot-gap:${cq(footGap)}`,
+  `--pad-bottom:${cq(padBottom)}`,
+  `--halo-y:${cq(halo.y)}`,
+  `--halo-w:${cq(halo.w)}`,
+  `--halo-h:${cq(halo.h)}`,
+  `--halo-a:${Math.round((halo.alpha ?? 0.55) * 100)}%`,
+].join(';');
+
+const letters = [...hero.headline];
+const hasFootLeft = Astro.slots.has('foot-left');
+const hasFootRight = Astro.slots.has('foot-right');
+const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length > 0;
+---
+
+<section class:list={['ph', `ph--${artMode}`, className]} data-hero>
+  <div class="ph__stage">
+    <div class="ph__grid" style={style}>
+      <div class="ph__toplight" aria-hidden="true"></div>
+
+      <div class="brk tl ph__brk" aria-hidden="true"></div>
+      <div class="brk tr ph__brk" aria-hidden="true"></div>
+      <div class="brk bl ph__brk" aria-hidden="true"></div>
+      <div class="brk br ph__brk" aria-hidden="true"></div>
+
+      <p class="ph__sub wide" data-hero-fade>{hero.subtitle}</p>
+
+      <ul role="list" class="ph__caps ph__caps--l cap" data-hero-fade>
+        {hero.captionsLeft.map((c) => <li>{c}</li>)}
+      </ul>
+      <ul role="list" class="ph__caps ph__caps--r cap" data-hero-fade>
+        {hero.captionsRight.map((c) => <li>{c}</li>)}
+      </ul>
+
+      <div class="ph__head">
+        <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word>
+          {
+            letters.map((c) => (
+              <span class="ch" aria-hidden="true">
+                {c === ' ' ? ' ' : c}
+              </span>
+            ))
+          }
+        </h1>
+      </div>
+
+      <div class="ph__halo" aria-hidden="true" data-hero-halo></div>
+
+      <div class="ph__art" data-hero-art>
+        <slot name="art" />
+      </div>
+
+      <div class="ph__vignette" aria-hidden="true"></div>
+      <div class="ph__floor" aria-hidden="true"></div>
+
+      {
+        hero.sideLabelLeft && (
+          <p class="ph__side ph__side--l mono faint" aria-hidden="true" data-hero-fade>
+            {hero.sideLabelLeft}
+          </p>
+        )
+      }
+      {
+        hero.sideLabelRight && (
+          <p class="ph__side ph__side--r mono faint" aria-hidden="true" data-hero-fade>
+            {hero.sideLabelRight}
+          </p>
+        )
+      }
+
+      {
+        hasFoot && (
+          <div class="ph__foot">
+            {hasFootLeft ? (
+              <div class="ph__foot-l" data-hero-fade>
+                <slot name="foot-left" />
+              </div>
+            ) : (
+              hero.about && (
+                <div class="ph__about ph__foot-l" data-hero-fade>
+                  <p class="cap muted">{hero.about.label}</p>
+                  <p class="ph__about-text">{hero.about.text}</p>
+                  {hero.about.link && (
+                    <a href={hero.about.link.href} class="ph__about-link">
+                      <span class="ph__about-arrow ghost rbtn" aria-hidden="true">
+                        <svg class="ico" width="20" height="20" viewBox="0 0 24 24">
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                      </span>
+                      <span class="cap">{hero.about.link.label}</span>
+                    </a>
+                  )}
+                </div>
+              )
+            )}
+            {hasFootRight ? (
+              <div class="ph__foot-r" data-hero-fade>
+                <slot name="foot-right" />
+              </div>
+            ) : (
+              hero.badges.length > 0 && (
+                <ul role="list" class="ph__badges ph__foot-r" data-hero-fade>
+                  {hero.badges.map((b) => (
+                    <li class="ph__badge">
+                      <span
+                        class:list={['ph__badge-val huge', b.filled ? 'ph__badge-val--fill' : 'ghost', { 'ph__badge-val--long': b.value.length >= 4 }]}>
+                        {b.value}
+                      </span>
+                      <span class="ph__badge-label cap muted">{b.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              )
+            )}
+          </div>
+        )
+      }
+
+      {
+        Astro.slots.has('below') && (
+          <div class="ph__below">
+            <slot name="below" />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ph {
+    position: relative;
+    overflow: clip;
+  }
+
+  .ph__stage {
+    position: relative;
+    width: min(100%, var(--stage-max));
+    margin-inline: auto;
+    container: ph / inline-size;
+  }
+
+  .ph__grid {
+    --pad: clamp(20px, 5cqi, 88px);
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--pad) minmax(0, 1fr) var(--pad);
+    grid-template-rows: [sub] auto [caps] auto [head] auto [art] auto [foot] auto [below] auto [end];
+    padding-top: max(calc(var(--nav-h) + 14px), 6.94cqi);
+    padding-bottom: var(--pad-bottom);
+  }
+
+  /* Flow items sit in the content column. Absolutely positioned layers (brackets, side labels,
+     light) keep the whole stage as their box, so they are left out of this list. */
+  .ph__sub,
+  .ph__caps,
+  .ph__head,
+  .ph__halo,
+  .ph__art,
+  .ph__foot,
+  .ph__below {
+    grid-column: 2;
+  }
+
+  /* ---------- Background layers (bleed to the screen edges) ---------- */
+  .ph__toplight,
+  .ph__vignette,
+  .ph__floor {
+    position: absolute;
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    pointer-events: none;
+  }
+
+  .ph__toplight {
+    z-index: 0;
+    top: -20.8cqi;
+    left: calc(50% - 45.1cqi);
+    right: auto;
+    width: 90.2cqi;
+    height: 62.5cqi;
+    background-image: radial-gradient(closest-side, var(--toplight), transparent);
+  }
+
+  .ph__vignette {
+    z-index: 4;
+    top: 0;
+    bottom: 0;
+    background-image: radial-gradient(ellipse 72% 68% at 50% 44%, transparent 42%, var(--vig) 100%);
+  }
+
+  .ph__floor {
+    z-index: 4;
+    bottom: 0;
+    height: clamp(90px, 9.7cqi, 170px);
+    background-image: linear-gradient(180deg, transparent, var(--bg));
+  }
+
+  /* ---------- Frame: brackets and side labels ---------- */
+  .ph__brk {
+    --bi: clamp(12px, 2.78cqi, 48px);
+    z-index: 1;
+  }
+  .ph__brk.tl { left: var(--bi); top: calc(var(--nav-h) + 20px); }
+  .ph__brk.tr { right: var(--bi); top: calc(var(--nav-h) + 20px); }
+  .ph__brk.bl { left: var(--bi); bottom: clamp(14px, 1.67cqi, 28px); }
+  .ph__brk.br { right: var(--bi); bottom: clamp(14px, 1.67cqi, 28px); }
+
+  .ph__side {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    margin: 0;
+    writing-mode: vertical-rl;
+    letter-spacing: .14em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .ph__side--l {
+    left: clamp(12px, 2.08cqi, 36px);
+    transform: translateY(-50%) rotate(180deg);
+  }
+  .ph__side--r {
+    right: clamp(12px, 2.08cqi, 36px);
+    transform: translateY(-50%);
+  }
+
+  /* ---------- Subtitle and captions ---------- */
+  .ph__sub {
+    grid-row: sub;
+    z-index: 1;
+    justify-self: center;
+    align-self: center;
+    /* The trailing letter-spacing would push the word off center. */
+    padding-left: .3em;
+    font-size: clamp(16px, 2.36cqi, 42px);
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .ph__caps {
+    grid-row: sub;
+    z-index: 1;
+    align-self: center;
+    display: flex;
+    gap: clamp(20px, 2.78cqi, 48px);
+    margin: 0;
+    color: var(--ink2);
+    font-size: clamp(11px, .76cqi, 13px);
+  }
+  .ph__caps--l { justify-self: start; }
+  .ph__caps--r { justify-self: end; }
+
+  /* ---------- Headline ---------- */
+  .ph__head {
+    grid-row: head;
+    z-index: 1;
+    margin-top: clamp(4px, .7cqi, 14px);
+    /* Fitted to this box: 100cqi here is the content width. */
+    container-type: inline-size;
+  }
+
+  .ph__h1 {
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    /* Fills the line exactly (src/lib/fit.ts). The height cap keeps short landscape screens sane. */
+    font-size: min(calc(100cqi * var(--hscale) / (var(--fit) * 1.004)), 62svh);
+  }
+
+  /* ---------- Halo ---------- */
+  .ph__halo {
+    position: relative;
+    grid-row: art;
+    z-index: 2;
+    justify-self: center;
+    align-self: start;
+    width: 0;
+    height: 0;
+    margin-top: calc(var(--art-gap) + var(--halo-y));
+    mix-blend-mode: var(--halo-blend);
+    opacity: var(--halo-opacity);
+    pointer-events: none;
+  }
+
+  .ph__halo::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--halo-w) / -2);
+    top: calc(var(--halo-h) / -2);
+    width: var(--halo-w);
+    height: var(--halo-h);
+    background-image: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--accent) var(--halo-a), transparent),
+      var(--halo-soft) 44%,
+      transparent 75%
+    );
+  }
+
+  /* ---------- Art ---------- */
+  .ph__art {
+    grid-row: art;
+    z-index: 3;
+    position: relative;
+    margin-top: var(--art-gap);
+    min-width: 0;
+  }
+
+  .ph--over .ph__art {
+    grid-row: head / below;
+    align-self: start;
+  }
+  .ph--over .ph__halo {
+    grid-row: head;
+  }
+
+  /* ---------- Bottom row ---------- */
+  .ph__foot {
+    grid-row: foot;
+    z-index: 5;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+    margin-top: var(--foot-gap);
+    pointer-events: none;
+  }
+
+  .ph__foot > * {
+    pointer-events: auto;
+  }
+
+  .ph__below {
+    grid-row: below;
+    z-index: 5;
+  }
+
+  .ph--over .ph__foot {
+    align-self: end;
+  }
+
+  .ph__about {
+    width: clamp(280px, 24cqi, 420px);
+  }
+
+  .ph__about-text {
+    margin-top: 12px;
+    font-size: clamp(16px, 1.11cqi, 19px);
+    line-height: 1.5;
+  }
+
+  .ph__about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+    text-decoration: none;
+  }
+
+  .ph__about-arrow {
+    width: 52px;
+    height: 52px;
+  }
+
+  @media (hover: hover) {
+    .ph__about-link:hover .ph__about-arrow {
+      background-color: var(--ink);
+      color: var(--bg);
+    }
+  }
+
+  .ph__badges {
+    --badge: clamp(60px, 5cqi, 88px);
+    display: flex;
+    gap: clamp(12px, 1.39cqi, 24px);
+    margin: 0;
+    margin-top: 4px;
+  }
+
+  .ph__badge {
+    min-width: calc(var(--badge) * 1.333);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ph__badge-val {
+    width: var(--badge);
+    height: var(--badge);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--badge) * .417);
+    line-height: 1;
+  }
+
+  .ph__badge-val--long {
+    font-size: calc(var(--badge) * .36);
+  }
+
+  .ph__badge-val--fill {
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: var(--glow-shadow);
+  }
+
+  .ph__badge-label {
+    font-size: 10px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* ---------- 1100 to 1279: captions wrap under the subtitle ---------- */
+  @media (max-width: 1279px) {
+    .ph__caps {
+      grid-row: caps;
+      margin-top: 14px;
+    }
+
+    /* Home: the bottom row no longer fits beside the figure, so it moves under it. */
+    .ph--over .ph__art {
+      grid-row: head / foot;
+    }
+    .ph--over .ph__foot {
+      align-self: start;
+    }
+  }
+
+  /* ---------- Under 1100: no side labels ---------- */
+  @media (max-width: 1099px) {
+    .ph__side {
+      display: none;
+    }
+  }
+
+  /* ---------- Phones ---------- */
+  @media (max-width: 767px) {
+    .ph__grid {
+      padding-top: calc(var(--nav-h) + 12px);
+      padding-bottom: 48px;
+    }
+
+    .ph__brk {
+      display: none;
+    }
+
+    .ph__caps {
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 12px;
+    }
+    .ph__caps--r {
+      text-align: right;
+    }
+
+    .ph__head {
+      margin-top: 16px;
+    }
+
+    .ph__foot {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    .ph--over .ph__foot {
+      margin-top: 4px;
+    }
+
+    .ph__about {
+      width: auto;
+      max-width: 34em;
+    }
+
+    .ph__badges {
+      --badge: 64px;
+      justify-content: space-between;
+    }
+    .ph__badge {
+      width: auto;
+      flex: 1 1 0;
+    }
+  }
+
+  /* Short landscape phones: keep the poster's proportions but let it run taller than the screen. */
+  @media (orientation: landscape) and (max-height: 520px) {
+    .ph__grid {
+      padding-top: calc(var(--nav-h) + 8px);
+    }
+  }
+</style>

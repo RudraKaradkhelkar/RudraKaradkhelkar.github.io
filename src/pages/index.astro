@@ -1,10 +1,222 @@
 ---
-// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/home.ts.
+// Home. Copy: src/content/home.ts. Design: design-handoff/reference/Main.html.
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, hero } from '../content/home';
+import PosterHero from '../components/PosterHero.astro';
+import HomeArt from '../components/art/HomeArt.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import RowLink from '../components/RowLink.astro';
+import { meta, hero, about, chapters, now } from '../content/home';
+import { getSlotImage } from '../lib/slot-images';
+import { getImage } from 'astro:assets';
+
+// Preload the hero photo once it exists (DESIGN.md: hero photo slot preloaded on Home).
+const photo = getSlotImage('hero-photo');
+const preload = photo ? await getImage({ src: photo, width: Math.min(1200, photo.width) }) : undefined;
 ---
 
 <Layout meta={meta} nav="home">
-  <StubHero hero={hero} />
+  {preload && <link slot="head" rel="preload" as="image" href={preload.src} fetchpriority="high" />}
+
+  <PosterHero hero={hero} headlineSize={518} artMode="over" artGap={-10} padBottom={0} halo={{ y: 420, w: 1100, h: 1000 }}>
+    <HomeArt slot="art" />
+  </PosterHero>
+
+  <section class="section wrap home-about" aria-labelledby="home-about-label">
+    <p class="mono faint" id="home-about-label" data-reveal>{about.label}</p>
+    <p class="home-about__statement cond" data-reveal>
+      {about.statement} <span class="accent-text">{about.statementHighlight}</span>
+    </p>
+    <ul role="list" class="home-stats">
+      {
+        about.stats.map((s) => (
+          <li class="home-stat" data-reveal>
+            <span class="home-stat__val huge litx">{s.value}</span>
+            <span class="home-stat__label mono faint">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section wrap" aria-labelledby="chapters-h">
+    <SectionHead label={chapters.label} heading={chapters.heading} meta={chapters.count} id="chapters-h" drift="left" />
+    <ul role="list" class="chapters">
+      {
+        chapters.items.map((c) => (
+          <li data-reveal>
+            <Surface href={c.href} lift class="chapter">
+              <span class="chapter__wm huge outline" aria-hidden="true">
+                {c.watermark}
+              </span>
+              <span class="chapter__top mono faint">
+                <span>{c.index}</span>
+                <span>{c.tag}</span>
+              </span>
+              <span class="chapter__body">
+                <span class="chapter__title cond">{c.title}</span>
+                <span class="chapter__text muted">{c.text}</span>
+              </span>
+              <span class="chapter__arrow ghost" aria-hidden="true">
+                <svg class="ico" width="18" height="18" viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
+            </Surface>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section wrap" aria-labelledby="now-h">
+    <SectionHead label={now.label} heading={now.heading} id="now-h" drift="right" />
+    <ul role="list" class="now-rows">
+      {now.rows.map((r) => <RowLink href={r.href} label={r.tag} title={r.title} text={r.text} />)}
+    </ul>
+  </section>
 </Layout>
+
+<style>
+  /* ---------- About ---------- */
+  .home-about__statement {
+    margin-top: 26px;
+    max-width: 15.4em;
+    font-size: clamp(32px, 5.14vw, 90px);
+    line-height: 1.05;
+  }
+
+  .home-stats {
+    margin: clamp(56px, 6.25vw, 110px) 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .home-stat {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .home-stat__val {
+    font-size: clamp(60px, 8.9vw, 156px);
+  }
+
+  .home-stat__label {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .home-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 36px;
+    }
+    .home-stat__val {
+      font-size: clamp(52px, 15vw, 80px);
+    }
+  }
+
+  /* ---------- Chapters ---------- */
+  .chapters {
+    margin: 52px 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .chapter {
+    height: clamp(280px, 22.2vw, 380px);
+    overflow: hidden;
+  }
+
+  .chapter__wm {
+    position: absolute;
+    left: 24px;
+    bottom: -.1em;
+    font-size: clamp(140px, 12.5vw, 220px);
+    -webkit-text-stroke: 1px var(--line2);
+  }
+
+  .chapter__top {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .chapter__body {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 72px;
+    display: block;
+  }
+
+  .chapter__title {
+    display: block;
+    font-size: clamp(34px, 2.92vw, 48px);
+    line-height: 1.05;
+  }
+
+  .chapter__text {
+    display: block;
+    margin-top: 10px;
+    max-width: 26em;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  .chapter__arrow {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card);
+    transition: background-color .2s ease, color .2s ease;
+  }
+
+  @media (hover: hover) {
+    .chapter:hover .chapter__arrow {
+      background-color: var(--ink);
+      color: var(--bg);
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .chapters {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .chapters {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .chapter {
+      height: 268px;
+    }
+    .chapter__wm {
+      font-size: 108px;
+    }
+    .chapter__text {
+      font-size: 16px;
+    }
+  }
+
+  /* ---------- Now ---------- */
+  .now-rows {
+    margin: 44px 0 0;
+    border-top: 1px solid var(--line2);
+  }
+</style>

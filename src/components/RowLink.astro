@@ -1,0 +1,85 @@
+---
+// Row list item (Home "Fall 2026", the 404 page list): label / title / description / arrow.
+// Hover nudges the row right (only where hover exists). Phones stack label, title, description.
+interface Props {
+  href: string;
+  label: string;
+  title: string;
+  text?: string;
+  /** Label in the accent color (the design's default) or muted ink. */
+  accentLabel?: boolean;
+}
+
+const { href, label, title, text, accentLabel = true } = Astro.props;
+---
+
+<li class="rowl">
+  <a href={href} class="rowl__a rowh" data-reveal>
+    <span class:list={['rowl__label mono', accentLabel ? 'accent-text' : 'faint']}>{label}</span>
+    <span class="rowl__title cond">{title}</span>
+    {text && <span class="rowl__text muted">{text}</span>}
+    <svg class="rowl__arrow ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </a>
+</li>
+
+<style>
+  .rowl {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .rowl__a {
+    display: grid;
+    grid-template-columns: minmax(96px, 13.9%) minmax(0, 32.4%) minmax(0, 1fr) 44px;
+    gap: clamp(20px, 2.2vw, 40px);
+    align-items: center;
+    min-height: 44px;
+    padding: clamp(24px, 2.2vw, 36px) 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .rowl__title {
+    font-size: clamp(26px, 2.36vw, 40px);
+    line-height: 1.12;
+  }
+
+  .rowl__text {
+    grid-column: 3;
+    font-size: clamp(16px, 1.11vw, 18px);
+    line-height: 1.5;
+  }
+
+  .rowl__arrow {
+    grid-column: 4;
+    justify-self: end;
+    transition: transform .35s var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .rowl__a:hover .rowl__arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  @media (max-width: 899px) {
+    .rowl__a {
+      grid-template-columns: minmax(0, 1fr) 44px;
+      gap: 8px 16px;
+    }
+    .rowl__label,
+    .rowl__title,
+    .rowl__text {
+      grid-column: 1;
+    }
+    .rowl__arrow {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      align-self: center;
+    }
+    .rowl__title {
+      margin-top: 4px;
+    }
+  }
+</style>

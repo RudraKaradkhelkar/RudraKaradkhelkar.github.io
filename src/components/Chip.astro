@@ -1,0 +1,26 @@
+---
+// .chip: 30 px pill with a 1 px border (DESIGN.md section 6). Placeholder chips render muted.
+interface Props {
+  label: string;
+  placeholder?: boolean;
+  /** Courier Prime instead of the Archivo caption face. */
+  mono?: boolean;
+  class?: string;
+}
+
+const { label, placeholder = false, mono = false, class: className } = Astro.props;
+---
+
+<span class:list={['chip', mono ? 'mono' : 'chip--sans', { 'chip--ph': placeholder }, className]}>{label}</span>
+
+<style>
+  .chip--sans {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .chip--ph {
+    color: var(--ink2);
+    border-style: dashed;
+  }
+</style>

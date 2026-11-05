@@ -1,0 +1,73 @@
+---
+// Section heading below the hero: a Courier Prime label, then a big solid-ink headline.
+// Big headings drift sideways a few percent on desktop (Phase 2 motion reads data-drift).
+// On phones they may wrap onto two lines instead of overflowing (DESIGN.md section 11).
+interface Props {
+  label: string;
+  heading: string;
+  /** Small label at the right end of the heading row (for example "6 PAGES"). */
+  meta?: string;
+  drift?: 'left' | 'right' | 'none';
+  /** Heading level. Defaults to h2. */
+  level?: 2 | 3;
+  /** Size preset: "big" for the main section headings, "mid" for secondary ones. */
+  size?: 'big' | 'mid';
+  id?: string;
+  class?: string;
+}
+
+const { label, heading, meta, drift = 'left', level = 2, size = 'big', id, class: className } = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+
+<div class:list={['shead', `shead--${size}`, className]}>
+  <div class="shead__main">
+    <p class="mono faint" data-reveal>{label}</p>
+    <H class="shead__h huge litx" id={id} data-drift={drift === 'none' ? undefined : drift}>{heading}</H>
+  </div>
+  {meta && <p class="shead__meta mono faint">{meta}</p>}
+</div>
+
+<style>
+  .shead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .shead__main {
+    min-width: 0;
+  }
+
+  .shead__h {
+    margin-top: 20px;
+    font-size: clamp(56px, 10.42vw, 184px);
+    font-weight: 900;
+  }
+
+  .shead--mid .shead__h {
+    font-size: clamp(48px, 7.2vw, 128px);
+  }
+
+  .shead__meta {
+    flex: none;
+    padding-bottom: .4em;
+  }
+
+  @media (max-width: 767px) {
+    .shead {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .shead__h {
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: .86;
+    }
+    .shead__meta {
+      padding-bottom: 0;
+    }
+  }
+</style>
