@@ -31,6 +31,8 @@ export const heroArt = {
   alt: "Gold medal for the 2025 FIRST Dean's List Award, one of ten worldwide",
   medalValue: '1/10',
   medalRing: 'OF 95,000+ STUDENTS',
+  /** Runs around the medal's rim. */
+  ringText: "FIRST DEAN'S LIST AWARD / 2025 / ONE OF TEN WORLDWIDE / FIRST DEAN'S LIST /",
 };
 
 export const team = {

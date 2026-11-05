@@ -11,7 +11,7 @@ import { heroBadges } from '../../content/experience';
 const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year}`).join('; ');
 ---
 
-<div class="xart" role="img" aria-label={`ID badges: ${label}`}>
+<div class="xart" data-box="art" role="img" aria-label={`ID badges: ${label}`}>
   <div class="xart__rail"></div>
   {
     heroBadges.map((b, i) => (

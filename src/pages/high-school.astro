@@ -1,10 +1,397 @@
 ---
-// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/high-school.ts.
+// High School. Copy: src/content/high-school.ts. Design: design-handoff/reference/HighSchool.html.
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, hero } from '../content/high-school';
+import PosterHero from '../components/PosterHero.astro';
+import HighSchoolArt from '../components/art/HighSchoolArt.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import { meta, hero, team, deansList, leadership, service } from '../content/high-school';
+import { emWidth } from '../lib/fit';
+
+const deanFit = await emWidth(deansList.heading);
+const podcast = deansList.podcast;
+const hasEpisode = podcast.link.href.trim() !== '';
 ---
 
-<Layout meta={meta} nav="default">
-  <StubHero hero={hero} />
+<Layout meta={meta}>
+  <PosterHero
+    hero={hero}
+    headlineSize={245}
+    artGap={14}
+    footGap={-20}
+    padBottom={70}
+    halo={{ y: 340, w: 1000, h: 860, center: 'rgba(233, 196, 120, .32)' }}>
+    <HighSchoolArt slot="art" />
+  </PosterHero>
+
+  <section class="section wrap" aria-labelledby="team-h">
+    <SectionHead label={team.label} heading={team.heading} id="team-h" drift="left" />
+    <ol role="list" class="hstl" data-reveal>
+      {
+        team.milestones.map((m) => (
+          <li class:list={['hstl__item', { 'hstl__item--hi': m.highlight }]}>
+            <span class="hstl__dot" aria-hidden="true" />
+            <p class:list={['mono hstl__date', m.highlight ? 'rim-ink' : 'faint']}>{m.date}</p>
+            <h3 class="hstl__title cond">{m.title}</h3>
+            <p class="hstl__text muted">{m.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap hs-cards-wrap" aria-label={deansList.label}>
+    <div class="hs-cards">
+      <div class="hs-dean" data-reveal>
+        <p class="mono rim-ink">{deansList.label}</p>
+        <div class="hs-dean__fit">
+          <p class="hs-dean__h huge litx" style={`--fit:${deanFit}`}>{deansList.heading}</p>
+        </div>
+        <p class="hs-dean__text">{deansList.text}</p>
+      </div>
+      <Surface class="hs-pod" data-reveal>
+        <div>
+          <p class="mono faint">{podcast.label}</p>
+          <h3 class="hs-pod__title cond">{podcast.title}</h3>
+          <p class="hs-pod__text muted">{podcast.text}</p>
+        </div>
+        {
+          hasEpisode ? (
+            <a href={podcast.link.href} rel="noopener" class="hs-pod__link">
+              <span class="hs-pod__play" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span class="hs-pod__wave" aria-hidden="true">
+                {[8, 16, 11, 20, 13, 18, 9, 15].map((h) => (
+                  <span style={`height:${h}px`} />
+                ))}
+              </span>
+              <span class="mono">{podcast.link.label}</span>
+            </a>
+          ) : (
+            <p class="hs-pod__link">
+              <span class="hs-pod__play hs-pod__play--off" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span class="hs-pod__wave" aria-hidden="true">
+                {[8, 16, 11, 20, 13, 18, 9, 15].map((h) => (
+                  <span style={`height:${h}px`} />
+                ))}
+              </span>
+              <span class="mono placeholder">{podcast.link.label}</span>
+            </p>
+          )
+        }
+      </Surface>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="lead-h">
+    <SectionHead label={leadership.label} heading={leadership.heading} id="lead-h" drift="right" size="mid" />
+    <ol role="list" class="hs-subs" data-reveal>
+      {
+        leadership.subteams.map((name, i) => (
+          <li>
+            <Surface class="hs-sub">
+              <span class="mono faint">{String(i + 1).padStart(2, '0')}</span>
+              <span class="hs-sub__name cond">{name}</span>
+            </Surface>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="hs-lead" data-reveal>{leadership.text}</p>
+  </section>
+
+  <section class="section wrap" aria-labelledby="service-h">
+    <SectionHead label={service.label} heading={service.heading} id="service-h" drift="left" />
+    <p class="hs-lead hs-lead--first" data-reveal>
+      {service.text} <span class="placeholder">{service.textPlaceholder}</span>
+    </p>
+    <ul role="list" class="hs-photos">
+      {
+        service.photos.map((p) => (
+          <li data-reveal>
+            <ImageSlot name={p.slot} alt={p.alt} sizes="(min-width: 1100px) 45vw, 100vw" />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </Layout>
+
+<style>
+  /* ---------- Timeline ---------- */
+  .hstl {
+    position: relative;
+    margin: 70px 0 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  /* The track behind the dots, brightest at the Dean's List year. */
+  .hstl::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 9px;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--line2), var(--accent) 55%, var(--line2));
+  }
+
+  .hstl__item {
+    position: relative;
+  }
+
+  .hstl__dot {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--ink2);
+    background-color: var(--bg);
+  }
+
+  .hstl__item--hi .hstl__dot {
+    border: 0;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 6px var(--halo-soft), 0 0 24px var(--halo);
+  }
+
+  .hstl__date {
+    margin-top: 22px;
+  }
+
+  .hstl__title {
+    margin-top: 6px;
+    font-size: clamp(24px, 1.81vw, 30px);
+    line-height: 1.08;
+  }
+
+  .hstl__text {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  /* Under 1100 the timeline runs down the page, dots on a vertical track. */
+  @media (max-width: 1099px) {
+    .hstl {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      margin-top: 52px;
+      padding-left: 44px;
+    }
+    .hstl::before {
+      left: 9px;
+      right: auto;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      height: auto;
+      background-image: linear-gradient(180deg, var(--line2), var(--accent) 55%, var(--line2));
+    }
+    .hstl__dot {
+      position: absolute;
+      left: -44px;
+      top: 0;
+    }
+    .hstl__date {
+      margin-top: 2px;
+    }
+    .hstl__text {
+      max-width: 34em;
+      font-size: 16px;
+    }
+  }
+
+  /* ---------- Dean's List and podcast ---------- */
+  .hs-cards-wrap {
+    padding-top: clamp(72px, 9vw, 160px);
+  }
+
+  .hs-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .hs-dean {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(26px, 3.06vw, 54px);
+    border-radius: 20px;
+    background-color: var(--card);
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 40px 100px -40px var(--halo);
+  }
+
+  .hs-dean__fit {
+    margin-top: 20px;
+    container-type: inline-size;
+  }
+
+  .hs-dean__h {
+    font-size: min(clamp(72px, 10.42vw, 184px), calc(100cqi / (var(--fit) * 1.004)));
+  }
+
+  .hs-dean__text {
+    margin-top: 20px;
+    font-size: clamp(17px, 1.25vw, 20px);
+    line-height: 1.5;
+  }
+
+  .hs-cards :global(.hs-pod) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(26px, 3.06vw, 54px);
+    border-radius: 20px;
+  }
+
+  .hs-pod__title {
+    margin-top: 18px;
+    font-size: clamp(32px, 3.19vw, 56px);
+    line-height: 1.09;
+  }
+
+  .hs-pod__text {
+    margin-top: 14px;
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  .hs-pod__link {
+    margin-top: 26px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 48px;
+    text-decoration: none;
+  }
+
+  .hs-pod__play {
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: var(--glow-shadow);
+  }
+
+  .hs-pod__play svg {
+    fill: currentColor;
+  }
+
+  .hs-pod__play--off {
+    background-color: transparent;
+    color: var(--ink3);
+    border: 1px dashed var(--line2);
+    box-shadow: none;
+  }
+
+  .hs-pod__wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 22px;
+  }
+
+  .hs-pod__wave span {
+    width: 3px;
+    background-color: var(--ink3);
+  }
+
+  @media (max-width: 899px) {
+    .hs-cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hs-pod__text {
+      font-size: 16px;
+    }
+  }
+
+  /* ---------- Subteams ---------- */
+  .hs-subs {
+    margin: 40px 0 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .hs-subs :global(.hs-sub) {
+    height: 100%;
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .hs-sub__name {
+    display: block;
+    margin-top: 26px;
+    font-size: clamp(22px, 1.67vw, 28px);
+    line-height: 1.1;
+  }
+
+  .hs-lead {
+    margin-top: 32px;
+    max-width: 840px;
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .hs-lead--first {
+    margin-top: 26px;
+  }
+
+  @media (max-width: 1099px) {
+    .hs-subs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hs-subs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+
+  /* ---------- Photos: columns follow each slot's shape, so all three share one height ---------- */
+  .hs-photos {
+    margin: 52px 0 0;
+    display: grid;
+    grid-template-columns: 16fr 7.2fr 7.2fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  @media (max-width: 1099px) {
+    .hs-photos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .hs-photos > :first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hs-photos {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+  }
+</style>

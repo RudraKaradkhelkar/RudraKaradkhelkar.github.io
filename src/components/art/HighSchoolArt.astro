@@ -1,0 +1,121 @@
+---
+// High School hero art: the gold Dean's List medal on an accent ribbon, with ring text that spins
+// slowly and a shine that sweeps across every 4.5 s. SVG copied from
+// design-handoff/reference/HighSchool.html, viewBox trimmed to the medal (x 540 to 900, y 160 to 710).
+import { heroArt } from '../../content/high-school';
+---
+
+<div class="hsart" data-box="art">
+  <svg class="hsart__svg" role="img" aria-label={heroArt.alt} viewBox="540 160 360 550">
+    <defs>
+      <linearGradient id="goldRim" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" style="stop-color: #F7E9BE"></stop>
+        <stop offset="0.35" style="stop-color: #C9A15E"></stop>
+        <stop offset="0.65" style="stop-color: #7E5E2E"></stop>
+        <stop offset="1" style="stop-color: #E9D199"></stop>
+      </linearGradient>
+      <radialGradient id="goldFace" cx="38%" cy="30%" r="75%">
+        <stop offset="0" style="stop-color: #EBD496"></stop>
+        <stop offset="0.55" style="stop-color: #BB8E4B"></stop>
+        <stop offset="1" style="stop-color: #6E5026"></stop>
+      </radialGradient>
+      <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" style="stop-color: #FFFFFF; stop-opacity: 0"></stop>
+        <stop offset="0.5" style="stop-color: #FFFFFF; stop-opacity: 0.55"></stop>
+        <stop offset="1" style="stop-color: #FFFFFF; stop-opacity: 0"></stop>
+      </linearGradient>
+      <clipPath id="medalClip"><circle cx="720" cy="490" r="150"></circle></clipPath>
+      <filter id="medalShadow" x="-30%" y="-30%" width="160%" height="170%">
+        <feDropShadow dx="0" dy="26" stdDeviation="22" style="flood-color: #000000; flood-opacity: 0.65"></feDropShadow>
+      </filter>
+      <path id="medalRing" d="M720 490 m -122 0 a 122 122 0 1 1 244 0 a 122 122 0 1 1 -244 0"></path>
+    </defs>
+    <polygon points="596,170 666,170 752,372 682,372" class="hsart__ribbon"></polygon>
+    <polygon points="844,170 774,170 688,372 758,372" class="hsart__ribbon"></polygon>
+    <polygon points="844,170 774,170 688,372 758,372" style="fill: #000000; opacity: 0.28"></polygon>
+    <path d="M610 170 L696 372 M652 170 L738 372 M830 170 L744 372 M788 170 L702 372" style="fill: none; stroke: rgba(255,255,255,0.35); stroke-width: 2"></path>
+    <rect x="672" y="352" width="96" height="30" rx="6" style="fill: url(#goldRim)"></rect>
+    <circle cx="720" cy="490" r="152" filter="url(#medalShadow)" style="fill: url(#goldRim)"></circle>
+    <circle cx="720" cy="490" r="138" style="fill: url(#goldFace)"></circle>
+    <circle cx="720" cy="490" r="104" style="fill: none; stroke: #8A6A35; stroke-width: 1.5"></circle>
+    <circle cx="720" cy="490" r="100" style="fill: none; stroke: #F3E2B0; stroke-width: 1; opacity: 0.6"></circle>
+    <g class="hsart__ring" style="transform-origin: 720px 490px">
+      <text class="hsart__ring-text"><textPath href="#medalRing">{heroArt.ringText}</textPath></text>
+    </g>
+    <text x="721" y="514" text-anchor="middle" class="hsart__val" style="fill: #F5E6B8; opacity: 0.55">{heroArt.medalValue}</text>
+    <text x="720" y="512" text-anchor="middle" class="hsart__val" style="fill: #3A2A12">{heroArt.medalValue}</text>
+    <text x="720" y="548" text-anchor="middle" class="hsart__sub">{heroArt.medalRing}</text>
+    <g style="clip-path: url(#medalClip)">
+      <rect class="hsart__shine" x="610" y="330" width="90" height="330" style="fill: url(#shineGrad)"></rect>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .hsart {
+    width: 25cqi;
+    margin-inline: auto;
+    aspect-ratio: 360 / 550;
+  }
+
+  .hsart__svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .hsart__ribbon {
+    fill: var(--accent);
+  }
+
+  .hsart__ring {
+    animation: spin 48s linear infinite;
+  }
+
+  .hsart__ring-text {
+    fill: #4E3818;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: .22em;
+  }
+
+  .hsart__val {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-stretch: 62%;
+    font-size: 104px;
+  }
+
+  .hsart__sub {
+    fill: #4E3818;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .14em;
+  }
+
+  .hsart__shine {
+    transform-box: fill-box;
+    animation: shine 4.5s ease-in-out 2s infinite backwards;
+  }
+
+  /* Before the first sweep (and with reduced motion) the shine waits off the medal. */
+  @media (prefers-reduced-motion: reduce) {
+    .hsart__shine {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1279px) {
+    .hsart {
+      width: min(32cqi, 380px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hsart {
+      width: min(58cqi, 300px);
+    }
+  }
+</style>
