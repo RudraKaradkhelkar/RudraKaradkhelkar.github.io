@@ -56,12 +56,13 @@ export const site = {
   },
 
   footer: {
-    /** Repeats in the tilted accent stripe. Confirm "Open to Summer 2027" with Rudra before launch. */
-    marquee: ['Open to Summer 2027 roles', 'rudrak@mit.edu', 'Cambridge, MA'],
+    /** Repeats in the tilted accent stripe (shown uppercase). Wording confirmed by Rudra. */
+    marquee: ['Open to Summer 2027 Internships/Roles', 'rudrak@mit.edu', 'Cambridge, MA'],
     label: 'OPEN TO',
     headline: 'SUMMER 2027',
     text: 'Looking for a research or internship role in AI security for Summer 2027. Email is the fastest way to reach me.',
-    copyright: '© 2026 RUDRA KARADKHELKAR',
+    /** Year comes from the build. The deploy workflow rebuilds every January 1 so it stays current. */
+    copyright: `© ${new Date().getFullYear()} RUDRA KARADKHELKAR`,
     route: 'LAFAYETTE, LA → CAMBRIDGE, MA',
   },
 };

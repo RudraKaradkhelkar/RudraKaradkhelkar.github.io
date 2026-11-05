@@ -41,18 +41,18 @@ Phase 0 complete. Phases 1 to 4 (overnight) not started.
 - **Nav background after 260 px** is a passive scroll listener (works with Lenis, which scrolls the window). Phase 2 can move it to ScrollTrigger if that's simpler alongside the avatar fade.
 - **Mobile menu is a native `<dialog>`** (focus trap, Esc, focus return for free). It includes Resume as the seventh link and uses two columns on short landscape screens.
 - **Internal links end in `/`** (`/research/`) to match GitHub Pages directory URLs and avoid a redirect hop.
-- **Projects progress bars.** The design's 35% and 20% bar fills were mock-ups next to `[X]% BUILT`. Content stores `progress: null` until Rudra gives real numbers (see Questions).
+- **Projects progress (Rudra, Phase 0):** Cyberdefender 20%, Drone Glove 5%. Bars fill to those values and the labels read "20% BUILT" and "5% BUILT" (`projects.ts`, `progress` and `progressLabel`).
+- **Footer line (Rudra, Phase 0):** the marquee reads "Open to Summer 2027 Internships/Roles". The big "OPEN TO / SUMMER 2027" block is unchanged.
+- **Copyright year (Rudra, Phase 0):** updates automatically. `site.ts` uses the build year, so Phase 4's `deploy.yml` must also run on a schedule every January 1 (`cron: '0 6 1 1 *'`) to rebuild even without a push.
+- **404 (Rudra, Phase 0):** a full poster page in the same style as the others, not a plain error page. The draft copy stands (subtitle "PAGE NOT FOUND", headline "404", one sentence, then links to every page).
+- **Meta descriptions (Rudra, Phase 0):** approved as written.
 - **Shoot script** forces reduced motion by default so every element shows its final state in full-page shots (`--motion` turns animation back on). 390, 768, and 844x390 are emulated as touch devices so `hover`/`pointer` media queries behave like real phones and tablets. It writes `review/index.html` as a contact sheet. Landscape is `<theme>-844.png`.
 - **Copyright** stays the literal "© 2026" from the design, not the build year.
 - **Meta descriptions** are built from each page's existing About copy, not new claims.
 
 ## Questions for Rudra
 
-1. **Projects progress:** what percent built are Cyberdefender and the Drone Glove? Until then the bar shows no fill and the label says `[X]% BUILT`. Do you want the bar hidden instead?
-2. **Footer:** confirm "Open to Summer 2027" (DESIGN.md asks to confirm before launch).
-3. **Copyright year:** keep "© 2026" fixed, or update automatically each year?
-4. **404 page copy** isn't in the design. Current draft: subtitle "PAGE NOT FOUND", headline "404", "There's no page at this address. Every page on the site is listed below." OK?
-5. **Meta descriptions** (search snippets) were written from each page's About text. Edit in `src/content/<page>.ts` under `meta` if you want different wording.
+None open. The five Phase 0 questions were answered; see Decisions.
 
 ## Placeholders
 
@@ -63,7 +63,7 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 | Home | Hero cut-out photo (slot `hero-photo`, stand-in figure until then); nav avatar (slot `headshot`) |
 | Research | UROP status "[One or two lines on progress, once cleared to share.]"; shoreline "[Data, method, and result in two lines.]"; shoreline figures (slot `research-shoreline-1`) |
 | Experience | EcoChamps screen (slot `experience-ecochamps-1`, only if CGI is OK with it) |
-| Projects | Four milestone `[STATUS]` values; two `[X]% BUILT`; LVL 03 "[What's next, in one line.]"; progress photos (slots `project-cyberdefender-N`, `project-drone-glove-N`) |
+| Projects | Four milestone `[STATUS]` values; LVL 03 "[What's next, in one line.]"; progress photos (slots `project-cyberdefender-N`, `project-drone-glove-N`) |
 | Clubs | Third club `[ROLE · TERM]`, `[Next club]`, "[Add a club here once it's official.]" |
 | High School | Three photos (slots `hs-robot`, `hs-team`, `hs-outreach`); podcast `[LINK TO EPISODE]`; "[Add other service work: organization, role, hours.]" |
 | Drawings | Six scans (slots `drawing-01` to `drawing-06`) with `[Title]` and `[YEAR]`; `[06 PIECES]`; third place `[LOCATION]` and "[A favorite place to draw, and why.]"; place photos (slots `place-home`, `place-school`, `place-draw`); hobbies "[Add more]" |
@@ -82,4 +82,6 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 1. Build `PosterHero` (DESIGN.md sections 5 and 11): a container stage `min(100vw, 1760px)` with `container-type: inline-size`, laid out in grid rows (subtitle, headline, art, bottom row), headline fitted with `emWidth()` and `cqi`, art box with a fixed aspect ratio, corner brackets, top captions, vertical side labels (hidden under 1100), halo, vignette, floor, and the About + badges row. Background, halo, band, and vignette bleed to the screen edges above 1760. Use `svh` heights on phones.
 2. Also build `Surface`, `Chip`, `RowLink` from the reference markup.
 3. Home: copy the stand-in figure SVG from `reference/Main.html` (don't redraw), put it in an `ImageSlot`-aware wrapper so the `hero-photo` slot replaces it, red band with `Marquee` behind it, phone composition per DESIGN.md section 11 (figure's head overlapping RUDRA, hero within one screen).
-4. Delete `StubHero.astro` once the last page is built.
+4. The 404 is a full poster page (Rudra's answer): `PosterHero` with subtitle "PAGE NOT FOUND", the fitted "404" headline, captions, side labels, corner brackets, halo, vignette, and a bottom row; below it, every page as `RowLink` rows (same look as Home's "Fall 2026" list), then the footer. Copy lives in `not-found.ts`. Build it after Resume.
+5. Delete `StubHero.astro` once the last page is built.
+6. Phase 4 reminder: `deploy.yml` needs a `schedule` trigger every January 1 so the copyright year rebuilds.

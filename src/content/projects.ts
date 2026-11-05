@@ -18,8 +18,8 @@ export const hero: PosterHeroContent = {
 };
 
 /**
- * Covers in the level select, in order. `progress` is the bar fill (0 to 100).
- * It stays null until Rudra gives a real number; the design's 35% and 20% bars were mock-ups.
+ * Covers in the level select, in order. `progress` is the bar fill (0 to 100); keep
+ * `progressLabel` in step with it.
  */
 export const levels = [
   {
@@ -34,8 +34,8 @@ export const levels = [
       label: 'LVL 01 · IN PROGRESS',
       title: 'Cyberdefender Agent',
       text: 'An AI agent that monitors a home-lab server, spots intrusions, and responds. Runs on a VM or an old laptop turned server.',
-      progress: null as number | null,
-      progressLabel: '[X]% BUILT',
+      progress: 20,
+      progressLabel: '20% BUILT',
       enter: { label: 'Enter level', href: '#lvl1' },
     },
   },
@@ -51,8 +51,8 @@ export const levels = [
       label: 'LVL 02 · IN PROGRESS',
       title: 'Drone Gesture Glove',
       text: 'A wearable glove that reads hand gestures and turns them into flight commands for a drone.',
-      progress: null as number | null,
-      progressLabel: '[X]% BUILT',
+      progress: 5,
+      progressLabel: '5% BUILT',
       enter: { label: 'Enter level', href: '#lvl2' },
     },
   },
@@ -119,7 +119,7 @@ export const droneGlove = {
     'A simple drone that follows the gestures',
   ],
   chips: [{ label: 'PyTorch' }, { label: 'KiCad' }, { label: 'CAD' }, { label: 'Embedded' }] satisfies Chip[],
-  progressLabel: '[X]% BUILT',
+  progressLabel: '5% BUILT',
   figure: {
     alt: 'Schematic of the glove: a motion sensor on each finger wired to a board on the back of the hand',
     label: 'SENSOR LAYOUT',
