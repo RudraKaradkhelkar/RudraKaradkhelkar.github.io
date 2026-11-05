@@ -20,6 +20,7 @@ import { heroSheet } from '../../content/resume';
       </defs>
       <path d="M10 70 L10 14 C10 6 24 6 24 14 L24 62 C24 70 14 70 14 62 L14 22" style="fill: none; stroke: url(#clipMetal); stroke-width: 3.5; stroke-linecap: round"></path>
     </svg>
+    <div class="rsart__in">
     <p class="rsart__name">{heroSheet.name}</p>
     <p class="rsart__contact">{heroSheet.contact}</p>
     <div class="rsart__rule"></div>
@@ -43,6 +44,7 @@ import { heroSheet } from '../../content/resume';
     }
     <div class="rsart__bar" style="width: 82%"></div>
     <div class="rsart__bar rsart__bar--2" style="width: 64%"></div>
+    </div>
   </div>
 </div>
 
@@ -73,11 +75,11 @@ import { heroSheet } from '../../content/resume';
     box-shadow: 0 30px 70px rgba(0, 0, 0, .5);
   }
 
-  /* Inside the sheet: 1cqi is 4 design px. */
+  /* Inside the sheet: 1cqi is 4 design px. Container units measure the content box, so the
+     sheet itself has no padding; .rsart__in carries it. */
   .rsart__sheet {
     left: calc(40 * var(--u));
     top: calc(30 * var(--u));
-    padding: 8.5cqi 9cqi;
     background-color: #F4F2EE;
     background-image: linear-gradient(170deg, #FFFFFF, #EDEBE6);
     color: #141416;
@@ -91,6 +93,10 @@ import { heroSheet } from '../../content/resume';
   :global(:root[data-theme='light']) .rsart__back,
   :global(:root[data-theme='light']) .rsart__sheet {
     box-shadow: 0 30px 70px rgba(40, 30, 20, .25), 0 2px 6px rgba(40, 30, 20, .15);
+  }
+
+  .rsart__in {
+    padding: 8.5cqi 9cqi;
   }
 
   .rsart__clip {

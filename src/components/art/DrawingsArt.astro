@@ -153,11 +153,12 @@ const label = three.map((d) => `${d.title}, ${d.medium.toLowerCase()}`).join('; 
     object-fit: cover;
   }
 
+  /* Inside a polaroid, container units measure its 268 px content box (300 minus padding). */
   .dart__tag {
     position: absolute;
-    right: 3.7cqi;
-    bottom: 2.7cqi;
-    font-size: 3cqi;
+    right: 3.73cqi;
+    bottom: 2.99cqi;
+    font-size: 3.36cqi;
     color: #55555A;
     opacity: .8;
   }
@@ -166,25 +167,25 @@ const label = three.map((d) => `${d.title}, ${d.medium.toLowerCase()}`).join('; 
   }
 
   .dart__cap {
-    height: 19.3cqi;
+    height: 21.6cqi;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 3.67cqi;
+    font-size: 4.1cqi;
     color: #1B1B1D;
   }
 
   .dart__medium {
-    font-size: 4cqi;
+    font-size: 4.48cqi;
     color: #55555A;
   }
 
   .dart__tape {
     position: absolute;
     left: 33.3%;
-    top: -4.67cqi;
+    top: -5.22cqi;
     width: 33.3%;
-    height: 9.33cqi;
+    height: 10.45cqi;
     opacity: .8;
     background-color: var(--accent);
     box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
