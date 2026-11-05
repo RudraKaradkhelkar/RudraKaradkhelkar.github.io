@@ -454,7 +454,7 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
   }
 
   .ph__badge {
-    min-width: calc(var(--badge) * 1.333);
+    width: max(96px, calc(var(--badge) * 1.333));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -485,7 +485,6 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
   .ph__badge-label {
     font-size: 10px;
     text-align: center;
-    white-space: nowrap;
   }
 
   /* ---------- 1100 to 1279: captions wrap under the subtitle ---------- */

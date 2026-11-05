@@ -1,0 +1,254 @@
+---
+// Experience hero art: four ID badges hanging from short accent lanyards on a metal rail, each
+// swinging gently; the last one is accent-filled. Markup and values copied from
+// design-handoff/reference/Experience.html, re-expressed in board units so the whole rail scales.
+//
+// The art box is a 900-unit-wide board (x 270 to 1170 of the 1440 design). Each badge is an
+// inline-size container, so everything printed on it scales with the badge.
+// Phones: the same four badges, smaller and overlapping like a fanned hand, on a shorter rail.
+import { heroBadges } from '../../content/experience';
+
+const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year}`).join('; ');
+---
+
+<div class="xart" role="img" aria-label={`ID badges: ${label}`}>
+  <div class="xart__rail"></div>
+  {
+    heroBadges.map((b, i) => (
+      <div class="xart__set" style={`--i:${i}`} aria-hidden="true">
+        <span class="xart__yard stripe" />
+        <div class:list={['xart__swing', `xart__swing--${i}`]}>
+          <span class="xart__clip" />
+          <div class:list={['xart__badge', b.filled ? 'xart__badge--fill' : 'surface']}>
+            <div class="xart__in">
+              <span class="xart__org huge">{b.org}</span>
+              <span class="xart__who">
+                <span class:list={['xart__photo', { media: !b.filled }]}>
+                  <svg viewBox="0 0 64 78">
+                    <circle cx="32" cy="30" r="12" />
+                    <path d="M8 78 C10 58 20 50 32 50 C44 50 54 58 56 78 Z" />
+                  </svg>
+                </span>
+                <span>
+                  <span class="xart__name cond">{b.name}</span>
+                  <span class="xart__role mono">{b.role}</span>
+                </span>
+              </span>
+              <span class="xart__strip" />
+              <span class="xart__bottom">
+                <span class:list={['xart__year huge', { outline: !b.filled }]}>{b.year}</span>
+                <span class="xart__code" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .xart {
+    /* u = one design px at 1440. The board is 900 u wide and 420 u tall. */
+    --u: calc(100cqi / 900);
+    --bw: 210;
+    --step: 220;
+    --x0: 15;
+    --yard: 64;
+    --rail-x: 60;
+    --rail-w: 780;
+    position: relative;
+    width: min(100%, 62.5cqi);
+    margin-inline: auto;
+    aspect-ratio: 900 / 420;
+    container-type: inline-size;
+  }
+
+  .xart__rail {
+    position: absolute;
+    left: calc(var(--rail-x) * var(--u));
+    top: 0;
+    width: calc(var(--rail-w) * var(--u));
+    height: max(4px, calc(8 * var(--u)));
+    border-radius: 4px;
+    background-image: linear-gradient(180deg, #EDEDF0, #8F8F96);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .5);
+  }
+
+  .xart__set {
+    position: absolute;
+    top: 0;
+    left: calc((var(--x0) + var(--i) * var(--step)) * var(--u));
+    width: calc(var(--bw) * var(--u));
+  }
+
+  .xart__yard {
+    position: absolute;
+    left: 50%;
+    top: calc(6 * var(--u));
+    width: max(6px, calc(14 * var(--u)));
+    height: calc(var(--yard) * var(--u) + 6 * var(--u));
+    transform: translateX(-50%);
+    opacity: .9;
+    background-color: var(--accent);
+  }
+
+  .xart__swing {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--yard) * var(--u));
+    transform-origin: 50% 0;
+  }
+
+  /* Resting angles are the design's first keyframe, so reduced motion keeps the fan. */
+  .xart__swing--0 { transform: rotate(-10deg); animation: swA 6s ease-in-out infinite; }
+  .xart__swing--1 { transform: rotate(-3deg); animation: swB 6.6s ease-in-out infinite; }
+  .xart__swing--2 { transform: rotate(4deg); animation: swC 5.8s ease-in-out infinite; }
+  .xart__swing--3 { transform: rotate(11deg); animation: swD 7s ease-in-out infinite; }
+
+  @keyframes swA { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(-7deg); } }
+  @keyframes swB { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(-.5deg); } }
+  @keyframes swC { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(6.5deg); } }
+  @keyframes swD { 0%, 100% { transform: rotate(11deg); } 50% { transform: rotate(8deg); } }
+
+  .xart__clip {
+    display: block;
+    margin: 0 auto;
+    width: 17.1%;
+    aspect-ratio: 36 / 22;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, .4);
+    background-image: linear-gradient(180deg, #EDEDF0, #8F8F96);
+  }
+
+  .xart__badge {
+    position: relative;
+    margin-top: -1.9%;
+    width: 100%;
+    aspect-ratio: 210 / 300;
+    border-radius: 14px;
+    container-type: inline-size;
+  }
+
+  .xart__badge--fill {
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 40px 80px -30px var(--halo);
+  }
+
+  /* Inside a badge: 1cqi is 2.1 design px. */
+  .xart__in {
+    position: absolute;
+    inset: 0;
+    padding: 7.6cqi 8.6cqi;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .xart__org {
+    font-size: 19cqi;
+  }
+
+  .xart__who {
+    display: flex;
+    gap: 5.7cqi;
+    align-items: flex-end;
+  }
+
+  .xart__photo {
+    position: relative;
+    flex: none;
+    width: 30.5cqi;
+    aspect-ratio: 64 / 78;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .xart__photo.media::before {
+    display: none;
+  }
+
+  .xart__photo svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: var(--ink3);
+  }
+
+  .xart__badge--fill .xart__photo {
+    background-color: rgba(0, 0, 0, .18);
+  }
+  .xart__badge--fill .xart__photo svg {
+    fill: rgba(0, 0, 0, .3);
+  }
+
+  .xart__name {
+    display: block;
+    font-size: 8.6cqi;
+    line-height: 1.11;
+  }
+
+  .xart__role {
+    display: block;
+    margin-top: 1.9cqi;
+    font-size: 4.3cqi;
+    color: var(--ink3);
+  }
+  .xart__badge--fill .xart__role {
+    color: inherit;
+    opacity: .8;
+  }
+
+  .xart__strip {
+    display: block;
+    height: 2.9cqi;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, #8E8E95, #F2F2F5, #8E8E95, #D9D9DE);
+  }
+  .xart__badge--fill .xart__strip {
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, .9), rgba(255, 255, 255, .35));
+  }
+
+  .xart__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .xart__year {
+    font-size: 30.5cqi;
+  }
+
+  .xart__code {
+    width: 36.2cqi;
+    height: 12.4cqi;
+    background-image: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 3px, currentColor 3px 4px, transparent 4px 7px);
+  }
+  .xart__badge--fill .xart__code {
+    opacity: .85;
+  }
+
+  /* Tablet: the rail takes more of the width. */
+  @media (max-width: 1279px) {
+    .xart {
+      width: min(100%, 78cqi);
+    }
+  }
+
+  /* Phones: a shorter rail and a fanned, overlapping hand of badges. */
+  @media (max-width: 767px) {
+    .xart {
+      --bw: 330;
+      --step: 175;
+      --x0: 22;
+      --yard: 46;
+      --rail-x: 120;
+      --rail-w: 660;
+      width: 100%;
+      aspect-ratio: 900 / 600;
+    }
+  }
+</style>

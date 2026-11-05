@@ -1,10 +1,342 @@
 ---
-// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/experience.ts.
+// Experience. Copy: src/content/experience.ts. Design: design-handoff/reference/Experience.html.
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, hero } from '../content/experience';
+import PosterHero from '../components/PosterHero.astro';
+import ExperienceArt from '../components/art/ExperienceArt.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import Chip from '../components/Chip.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import { meta, hero, work, ecochamps } from '../content/experience';
+import { getSlotImage } from '../lib/slot-images';
+import { emWidth } from '../lib/fit';
+
+const ecoFit = await emWidth(ecochamps.heading);
+const wmFits = await Promise.all(work.cases.map((c) => emWidth(c.watermark)));
+const ecoScreen = getSlotImage(ecochamps.figure.slot);
 ---
 
-<Layout meta={meta} nav="default">
-  <StubHero hero={hero} />
+<Layout meta={meta}>
+  <PosterHero hero={hero} headlineSize={280} artGap={10} footGap={84} padBottom={70} halo={{ y: 336, w: 1100, h: 800, alpha: 0.45 }}>
+    <ExperienceArt slot="art" />
+  </PosterHero>
+
+  <section class="section wrap" aria-labelledby="work-h">
+    <SectionHead label={work.label} heading={work.heading} id="work-h" drift="left" />
+    <ol role="list" class="xcases">
+      {
+        work.cases.map((c, i) => (
+          <li data-reveal>
+            <Surface as="article" class="xcase">
+              <div class="xcase__id">
+                <p class="xcase__wm huge outline" aria-hidden="true" style={`--fit:${wmFits[i]}`}>
+                  {c.watermark}
+                </p>
+                <p class="mono faint xcase__label">{c.label}</p>
+              </div>
+              <div class="xcase__head">
+                <p class="cap muted">{c.kicker}</p>
+                <h3 class="xcase__title cond">{c.title}</h3>
+                {c.chips.length > 0 && (
+                  <div class="xcase__chips">
+                    {c.chips.map((chip) => (
+                      <Chip label={chip.label} />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div class="xcase__body">
+                {c.timeline ? (
+                  <ol role="list" class="xtl">
+                    {c.timeline.map((t) => (
+                      <li class:list={['xtl__item', { 'xtl__item--now': t.current }]}>
+                        <p class:list={['mono', t.current ? 'rim-ink' : 'faint']}>{t.label}</p>
+                        <p class="xtl__text">{t.text}</p>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <div class="xcase__paras">
+                    {c.paragraphs?.map((p) => (
+                      <p>{p}</p>
+                    ))}
+                    {c.note && <p class="muted">{c.note}</p>}
+                  </div>
+                )}
+              </div>
+            </Surface>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="section wrap" aria-labelledby="eco-h">
+    <div class="eco">
+      <figure class="eco__fig media" data-reveal>
+        <div class="eco__phone surface">
+          <span class="eco__notch" aria-hidden="true"></span>
+          {
+            ecoScreen ? (
+              <ImageSlot name={ecochamps.figure.slot} alt={ecochamps.figure.alt} fill radius="26px" class="eco__screen" />
+            ) : (
+              <span class="eco__ph mono faint">
+                [ECOCHAMPS
+                <br />
+                SCREEN]
+              </span>
+            )
+          }
+        </div>
+        <figcaption>
+          <span class="eco__cap eco__cap--tl mono faint">{ecochamps.figure.label}</span>
+          <span class="eco__cap eco__cap--br mono faint">{ecochamps.figure.tag}</span>
+        </figcaption>
+      </figure>
+      <div class="eco__body" data-reveal>
+        <p class="mono faint">{ecochamps.label}</p>
+        <div class="eco__fit">
+          <h2 class="eco__h huge litx" id="eco-h" style={`--fit:${ecoFit}`}>{ecochamps.heading}</h2>
+        </div>
+        <p class="eco__text">{ecochamps.text}</p>
+        <dl class="eco__facts">
+          {
+            ecochamps.facts.map((f) => (
+              <div class="eco__fact">
+                <dt class="mono faint">{f.label}</dt>
+                <dd class="cond eco__fact-v">{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ---------- Work cases ---------- */
+  .xcases {
+    margin: 52px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .xcases :global(.xcase) {
+    display: grid;
+    /* 250 / 330 / rest of the 1208 px inner width at 1440. */
+    grid-template-columns: minmax(0, 20.7%) minmax(0, 27.3%) minmax(0, 1fr);
+    gap: 40px;
+    padding: clamp(24px, 3.06vw, 54px);
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  /* The watermark never runs past its column. */
+  .xcase__id {
+    container-type: inline-size;
+  }
+
+  .xcase__wm {
+    font-size: min(clamp(84px, 8.9vw, 150px), calc(100cqi / var(--fit)));
+  }
+
+  .xcase__label {
+    margin-top: 14px;
+  }
+
+  .xcase__title {
+    margin-top: 10px;
+    font-size: clamp(30px, 2.78vw, 46px);
+    line-height: 1.05;
+  }
+
+  .xcase__chips {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .xtl {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .xtl__item {
+    padding-left: 18px;
+    border-left: 2px solid var(--line2);
+  }
+
+  .xtl__item--now {
+    border-left-color: var(--accent);
+  }
+
+  .xtl__text,
+  .xcase__paras p {
+    font-size: clamp(16px, 1.11vw, 18px);
+    line-height: 1.56;
+  }
+
+  .xtl__text {
+    margin-top: 8px;
+  }
+
+  .xcase__paras {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  @media (max-width: 1099px) {
+    .xcases :global(.xcase) {
+      grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+      gap: 28px 40px;
+    }
+    .xcase__body {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .xcases {
+      gap: 16px;
+    }
+    .xcases :global(.xcase) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 22px;
+    }
+    .xcase__wm {
+      font-size: min(84px, calc(100cqi / var(--fit)));
+    }
+  }
+
+  /* ---------- EcoChamps ---------- */
+  .eco {
+    display: grid;
+    grid-template-columns: minmax(0, 52.5%) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 88px);
+    align-items: center;
+  }
+
+  .eco__fig {
+    margin: 0;
+    aspect-ratio: 680 / 480;
+    border-radius: 20px;
+  }
+
+  .eco__phone {
+    position: absolute;
+    left: 50%;
+    top: 11.7%;
+    height: 83.3%;
+    aspect-ratio: 1 / 2;
+    transform: translateX(-50%);
+    border-radius: 34px;
+    border: 2px solid var(--line2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .eco__phone :global(.eco__screen) {
+    position: absolute;
+    inset: 6px;
+    width: auto;
+    height: auto;
+  }
+
+  .eco__notch {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 12px;
+    width: 30%;
+    height: 8px;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background-color: var(--bg);
+  }
+
+  .eco__ph {
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .eco__cap {
+    position: absolute;
+  }
+  .eco__cap--tl {
+    left: 30px;
+    top: 28px;
+  }
+  .eco__cap--br {
+    right: 30px;
+    bottom: 26px;
+  }
+
+  /* The heading is fitted to its column (it overflowed the column in the design file). */
+  .eco__fit {
+    margin-top: 18px;
+    container-type: inline-size;
+  }
+
+  .eco__h {
+    font-size: min(calc(100cqi / (var(--fit) * 1.004)), 150px);
+  }
+
+  .eco__text {
+    margin-top: 22px;
+    font-size: clamp(17px, 1.25vw, 20px);
+    line-height: 1.56;
+  }
+
+  .eco__facts {
+    margin: 30px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .eco__fact {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding-top: 18px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .eco__fact dt {
+    margin-top: 8px;
+  }
+
+  .eco__fact-v {
+    margin: 0;
+    font-size: clamp(28px, 2.5vw, 42px);
+    line-height: 1.1;
+  }
+
+  @media (max-width: 899px) {
+    .eco {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .eco__fig {
+      aspect-ratio: 4 / 4.2;
+    }
+    .eco__cap--tl {
+      left: 24px;
+      top: 22px;
+    }
+    .eco__cap--br {
+      right: 24px;
+      bottom: 20px;
+    }
+  }
+</style>
