@@ -38,10 +38,6 @@ export interface Level {
   coverTitle: string[];
   coverTag: string;
   coverYear: string;
-  /** Accessible name for an unlocked cover button. */
-  coverLabel?: string;
-  /** Accessible name for the locked cover. */
-  lockedLabel?: string;
   detail: LevelDetail | null;
 }
 
@@ -52,7 +48,6 @@ export const levels: Level[] = [
     status: 'IN PROGRESS',
     locked: false,
     coverTitle: ['CYBER', 'DEFENDER'],
-    coverLabel: 'Level 1, Cyberdefender Agent, in progress',
     coverTag: 'AI SECURITY',
     coverYear: '2026',
     detail: {
@@ -70,7 +65,6 @@ export const levels: Level[] = [
     status: 'IN PROGRESS',
     locked: false,
     coverTitle: ['DRONE', 'GLOVE'],
-    coverLabel: 'Level 2, Drone Gesture Glove, in progress',
     coverTag: 'ML · EMBEDDED',
     coverYear: '2026',
     detail: {
@@ -88,7 +82,6 @@ export const levels: Level[] = [
     status: 'LOCKED',
     locked: true,
     coverTitle: ['???'],
-    lockedLabel: 'Level 3, locked',
     coverTag: 'NEXT BUILD',
     coverYear: '',
     detail: null,

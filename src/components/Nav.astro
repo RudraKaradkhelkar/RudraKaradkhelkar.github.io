@@ -40,11 +40,11 @@ const menuLinks = [...site.nav, site.links.resume];
       }
       {
         variant === 'home' ? (
-          <button type="button" class="nav__mark huge" aria-label={L.replayIntro} data-replay-intro>
+          <button type="button" class="nav__mark huge" aria-label={`${site.shortName}, ${L.replayIntro}`} data-replay-intro>
             {site.shortName}
           </button>
         ) : (
-          <a href="/" class="nav__mark huge" aria-label={L.home}>
+          <a href="/" class="nav__mark huge" aria-label={`${site.shortName}, ${L.home}`}>
             {site.shortName}
           </a>
         )
@@ -111,7 +111,7 @@ const menuLinks = [...site.nav, site.links.resume];
 
 <dialog id="site-menu" class="menu" aria-label={L.menuTitle} data-menu>
   <div class="menu__bar wrap">
-    <a href="/" class="nav__mark huge" aria-label={L.home}>{site.shortName}</a>
+    <a href="/" class="nav__mark huge" aria-label={`${site.shortName}, ${L.home}`}>{site.shortName}</a>
     <button type="button" class="nav__icon-btn ghost rbtn" aria-label={L.menuClose} data-menu-close>
       <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" />

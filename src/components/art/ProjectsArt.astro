@@ -5,6 +5,8 @@
 //
 // Desktop and tablet: the covers sit in a row. Phones: a horizontal scroll-snap row with the
 // selected cover centered; swiping selects. The selection logic lives in ../../scripts/level-select.ts.
+// Each cover's accessible name is its own printed text (level, status, title, tag, year), so what
+// a screen reader says always matches what is on the box (WCAG 2.5.3).
 import { site } from '../../content/site';
 import { levels, controls } from '../../content/projects';
 ---
@@ -15,7 +17,7 @@ import { levels, controls } from '../../content/projects';
       levels.map((l, i) =>
         l.locked ? (
           <div class="lvl__slot" data-level-slot data-deal style={`--dd:${(0.45 + i * 0.1).toFixed(2)}s`}>
-            <button type="button" class="cv cv--locked" disabled aria-label={l.lockedLabel}>
+            <button type="button" class="cv cv--locked" disabled>
               <span class="cv__in">
                 <span class="cv__bar mono">
                   <span>
@@ -40,7 +42,6 @@ import { levels, controls } from '../../content/projects';
               type="button"
               class:list={['cv', { 'is-selected': i === 0 }]}
               aria-pressed={i === 0 ? 'true' : 'false'}
-              aria-label={l.coverLabel}
               data-level={l.id}>
               <span class="cv__in">
                 <span class="cv__bar mono">

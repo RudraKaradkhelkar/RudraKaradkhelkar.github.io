@@ -1,3 +1,15 @@
+/* Metric-matched fallback for Archivo at its default width (body text, captions, nav).
+   Values measured with fontkit against Archivo's own file: Archivo's advance over Arial's on a
+   sample sentence (size-adjust), and Archivo's ascent 878 / descent 210 per 1000 units. */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans');
+  size-adjust: 98.21%;
+  ascent-override: 89.4%;
+  descent-override: 21.38%;
+  line-gap-override: 0%;
+}
+
 /* Design tokens. Source: design-handoff/DESIGN.md sections 2 to 4 and reference/assets/poster3.css.
    Color: one accent on black, warm off-white ink. Dark is the default theme.
    --accent and --on-accent are set on <html> from src/content/site.ts; everything accent-derived
@@ -18,8 +30,9 @@
   --accent-ink: var(--accent-ink-dark, var(--accent));
   --rim-ink: var(--rim-ink-dark, var(--rim));
 
-  /* Type */
-  --font-sans: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  /* Type. 'Archivo Fallback' (below) is Arial resized to Archivo's metrics, so text barely
+     moves when the web font swaps in. */
+  --font-sans: 'Archivo Variable', 'Archivo Fallback', 'Archivo', system-ui, sans-serif;
   --font-mono: 'Courier Prime', 'Courier New', ui-monospace, monospace;
 
   /* Layout. 72 px side padding at 1440, 20 px on phones (DESIGN.md sections 4 and 11).
@@ -41,6 +54,9 @@
   --ink: #F4F2EE;
   --ink2: #A1A1A6;
   --ink3: #6E6E74;
+  /* Small faint labels. --ink3 (strokes, art, outlines) is under 4.5:1 for text, so text uses
+     this lifted value, which reaches AA on the page, cards, and raised cards. */
+  --ink-faint: #848489;
   --line: #26262A;
   --line2: #3A3A40;
   --card: #121214;
@@ -76,6 +92,7 @@
   --ink: #0B0B0C;
   --ink2: #55555A;
   --ink3: #8A8A90;
+  --ink-faint: #5F5F63;
   --line: #D6D5CF;
   --line2: #BDBCB6;
   --card: #E8E7E1;

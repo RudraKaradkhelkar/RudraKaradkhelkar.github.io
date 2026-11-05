@@ -150,7 +150,7 @@ ol[role='list'] {
 }
 
 .faint {
-  color: var(--ink3);
+  color: var(--ink-faint);
 }
 
 /* Accent-colored text. Big type uses the accent itself; small labels use the readable ink. */

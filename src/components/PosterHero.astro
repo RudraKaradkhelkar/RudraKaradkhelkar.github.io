@@ -79,6 +79,9 @@ const style = [
   .join(';');
 
 const letters = [...hero.headline];
+// Each letter's box gets its exact Archivo width, so the headline doesn't move at all when the
+// web font swaps in over the fallback (no layout shift).
+const widths = await Promise.all(letters.map((c) => emWidth(c, { perLetter: true })));
 // The letters rise in sequence over about 0.28 s in total, as in the design (RUDRA .07 s apart,
 // RESEARCH .04 s, EXPERIENCE .03 s).
 const step = letters.length > 1 ? Math.round((0.28 / (letters.length - 1)) * 1000) / 1000 : 0;
@@ -110,7 +113,7 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
         <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word data-box="headline" style={`--step:${step}s`}>
           {
             letters.map((c, i) => (
-              <span class="ch" aria-hidden="true" style={`--i:${i}`}>
+              <span class="ch" aria-hidden="true" style={`--i:${i};width:${widths[i]}em`}>
                 {c === ' ' ? ' ' : c}
               </span>
             ))
