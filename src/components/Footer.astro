@@ -1,0 +1,173 @@
+---
+// Footer on every page (DESIGN.md section 6): accent stripe tilted -1.2 deg with a marquee,
+// "OPEN TO" label, giant SUMMER 2027 fitted to the width at every size, one sentence, email,
+// LinkedIn / GitHub / Resume, copyright and the Lafayette to Cambridge line.
+import Marquee from './Marquee.astro';
+import { site } from '../content/site';
+import { emWidth } from '../lib/fit';
+
+const f = site.footer;
+const fit = await emWidth(f.headline);
+const links = [site.links.linkedin, site.links.github, site.links.resume];
+---
+
+<footer class="footer">
+  <div class="footer__band stripe">
+    <Marquee items={f.marquee} repeat={5} class="footer__marquee" />
+  </div>
+
+  <div class="footer__body wrap" data-reveal>
+    <h2 class="footer__heading">
+      <span class="footer__label mono faint">{f.label}</span>
+      <span class="footer__fit">
+        <span class="footer__headline huge litx" style={`--fit:${fit}`}>{f.headline}</span>
+      </span>
+    </h2>
+    <p class="footer__text muted">{f.text}</p>
+    <div class="footer__row">
+      <a href={`mailto:${site.email}`} class="footer__email cond">{site.email}</a>
+      <ul role="list" class="footer__links cap">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} rel={'external' in link && link.external ? 'noopener' : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="rule footer__rule"></div>
+    <div class="footer__legal mono faint">
+      <span>{f.copyright}</span>
+      <span>{f.route}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    padding-top: clamp(96px, 12.5vw, 220px);
+    /* The tilted band is wider than the screen; clip it here so the page never scrolls sideways. */
+    overflow-x: clip;
+  }
+
+  .footer__band {
+    height: 56px;
+    margin: 0 -40px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transform: rotate(-1.2deg);
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 24px 70px -12px var(--halo);
+  }
+
+  .footer__band :global(.footer__marquee) {
+    font-weight: 800;
+    font-stretch: 80%;
+    font-size: 15px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .footer__body {
+    padding-top: clamp(64px, 7.6vw, 134px);
+    padding-bottom: 44px;
+  }
+
+  .footer__heading {
+    margin: 0;
+    font-weight: inherit;
+  }
+
+  .footer__label {
+    display: block;
+  }
+
+  /* Container for the fitted headline: 100cqi is the text column width. */
+  .footer__fit {
+    display: block;
+    margin-top: 18px;
+    container-type: inline-size;
+  }
+
+  .footer__headline {
+    display: block;
+    font-size: calc(100cqi / var(--fit));
+  }
+
+  .footer__text {
+    margin-top: 26px;
+    max-width: 560px;
+    font-size: clamp(16px, 1.25vw, 20px);
+    line-height: 1.5;
+  }
+
+  .footer__row {
+    margin-top: 44px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .footer__email {
+    font-size: clamp(30px, 3.2vw, 56px);
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: none;
+  }
+
+  .footer__rule {
+    margin-top: 44px;
+  }
+
+  .footer__legal {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  @media (hover: hover) {
+    .footer__email:hover,
+    .footer__links a:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 6px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .footer__band {
+      height: 48px;
+    }
+    .footer__row,
+    .footer__legal {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .footer__row {
+      gap: 12px;
+    }
+  }
+</style>

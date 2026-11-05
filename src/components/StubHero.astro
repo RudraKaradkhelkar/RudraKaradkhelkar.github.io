@@ -1,0 +1,73 @@
+---
+// TEMPORARY (Phase 0). Stands in for PosterHero so every route builds and can be screenshotted.
+// Phase 1 replaces it page by page; delete this file when the last page is built.
+import type { PosterHeroContent } from '../content/types';
+import { emWidth } from '../lib/fit';
+
+interface Props {
+  hero: Pick<PosterHeroContent, 'subtitle' | 'headline' | 'headlineLabel' | 'about'>;
+}
+
+const { hero } = Astro.props;
+const fit = await emWidth(hero.headline);
+---
+
+<section class="stub">
+  <div class="stub__stage wrap">
+    <p class="stub__sub wide">{hero.subtitle}</p>
+    <div class="stub__fit">
+      <h1 class="stub__h1 huge lit" aria-label={hero.headlineLabel} style={`--fit:${fit}`}>
+        {
+          [...hero.headline].map((c) => (
+            <span class="ch" aria-hidden="true">
+              {c === ' ' ? ' ' : c}
+            </span>
+          ))
+        }
+      </h1>
+    </div>
+    {
+      hero.about && (
+        <div class="stub__about">
+          <p class="cap muted">{hero.about.label}</p>
+          <p class="stub__text">{hero.about.text}</p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .stub {
+    padding-top: calc(var(--nav-h) + 24px);
+  }
+
+  .stub__sub {
+    text-align: center;
+    padding-left: .3em;
+    font-size: clamp(16px, 2.4vw, 34px);
+  }
+
+  .stub__fit {
+    margin-top: clamp(12px, 2vw, 28px);
+    container-type: inline-size;
+  }
+
+  .stub__h1 {
+    margin: 0;
+    font-size: calc(100cqi / var(--fit));
+    text-align: center;
+    font-weight: 900;
+  }
+
+  .stub__about {
+    margin-top: clamp(32px, 4vw, 64px);
+    max-width: 360px;
+  }
+
+  .stub__text {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+</style>

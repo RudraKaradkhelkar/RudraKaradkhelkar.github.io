@@ -1,0 +1,120 @@
+---
+// A photo slot from assets-incoming/README.md. Holds the slot's shape and shows the design's
+// .media placeholder (with the slot label) until src/assets/slots/<name>.<ext> exists. Then it
+// renders that photo through astro:assets at the same box, so nothing else moves.
+import { Image } from 'astro:assets';
+import { slots, slotBase } from '../content/slots';
+import { getSlotImage } from '../lib/slot-images';
+
+interface Props {
+  /** Slot name, for example "hs-robot", "drawing-01", "project-cyberdefender-1". */
+  name: string;
+  /** Describes the real photo. Required so a swapped-in photo is never missing alt text. */
+  alt: string;
+  /** Override the slot's width / height ratio (for example a square crop of a drawing). */
+  ratio?: number;
+  /** Fill the parent box instead of holding a ratio (the parent sets the shape). */
+  fill?: boolean;
+  /** Override the placeholder label. */
+  label?: string;
+  /** Show the ratio tag in the placeholder's bottom-right corner. */
+  showRatio?: boolean;
+  /** Corner radius. Defaults to the design's 20 px media radius. */
+  radius?: string;
+  /** object-position for the photo, for example "50% 20%". */
+  position?: string;
+  /** Responsive sizes hint for the browser. */
+  sizes?: string;
+  /** Load first (above the fold). */
+  priority?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  alt,
+  ratio,
+  fill = false,
+  label,
+  showRatio = true,
+  radius,
+  position,
+  sizes = '(min-width: 1024px) 50vw, 100vw',
+  priority = false,
+  class: className,
+} = Astro.props;
+
+const spec = slots[slotBase(name)];
+const image = getSlotImage(name);
+const shape = ratio ?? spec.ratio;
+const style = [
+  !fill && `--slot-ratio:${shape}`,
+  radius && `--slot-radius:${radius}`,
+  position && `--slot-position:${position}`,
+]
+  .filter(Boolean)
+  .join(';');
+const widths = image ? [480, 800, 1200, 1600, 2400].filter((w) => w <= image.width) : [];
+---
+
+<div class:list={['slot', { 'slot--fill': fill }, className]} style={style || undefined} data-slot={name}>
+  {
+    image ? (
+      <Image
+        src={image}
+        alt={alt}
+        widths={widths.length ? widths : [image.width]}
+        sizes={sizes}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        class="slot__img"
+      />
+    ) : (
+      <div class="slot__ph media">
+        <span class="slot__label mono faint">{label ?? spec.label}</span>
+        {showRatio && <span class="slot__ratio mono faint">{spec.ratioLabel}</span>}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .slot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--slot-ratio, auto);
+    overflow: hidden;
+    border-radius: var(--slot-radius, var(--radius-media));
+  }
+
+  .slot--fill {
+    height: 100%;
+  }
+
+  .slot__img,
+  .slot__ph {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .slot__img {
+    object-fit: cover;
+    object-position: var(--slot-position, 50% 50%);
+  }
+
+  .slot__label {
+    position: absolute;
+    left: clamp(20px, 2.1vw, 30px);
+    right: clamp(20px, 2.1vw, 30px);
+    top: clamp(20px, 1.95vw, 28px);
+  }
+
+  .slot__ratio {
+    position: absolute;
+    right: clamp(20px, 2.1vw, 30px);
+    bottom: clamp(18px, 1.8vw, 26px);
+  }
+</style>

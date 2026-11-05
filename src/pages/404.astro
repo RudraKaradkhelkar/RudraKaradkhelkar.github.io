@@ -1,0 +1,10 @@
+---
+// TEMPORARY stub (Phase 0). Styled 404 built from the poster parts in Phase 1.
+import Layout from '../layouts/Layout.astro';
+import StubHero from '../components/StubHero.astro';
+import { meta, notFound } from '../content/not-found';
+---
+
+<Layout meta={meta} noindex>
+  <StubHero hero={{ ...notFound, about: { label: notFound.subtitle, text: notFound.text } }} />
+</Layout>

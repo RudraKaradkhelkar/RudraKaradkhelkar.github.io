@@ -1,0 +1,44 @@
+---
+// Endless text loop for the accent bands (hero stripe on Home, footer stripe on every page).
+// Decorative: the same information appears elsewhere on the page, so the loop is hidden from
+// screen readers. Two identical halves slide left by 50% for a seamless loop. Each half repeats
+// the items enough times to cover a 2560 px screen.
+interface Props {
+  items: string[];
+  /** How many times the item list repeats inside each half. */
+  repeat?: number;
+  /** Seconds per loop (DESIGN.md section 7: 34 s). */
+  duration?: number;
+  class?: string;
+}
+
+const { items, repeat = 4, duration = 34, class: className } = Astro.props;
+// "item  /  item  /  ..." with non-breaking spaces around the slash, as in the design.
+const sep = '  /  ';
+const half = Array.from({ length: repeat }, () => items.join(sep)).join(sep) + sep;
+---
+
+<div class:list={['marquee', className]} aria-hidden="true">
+  <div class="marquee__track" style={`--marq-dur:${duration}s`}>
+    <span>{half}</span>
+    <span>{half}</span>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marq var(--marq-dur, 34s) linear infinite;
+  }
+
+  .marquee__track > span {
+    padding-right: 36px;
+  }
+</style>

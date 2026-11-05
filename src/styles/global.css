@@ -1,0 +1,374 @@
+/* Global poster system. Port of design-handoff/reference/assets/poster3.css, made fluid per
+   DESIGN.md section 11. Component-specific styles live in each component's <style> block. */
+@import './tokens.css';
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color .4s ease, color .4s ease;
+}
+
+/* Film grain over the whole page (DESIGN.md section 2). Decorative, never blocks input. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url('/grain.png');
+  background-size: 220px 220px;
+  opacity: var(--grainop);
+  mix-blend-mode: overlay;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+figure,
+blockquote,
+ul,
+ol {
+  margin: 0;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Type (DESIGN.md section 3) ---------- */
+.huge {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: .8;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.cond {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-stretch: 75%;
+  letter-spacing: -.005em;
+}
+
+.wide {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-stretch: 125%;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.cap {
+  font-family: var(--font-sans);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* Courier Prime labels. Uppercase lives in the copy itself, as in the design. */
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: .03em;
+}
+
+/* Hollow watermark numerals and words. */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink3);
+}
+
+.muted {
+  color: var(--ink2);
+}
+
+.faint {
+  color: var(--ink3);
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+/* The hero headline is the only text with a metallic gradient (DESIGN.md section 1). */
+.lit .ch {
+  background-image: linear-gradient(180deg, var(--lit1) 0%, var(--lit2) 55%, var(--lit3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.litx {
+  color: var(--ink);
+}
+
+.ch {
+  display: inline-block;
+}
+
+/* Muted placeholder text: unknowns stay visible in [brackets]. */
+.placeholder {
+  color: var(--ink2);
+}
+
+/* ---------- Layout ---------- */
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--stage-max);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.section {
+  padding-top: var(--section-gap);
+}
+
+.rule {
+  height: 1px;
+  background-color: var(--line);
+}
+
+/* Corner brackets, inset 40 px on the poster. */
+.brk {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid var(--ink3);
+  pointer-events: none;
+}
+.brk.tl { border-top-width: 1px; border-left-width: 1px; }
+.brk.tr { border-top-width: 1px; border-right-width: 1px; }
+.brk.bl { border-bottom-width: 1px; border-left-width: 1px; }
+.brk.br { border-bottom-width: 1px; border-right-width: 1px; }
+
+/* Diagonal hatching on accent bands. */
+.stripe {
+  background-image: repeating-linear-gradient(135deg, rgba(0, 0, 0, .16) 0 2px, transparent 2px 11px);
+}
+
+/* ---------- Surfaces (DESIGN.md section 6) ---------- */
+.surface {
+  background-color: var(--card);
+  background-image: linear-gradient(180deg, var(--sheen), transparent 42%);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 var(--sheen), 0 40px 80px -44px var(--shadow);
+}
+
+/* 1 px outline, no fill and no blur. The design called this "glass"; it is not glassmorphism. */
+.ghost {
+  background-color: transparent;
+  border: 1px solid var(--line2);
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--card);
+  background-image:
+    radial-gradient(120% 90% at 18% 0%, var(--media-sheen), transparent 55%),
+    linear-gradient(160deg, var(--card2), var(--card));
+  border: 1px solid var(--line);
+}
+
+.media::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 15px;
+  border: 1px solid var(--line2);
+  background-color: var(--chip-bg);
+}
+
+.ico {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Round outline button (nav controls, arrows). */
+.rbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Filled accent button (Enter level, Download PDF). */
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--glow-shadow);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ---------- Interaction: hover effects only where hover exists (DESIGN.md section 11) ---------- */
+.lift {
+  transition: transform .45s var(--ease-out), border-color .3s ease, box-shadow .45s ease;
+}
+.zoom {
+  transition: transform .9s var(--ease-out);
+}
+.rowh {
+  transition: background-color .25s ease, padding-left .35s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .rbtn:hover {
+    background-color: var(--ink);
+    color: var(--bg);
+  }
+  .lift:hover {
+    transform: translateY(-8px);
+    border-color: var(--line2);
+    box-shadow: inset 0 1px 0 var(--sheen), 0 60px 100px -50px var(--shadow);
+  }
+  .lift:hover .zoom {
+    transform: scale(1.06);
+  }
+  .rowh:hover {
+    background-color: var(--row-hover);
+    padding-left: 16px;
+  }
+}
+
+/* ---------- Ambient keyframes (DESIGN.md section 7). Intro and scroll motion run in GSAP. ---------- */
+@keyframes marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes breathe { 0%, 100% { opacity: .85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+@keyframes pulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes packet { to { stroke-dashoffset: 0; } }
+@keyframes shine { 0% { transform: translateX(-160%) skewX(-18deg); } 35%, 100% { transform: translateX(260%) skewX(-18deg); } }
+
+/* ---------- Utilities ---------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 12px;
+  z-index: 200;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background-color: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ---------- Reduced motion: everything stops and shows its final state (DESIGN.md section 7).
+   Nothing on the site relies on a CSS animation to become visible, so "none" is the final state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

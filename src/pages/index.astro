@@ -1,0 +1,10 @@
+---
+// TEMPORARY stub (Phase 0). Phase 1 builds the real page from src/content/home.ts.
+import Layout from '../layouts/Layout.astro';
+import StubHero from '../components/StubHero.astro';
+import { meta, hero } from '../content/home';
+---
+
+<Layout meta={meta} nav="home">
+  <StubHero hero={hero} />
+</Layout>

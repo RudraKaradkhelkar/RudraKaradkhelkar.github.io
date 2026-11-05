@@ -1,0 +1,70 @@
+---
+// Page shell: fonts, tokens, grain, nav, footer, and the no-flash theme script.
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/courier-prime/400.css';
+import '@fontsource/courier-prime/700.css';
+import '../styles/global.css';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site, THEME_STORAGE_KEY } from '../content/site';
+import type { PageMeta } from '../content/types';
+import { accentStyle } from '../lib/accent';
+
+interface Props {
+  meta: PageMeta;
+  /** "home" adds the nav avatar and replay button; "projects" adds the sound toggle. */
+  nav?: 'home' | 'projects' | 'default';
+  /** Pages that don't exist (404) are kept out of search results. */
+  noindex?: boolean;
+}
+
+const { meta, nav = 'default', noindex = false } = Astro.props;
+const title = meta.title === site.name ? site.name : `${meta.title} / ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const startBg = site.defaultTheme === 'light' ? '#F1F0EB' : '#09090A';
+---
+
+<!doctype html>
+<html lang="en" data-theme={site.defaultTheme} style={accentStyle(site.accent)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={meta.description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content={startBg} />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="generator" content={Astro.generator} />
+    <!-- Apply the saved theme before first paint so the page never flashes the wrong one. -->
+    <script is:inline define:vars={{ key: THEME_STORAGE_KEY }}>
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch (e) {}
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{site.navLabels.skipToContent}</a>
+    <Nav variant={nav} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

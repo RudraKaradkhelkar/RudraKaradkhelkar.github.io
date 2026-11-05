@@ -1,0 +1,102 @@
+/* Design tokens. Source: design-handoff/DESIGN.md sections 2 to 4 and reference/assets/poster3.css.
+   Color: one accent on black, warm off-white ink. Dark is the default theme.
+   --accent and --on-accent are set on <html> from src/content/site.ts; everything accent-derived
+   below comes from them, so swapping the accent there recolors the whole site. */
+
+:root {
+  /* Accent fallbacks (overridden inline on <html>) */
+  --accent: #F2382E;
+  --on-accent: #0B0B0C;
+
+  /* Accent-derived, matching renderVals() in design/*.dc.html */
+  --halo: color-mix(in srgb, var(--accent) 55%, transparent);
+  --halo-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+  --glow: color-mix(in srgb, var(--accent) 30%, transparent);
+  --glow-shadow: 0 14px 36px -10px color-mix(in srgb, var(--accent) 75%, transparent);
+  --rim: color-mix(in srgb, var(--accent), #FFFFFF 35%);
+
+  /* Type */
+  --font-sans: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  --font-mono: 'Courier Prime', 'Courier New', ui-monospace, monospace;
+
+  /* Layout. 72 px side padding at 1440, 20 px on phones (DESIGN.md sections 4 and 11).
+     The hero stage and the content column share one max width so their edges line up. */
+  --stage-max: 1760px;
+  --pad: clamp(20px, 5vw, 88px);
+  --section-gap: clamp(88px, 11.8vw, 208px);
+  --nav-h: 76px;
+  --radius-card: 18px;
+  --radius-media: 20px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-expo: cubic-bezier(.16, 1, .3, 1);
+
+  /* Dark theme (default) */
+  color-scheme: dark;
+  --bg: #09090A;
+  --ink: #F4F2EE;
+  --ink2: #A1A1A6;
+  --ink3: #6E6E74;
+  --line: #26262A;
+  --line2: #3A3A40;
+  --card: #121214;
+  --card2: #1C1C20;
+  --art: #3A3A40;
+  --fig: #141416;
+  --fig2: #1B1B1E;
+  --fig3: #232327;
+  --edge: #5E5E66;
+  --navbg: rgba(9, 9, 10, .72);
+  --vig: rgba(0, 0, 0, .7);
+  --sheen: rgba(255, 255, 255, .055);
+  --shadow: rgba(0, 0, 0, .7);
+  --lit1: #FFFFFF;
+  --lit2: #DCD9D2;
+  --lit3: #8E8B85;
+  --paper: #EFEDE7;
+  --grainop: .085;
+  --toplight: rgba(255, 255, 255, .075);
+  --media-sheen: rgba(255, 255, 255, .075);
+  --chip-bg: rgba(255, 255, 255, .02);
+  --row-hover: rgba(255, 255, 255, .025);
+  --halo-blend: screen;
+  --halo-opacity: 1;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #F1F0EB;
+  --ink: #0B0B0C;
+  --ink2: #55555A;
+  --ink3: #8A8A90;
+  --line: #D6D5CF;
+  --line2: #BDBCB6;
+  --card: #E8E7E1;
+  --card2: #DDDCD6;
+  --art: #B9B8B2;
+  --fig: #CDCCC6;
+  --fig2: #C3C2BC;
+  --fig3: #B9B8B2;
+  --edge: #8A8A90;
+  --navbg: rgba(241, 240, 235, .78);
+  --vig: rgba(60, 50, 40, .16);
+  --sheen: rgba(255, 255, 255, .55);
+  --shadow: rgba(40, 30, 20, .22);
+  --lit1: #3A3A3E;
+  --lit2: #141416;
+  --lit3: #000000;
+  --grainop: .12;
+  --toplight: rgba(255, 255, 255, .7);
+  --media-sheen: rgba(255, 255, 255, .7);
+  --chip-bg: rgba(0, 0, 0, .02);
+  --row-hover: rgba(0, 0, 0, .03);
+  --halo-blend: multiply;
+  --halo-opacity: .55;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --nav-h: 64px;
+  }
+}
