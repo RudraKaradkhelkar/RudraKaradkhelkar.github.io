@@ -1,10 +1,37 @@
 ---
-// TEMPORARY stub (Phase 0). Styled 404 built from the poster parts in Phase 1.
+// Styled 404: a full poster page (Rudra, Phase 0), then every page as a row list.
+// Copy: src/content/not-found.ts. GitHub Pages serves dist/404.html for unknown paths.
 import Layout from '../layouts/Layout.astro';
-import StubHero from '../components/StubHero.astro';
-import { meta, notFound } from '../content/not-found';
+import PosterHero from '../components/PosterHero.astro';
+import RowLink from '../components/RowLink.astro';
+import { meta, hero, list, pages } from '../content/not-found';
 ---
 
 <Layout meta={meta} noindex>
-  <StubHero hero={{ ...notFound, about: { label: notFound.subtitle, text: notFound.text } }} />
+  <PosterHero hero={hero} headlineSize={518} artGap={0} footGap={40} padBottom={90} halo={{ y: -60, w: 1100, h: 900, alpha: 0.42 }}>
+    <div slot="art" class="nf-art" aria-hidden="true"></div>
+  </PosterHero>
+
+  <section class="section wrap nf" aria-labelledby="nf-h">
+    <h2 class="mono faint" id="nf-h">{list.label}</h2>
+    <ul role="list" class="nf__rows">
+      {pages.map((p) => <RowLink href={p.href} label={p.label} title={p.title} text={p.text} />)}
+    </ul>
+  </section>
 </Layout>
+
+<style>
+  /* No picture on this poster: the halo glows up behind the number instead. */
+  .nf-art {
+    height: clamp(8px, 2cqi, 36px);
+  }
+
+  .nf {
+    padding-top: clamp(64px, 8vw, 140px);
+  }
+
+  .nf__rows {
+    margin: 26px 0 0;
+    border-top: 1px solid var(--line2);
+  }
+</style>

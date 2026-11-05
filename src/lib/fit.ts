@@ -36,18 +36,29 @@ export interface MeasureOptions {
   wght?: number;
   /** letter-spacing in em (.huge uses -0.01). Browsers add it after every character. */
   tracking?: number;
+  /**
+   * Measure each character on its own. The poster headline renders one inline-block span per
+   * letter (for the intro rise), so the browser cannot kern across letters; plain text can.
+   */
+  perLetter?: boolean;
 }
 
 const cache = new Map<string, number>();
 
 /** Width of `text` in em at the given axes, including letter-spacing. */
-export async function emWidth(text: string, { wdth = 62, wght = 900, tracking = -0.01 }: MeasureOptions = {}): Promise<number> {
-  const key = `${text}|${wdth}|${wght}|${tracking}`;
+export async function emWidth(
+  text: string,
+  { wdth = 62, wght = 900, tracking = -0.01, perLetter = false }: MeasureOptions = {},
+): Promise<number> {
+  const key = `${text}|${wdth}|${wght}|${tracking}|${perLetter}`;
   const hit = cache.get(key);
   if (hit !== undefined) return hit;
   const instance = (await archivo()).getVariation({ wdth, wght });
-  const run = instance.layout(text);
-  const em = run.advanceWidth / instance.unitsPerEm + tracking * [...text].length;
+  const chars = [...text];
+  const advance = perLetter
+    ? chars.reduce((sum, ch) => sum + instance.layout(ch).advanceWidth, 0)
+    : instance.layout(text).advanceWidth;
+  const em = advance / instance.unitsPerEm + tracking * chars.length;
   const rounded = Math.round(em * 10000) / 10000;
   cache.set(key, rounded);
   return rounded;

@@ -34,7 +34,7 @@ import { heroSheet } from '../../content/resume';
                 <span class="rsart__date">{e.date}</span>
               </p>
               {e.lines.map((line) => (
-                <p class="rsart__line">{e.plain ? line : `• ${line}`}</p>
+                <p class="rsart__line">{'plain' in e && e.plain ? line : `• ${line}`}</p>
               ))}
             </div>
           ))}

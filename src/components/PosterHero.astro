@@ -58,7 +58,7 @@ const {
 
 // Content width at 1440 is 1440 - 2 x 72.
 const CONTENT_1440 = 1296;
-const fit = await emWidth(hero.headline);
+const fit = await emWidth(hero.headline, { perLetter: true });
 const hscale = headlineSize ? Math.min(1, (headlineSize * fit) / CONTENT_1440) : 1;
 // Design px at 1440 to cqi.
 const cq = (px: number) => `${((px / 1440) * 100).toFixed(3)}cqi`;
@@ -546,6 +546,11 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
 
     .ph__head {
       margin-top: 16px;
+    }
+
+    /* Phone stack: the headline fills the width on every page. */
+    .ph__h1 {
+      font-size: min(calc(100cqi / (var(--fit) * 1.004)), 62svh);
     }
 
     .ph__foot {
