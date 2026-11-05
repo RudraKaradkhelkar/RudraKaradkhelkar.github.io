@@ -154,9 +154,11 @@ const photo = getSlotImage('hero-photo');
     }
   }
 
+  /* Phones: 82% of the width, a little less on short screens so the whole hero still fits in
+     one screen, but never so small that the head stops overlapping the letters. */
   @media (max-width: 767px) {
     .hart__fig {
-      width: 82cqi;
+      width: max(62cqi, min(82cqi, calc((100svh - 440px) * .8)));
     }
   }
 
