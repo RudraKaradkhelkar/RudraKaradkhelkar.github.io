@@ -81,10 +81,10 @@ export const outsideClass = {
   label: 'OUTSIDE CLASS',
 };
 
-/** Hobby pills. `placeholder` renders muted. */
+/** Hobby pills. `highlight` fills the pill with the accent; `placeholder` renders muted. */
 export const hobbies = [
   { label: 'Fantasy football · 12-team PPR' },
   { label: "Poker · No-Limit Hold'em" },
-  { label: 'Drawing outside' },
+  { label: 'Drawing outside', highlight: true },
   { label: '[Add more]', placeholder: true },
 ];

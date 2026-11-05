@@ -1,0 +1,233 @@
+---
+// Drawings hero art: three taped polaroids with placeholder sketches and a pencil lying across
+// them. Copied from design-handoff/reference/Drawings.html and re-expressed on a 950 x 490 board
+// (x 250 to 1200, y 430 to 920 of the 1440 design). Each polaroid is an inline-size container.
+// Once a drawing scan exists (src/assets/slots/drawing-01.jpg and so on), the polaroid shows it,
+// cropped close to square, in the same box.
+import { Image } from 'astro:assets';
+import { drawings, heroPolaroids } from '../../content/drawings';
+import { getSlotImage } from '../../lib/slot-images';
+
+const three = drawings.slice(0, 3).map((d) => ({ ...d, image: getSlotImage(d.slot) }));
+const label = three.map((d) => `${d.title}, ${d.medium.toLowerCase()}`).join('; ');
+---
+
+<div class="dart" data-box="art" role="img" aria-label={`Three polaroids of drawings: ${label}`}>
+  {
+    three.map((d, i) => (
+      <div class:list={['dart__pol', `dart__pol--${i}`]} aria-hidden="true">
+        <div class="dart__photo" style={`background-color:${['#E3E0D8', '#ECEAE3', '#EEEBE3'][i]}`}>
+          {d.image ? (
+            <Image src={d.image} alt="" widths={[400, 800].filter((w) => w <= d.image!.width)} sizes="(min-width: 768px) 20vw, 40vw" class="dart__img" />
+          ) : i === 0 ? (
+            <svg viewBox="0 0 268 290">
+              <defs>
+                <filter id="charA" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n" />
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" />
+                </filter>
+              </defs>
+              <g filter="url(#charA)">
+                <circle cx="196" cy="74" r="24" style="fill: none; stroke: #2A2A2D; stroke-width: 3" />
+                <path d="M0 232 L58 150 L92 192 L150 104 L206 186 L240 148 L268 178 L268 290 L0 290 Z" style="fill: #2B2B2E; opacity: 0.88" />
+                <path d="M150 104 L132 150 M150 104 L168 152 M58 150 L50 182 M240 148 L232 176" style="fill: none; stroke: #E3E0D8; stroke-width: 2; opacity: 0.5" />
+                <path d="M0 262 L268 248" style="fill: none; stroke: #1A1A1C; stroke-width: 5; opacity: 0.6" />
+              </g>
+            </svg>
+          ) : i === 1 ? (
+            <svg viewBox="0 0 268 290">
+              <defs>
+                <filter id="penB" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="8" result="n" />
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" />
+                </filter>
+              </defs>
+              <g filter="url(#penB)" style="fill: none; stroke: #4A4A4F; stroke-linecap: round">
+                <path d="M126 262 C128 220 124 190 130 150 C134 124 132 108 136 92" style="stroke-width: 3" />
+                <path d="M131 168 C110 150 92 146 72 128 M133 140 C152 124 172 120 190 102 M130 196 C150 186 168 184 186 170 M134 116 C122 98 112 88 104 70" style="stroke-width: 1.6" />
+                <path d="M60 120 C40 96 60 64 92 66 C98 40 140 32 158 56 C190 46 214 74 204 100 C226 116 214 150 188 150 C178 168 146 170 136 154 C116 168 80 160 76 142 C60 142 50 132 60 120 Z" style="stroke-width: 1.3" />
+                <path d="M80 110 C96 104 104 90 120 88 M150 80 C166 76 178 86 190 96 M100 136 C116 132 126 120 140 122" style="stroke-width: 1" />
+                <path d="M30 266 C90 258 170 262 240 256" style="stroke-width: 1.6" />
+              </g>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 268 290">
+              <defs>
+                <filter id="washC" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="9" />
+                </filter>
+              </defs>
+              <g filter="url(#washC)">
+                <circle cx="92" cy="104" r="62" style="fill: #7D9B86; opacity: 0.6" />
+                <circle cx="176" cy="150" r="70" style="fill: #C9A45C; opacity: 0.5" />
+                <circle cx="120" cy="206" r="56" style="fill: #6F8FA8; opacity: 0.5" />
+              </g>
+              <path d="M40 238 C90 222 150 230 230 214" style="fill: none; stroke: #3D4A5A; stroke-width: 6; stroke-linecap: round; opacity: 0.55" />
+              <path d="M60 70 C90 60 110 72 140 62" style="fill: none; stroke: #5C7A64; stroke-width: 4; stroke-linecap: round; opacity: 0.5" />
+            </svg>
+          )}
+          {!d.image && <span class:list={['dart__tag mono', { 'dart__tag--light': i === 0 }]}>{heroPolaroids.placeholderTag}</span>}
+        </div>
+        <div class="dart__cap cap">
+          <span>{d.title}</span>
+          <span class="mono dart__medium">{d.medium}</span>
+        </div>
+        <span class="dart__tape" />
+      </div>
+    ))
+  }
+  <svg class="dart__pencil" aria-hidden="true" viewBox="0 0 440 60">
+    <defs>
+      <linearGradient id="pencilBody" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: #3A3A40" />
+        <stop offset="0.45" style="stop-color: #1E1E22" />
+        <stop offset="1" style="stop-color: #121214" />
+      </linearGradient>
+      <linearGradient id="pencilMetal" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: #F0F0F3" />
+        <stop offset="0.5" style="stop-color: #9A9AA2" />
+        <stop offset="1" style="stop-color: #D6D6DC" />
+      </linearGradient>
+      <filter id="pencilShadow" x="-10%" y="-60%" width="120%" height="260%">
+        <feDropShadow dx="0" dy="10" stdDeviation="8" style="flood-color: #000000; flood-opacity: 0.6" />
+      </filter>
+    </defs>
+    <g filter="url(#pencilShadow)">
+      <rect x="30" y="17" width="300" height="26" style="fill: url(#pencilBody)" />
+      <rect x="30" y="20" width="300" height="3" style="fill: rgba(255,255,255,0.12)" />
+      <rect x="4" y="17" width="26" height="26" rx="4" class="dart__eraser" />
+      <rect x="24" y="16" width="20" height="28" style="fill: url(#pencilMetal)" />
+      <polygon points="330,17 330,43 392,30" style="fill: #D9B48A" />
+      <polygon points="374,26.3 374,33.7 392,30" style="fill: #2A2A2D" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .dart {
+    --u: calc(100cqi / 950);
+    --pw: 300;
+    position: relative;
+    width: min(100%, 66cqi);
+    margin-inline: auto;
+    aspect-ratio: 950 / 490;
+    container-type: inline-size;
+  }
+
+  .dart__pol {
+    position: absolute;
+    /* One polaroid design px (the polaroid is 300 px wide in the design). */
+    --pu: calc(var(--pw) / 300 * var(--u));
+    width: calc(var(--pw) * var(--u));
+    aspect-ratio: 300 / 380;
+    padding: calc(16 * var(--pu)) calc(16 * var(--pu)) 0;
+    background-color: var(--paper);
+    background-image: linear-gradient(160deg, rgba(255, 255, 255, .5), rgba(0, 0, 0, .04));
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .55), 0 2px 6px rgba(0, 0, 0, .3);
+    container-type: inline-size;
+  }
+
+  :global(:root[data-theme='light']) .dart__pol {
+    box-shadow: 0 30px 70px rgba(40, 30, 20, .28), 0 2px 6px rgba(40, 30, 20, .2);
+  }
+
+  .dart__pol--0 { left: calc(20 * var(--u)); top: calc(40 * var(--u)); transform: rotate(-8deg); }
+  .dart__pol--1 { left: calc(320 * var(--u)); top: calc(18 * var(--u)); transform: rotate(3deg); }
+  .dart__pol--2 { left: calc(620 * var(--u)); top: calc(50 * var(--u)); transform: rotate(10deg); }
+
+  .dart__photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 268 / 290;
+    overflow: hidden;
+  }
+
+  .dart__photo svg,
+  .dart__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dart__img {
+    object-fit: cover;
+  }
+
+  .dart__tag {
+    position: absolute;
+    right: 3.7cqi;
+    bottom: 2.7cqi;
+    font-size: 3cqi;
+    color: #55555A;
+    opacity: .8;
+  }
+  .dart__tag--light {
+    color: #E3E0D8;
+  }
+
+  .dart__cap {
+    height: 19.3cqi;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 3.67cqi;
+    color: #1B1B1D;
+  }
+
+  .dart__medium {
+    font-size: 4cqi;
+    color: #55555A;
+  }
+
+  .dart__tape {
+    position: absolute;
+    left: 33.3%;
+    top: -4.67cqi;
+    width: 33.3%;
+    height: 9.33cqi;
+    opacity: .8;
+    background-color: var(--accent);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  }
+  .dart__pol--0 .dart__tape { transform: rotate(-4deg); }
+  .dart__pol--1 .dart__tape { transform: rotate(3deg); }
+  .dart__pol--2 .dart__tape { transform: rotate(-2deg); }
+
+  .dart__pencil {
+    position: absolute;
+    left: calc(510 * var(--u));
+    top: calc(400 * var(--u));
+    width: calc(440 * var(--u));
+    height: auto;
+    overflow: visible;
+    transform: rotate(-14deg);
+  }
+
+  .dart__eraser {
+    fill: var(--accent);
+  }
+
+  @media (max-width: 1279px) {
+    .dart {
+      width: min(100%, 80cqi);
+    }
+  }
+
+  /* Phones: the polaroids fan and overlap; the pencil scales with them. */
+  @media (max-width: 767px) {
+    .dart {
+      --pw: 400;
+      width: 100%;
+      aspect-ratio: 950 / 700;
+    }
+    .dart__pol--0 { left: calc(10 * var(--u)); top: calc(60 * var(--u)); }
+    .dart__pol--1 { left: calc(275 * var(--u)); top: calc(28 * var(--u)); z-index: 1; }
+    .dart__pol--2 { left: calc(540 * var(--u)); top: calc(70 * var(--u)); z-index: 2; }
+    .dart__pencil {
+      z-index: 3;
+      left: calc(330 * var(--u));
+      top: calc(585 * var(--u));
+      width: calc(560 * var(--u));
+    }
+  }
+</style>
