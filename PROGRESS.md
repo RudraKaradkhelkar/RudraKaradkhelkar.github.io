@@ -4,17 +4,25 @@ Running log for the portfolio build. Read at the start of every session and afte
 
 ## Status
 
-Phase 1 in progress (overnight run started 2026-11-05). Home and Projects built and passing `npm run shoot`.
+Phase 1 complete (overnight run, 2026-11-05). Phase 2 (motion) next.
 
-- Astro site builds; every route exists as a temporary stub (subtitle, fitted headline, About text) inside the real Layout, Nav, and Footer.
-- `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes (no horizontal scroll, headline on screen, one h1, no console errors).
+- All nine routes are real pages: Home, Research, Experience, Projects, Clubs, High School, Drawings & Life, Resume, and the styled 404. `StubHero` is gone.
+- `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes: no horizontal scroll, headline on one line inside the padding, one h1, no console errors, and no overlap between hero text boxes and the visible art (new check).
 - `npx astro check`: 0 errors, 0 warnings, 0 hints.
+- Motion so far is CSS-only ambient loops (marquee, radar, rotors, badge swing, patch and medal ring spin, medal shine, packets, hub pulse) and the Projects selection charm. Intro and scroll effects are Phase 2.
 
 ## Done
 
 | Commit | What |
 | - | - |
 | `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| `0ac6c60` | Phase 1: Research (graph in a size container with slice scaling; hub label tracks its node), hero overlap check in `shoot.mjs` |
+| `421c6d1` | Phase 1: Experience (badge rail on a board, fanned hand on phones; case cards; EcoChamps fitted heading and phone-frame slot) |
+| `1bf5bec` | Phase 1: High School (medal, timeline, Dean's List and podcast cards, subteams, photo slots sharing one height) |
+| `5ade85a` | Phase 1: Clubs (patches, overlapping row on phones; club cards; open slot) |
+| `a194d89` | Phase 1: Drawings & Life (polaroids that take the first three scans, staggered sketchbook, places, hobbies) |
+| `ddbe491` | Phase 1: Resume (sheet rising out of the frame; whole sheet on phones; viewer; highlight cards) |
+| `d9ecb79` | Phase 1: styled 404, stub removed, phone headlines fill the width, per-letter headline measurement |
 | `68430b8` | Phase 1: Projects page and level select (covers, detail strip, click / arrows / swipe, pop, ring, Web Audio tick), art primitives from `poster3.css`, per-theme accent ink |
 | `6805962` | Phase 0 scaffold: Astro 7 + TS strict, Fontsource fonts (Archivo preloaded), tokens and global CSS ported from `poster3.css`, grain overlay, `Layout` (no-flash theme), `Nav` (under-1100 menu, theme toggle, Projects sound toggle, Home avatar and replay button), `Footer`, `Marquee`, `ImageSlot`, `src/content/` seeded with all reference copy, build-time headline fitting (`src/lib/fit.ts`), stub pages for every route, `scripts/shoot.mjs` |
 
@@ -58,10 +66,29 @@ Phase 1 in progress (overnight run started 2026-11-05). Home and Projects built 
 - **Projects level select.** Covers are `<button aria-pressed>` in a labelled group; the locked one is disabled. Both detail strips render in one grid cell so swapping never changes height; the inactive one is `inert` and hidden. Arrow keys work while focus is on a cover or the strip controls. Phones: a scroll-snap row; when swiping settles, the centered unlocked cover is selected (the locked one can be scrolled to but not selected). First charm 1.3 s after load, as in the design. Sound toggle plays one tick when switched on, as in the design.
 - **Accent ink.** Small accent-colored text (rim-light labels, row labels) uses `--accent-ink` / `--rim-ink`, computed in `src/lib/accent.ts` per theme so it reaches 4.5:1 on cards for any accent. In light mode the red rim labels (`#F77E77`, about 2:1) become a darker red. Big accent type (Home statement) keeps the true accent.
 - **Meta descriptions** are built from each page's existing About copy, not new claims.
+- **Art boards.** Each inner page's art is a box with a fixed aspect ratio whose children are positioned in "board units" (`--u: calc(100cqi / <board width>)`, the board being a crop of the 1440 design). Badges, covers, polaroids, and the resume sheet are inline-size containers themselves, so the type printed on them scales with them. Phones change only the board's custom properties (sizes, steps, offsets) to get the overlapping compositions from DESIGN.md section 11.
+- **Hero overlap check.** Hero text (subtitle, captions, headline, side labels, About, badges) and each page's visible art box carry `data-box`; `shoot.mjs` fails if any two intersect. Home's figure is not marked (the one intended overlap). Bottom rows tucked beside the art with a negative gap (High School, Resume) only do so at 1280+; below that they drop under the art.
+- **Headline measurement is per letter** for the hero (`emWidth(text, { perLetter: true })`): the per-letter spans can't kern, so the kerned width was up to 1% short (CLUBS overflowed by 3 px at 390). Footer and in-page fitted headings are plain text and keep kerning.
+- **Phones:** every hero headline fills the width (the design proportion `headlineSize` only applies from 768 up).
+- **Research graph on narrow screens** keeps its scale and crops the outer edges (`preserveAspectRatio="xMidYMid slice"` in a taller box) instead of shrinking the whole graph to about 120 px tall. The hub label moves under the hub on phones so it stays inside the frame. The halo follows the hub via `--halo-y-at`.
+- **Experience fan:** resting angles are the design's first keyframe (-10, -3, 4, 11 deg), so reduced motion still shows a fanned hand rather than straight badges.
+- **Projects detail strip** shares the prev/next arrows between levels (the design repeated them inside each strip).
+- **EcoChamps heading** is fitted to its column; in the design file it ran past the right edge at 1440.
+- **High School photos** sit in columns sized by each slot's ratio (16 : 7.2 : 7.2), so all three share one height and a real photo never changes the layout. The podcast row is plain text, not a link, until the episode URL exists.
+- **Resume download buttons** are shown but are not links until `pdf.href` is set (no link to a missing file). Once set, the viewer embeds the same-origin PDF with `<object>` and a fallback link. The sheet in the hero is clipped at the bottom of the poster from 1280 up and shown whole below that.
+- **Drawings sketchbook** fills three columns in order from the `drawings` list (ceil(n / 3) per column, so the design's order holds and new drawings append). Placeholders cycle the design's six heights; real scans keep their natural shape. The hero polaroids show the first three scans.
+- **404 poster** reuses facts already on the site for its captions and side labels (name, MIT '30, Lafayette, Cambridge, Home's coordinates) and lists every page with Home's one-line descriptions.
+- **Nav Resume pill** fills with the accent on the Resume page, as in the design.
+- **Badges** can be `dashed` (Clubs' "+1 open slot"); long badge labels wrap like the design.
 
 ## Questions for Rudra
 
-None open. The five Phase 0 questions were answered; see Decisions.
+The five Phase 0 questions were answered; see Decisions. New ones from the overnight run (each already has a working default):
+
+1. **Hero captions on phones.** The design files hide the four top captions on phones. The build shows them as two small stacked pairs under the subtitle instead. Keep them, or hide them on phones?
+2. **Research graph on phones** crops its outer edges to stay readable rather than shrinking the whole graph. OK?
+3. **Resume buttons before the PDF exists** are visible but inactive. They could be hidden until the PDF is ready instead. Which do you prefer?
+4. **404 captions** read "Rudra Karadkhelkar / MIT '30" and "Lafayette, LA / Cambridge, MA". Fine, or something else?
 
 ## Placeholders
 
@@ -86,11 +113,12 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Next
 
-**Phase 1, page 3: Research.** Then Experience, High School, Clubs, Drawings, Resume, and the styled 404.
+**Phase 2: motion and theme.** Check GSAP, ScrollTrigger, and Lenis APIs with Context7 first.
 
-1. Build `PosterHero` (DESIGN.md sections 5 and 11): a container stage `min(100vw, 1760px)` with `container-type: inline-size`, laid out in grid rows (subtitle, headline, art, bottom row), headline fitted with `emWidth()` and `cqi`, art box with a fixed aspect ratio, corner brackets, top captions, vertical side labels (hidden under 1100), halo, vignette, floor, and the About + badges row. Background, halo, band, and vignette bleed to the screen edges above 1760. Use `svh` heights on phones.
-2. Also build `Surface`, `Chip`, `RowLink` from the reference markup.
-3. Home: copy the stand-in figure SVG from `reference/Main.html` (don't redraw), put it in an `ImageSlot`-aware wrapper so the `hero-photo` slot replaces it, red band with `Marquee` behind it, phone composition per DESIGN.md section 11 (figure's head overlapping RUDRA, hero within one screen).
-4. The 404 is a full poster page (Rudra's answer): `PosterHero` with subtitle "PAGE NOT FOUND", the fitted "404" headline, captions, side labels, corner brackets, halo, vignette, and a bottom row; below it, every page as `RowLink` rows (same look as Home's "Fall 2026" list), then the footer. Copy lives in `not-found.ts`. Build it after Resume.
-5. Delete `StubHero.astro` once the last page is built.
-6. Phase 4 reminder: `deploy.yml` needs a `schedule` trigger every January 1 so the copyright year rebuilds.
+1. `src/scripts/motion.ts`, loaded once from Layout: Lenis on fine pointers only (native scroll on touch), wired to ScrollTrigger the way the GSAP docs recommend; stopped while the menu is open (`rk:menu`). Everything inside `gsap.matchMedia()` with a `prefers-reduced-motion: no-preference` condition, so reduced motion shows final states and no Lenis.
+2. Intro (once on load; Home replays on `rk:replay`): `.ch` letters rise (1.05 s expo out, staggered), `[data-hero-art]` fades up, Home band scales in from the left (`[data-hero-band]`), `[data-hero-fade]` captions fade in, cards deal in, Research edges draw (`.edge.drawn`, `pathLength=1`) and nodes pop (`.popin`, delays in `--d`).
+3. Scroll: `[data-hero-word]` drifts up and fades to 10% over 900 px, `[data-hero-art]` sinks and fades, `[data-hero-fade]` fade, Home nav avatar fades in (560 to 860 px), `[data-reveal]` blocks rise 60 px, `[data-drift]` headings drift sideways a few percent on desktop only.
+4. Nav background after 260 px: keep the passive listener (works with Lenis).
+5. Set initial states from JS only, never in CSS, so no-JS and reduced motion show everything.
+6. Re-shoot everything (also with `--motion`), commit, update this file.
+7. Phase 4 reminder: `deploy.yml` needs a `schedule` trigger every January 1 so the copyright year rebuilds.
