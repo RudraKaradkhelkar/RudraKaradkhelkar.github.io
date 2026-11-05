@@ -2,19 +2,34 @@
 
 Running log for the portfolio build. Read at the start of every session and after any context compaction, then continue from **Next**.
 
+## Morning review
+
+Everything from the overnight run is committed on `main` and **not pushed**. Start here:
+
+1. **Look at the pages.** `npm run build && npm run preview`, then open each page at desktop and phone width (or open `review/index.html` after `npm run shoot` for every size and theme side by side). Home and Projects carry the most design weight.
+2. **Try the motion with motion turned on in your OS:** the intro on load, the hero drifting and fading as you scroll, the Home avatar appearing after the hero, the Projects level select (click, arrow keys, swipe on a phone, the sound toggle in the nav), and the R/K wordmark replaying the Home intro.
+3. **Answer the four questions** under "Questions for Rudra" below (each already has a working default).
+4. **Fill placeholders** as you're ready (table below). The README says where each one lives.
+5. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`. The workflow also rebuilds every January 1.
+
+Checks at the end of the run: `npx astro check` 0 errors / 0 warnings / 0 hints; `npm run shoot` passes 9 routes x 8 sizes x 2 themes (reduced motion and `--motion`); `npm run audit` passes (axe WCAG 2.1 AA on every route, both themes, desktop and phone; every internal link resolves; no banned patterns).
+
 ## Status
 
-Phases 1 and 2 complete (overnight run, 2026-11-05). Phase 3 (quality pass) next.
+All four overnight phases are done (2026-11-05).
 
-- All nine routes are real pages; `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes, with reduced motion (default) and with `--motion`.
-- Motion: CSS intro on every poster, GSAP ScrollTrigger scroll effects, Lenis on mouse and trackpad only, Projects selection charm, ambient loops. Reduced motion shows final states with no Lenis.
-- `npx astro check`: 0 errors, 0 warnings, 0 hints.
+- Phase 1: all nine routes built from the design (Home, Research, Experience, Projects, Clubs, High School, Drawings & Life, Resume, styled 404), responsive per DESIGN.md section 11.
+- Phase 2: CSS intro, GSAP ScrollTrigger scroll effects, Lenis on mouse and trackpad, Projects selection charm, theme toggle with no flash, reduced motion shows final states.
+- Phase 3: axe clean, links and banned patterns audited (`npm run audit`), no font layout shift (CLS 0.0001 with the font delayed 600 ms), one 50 KB gzipped script for the whole site.
+- Phase 4: `.github/workflows/deploy.yml` and `README.md`. Not pushed.
 
 ## Done
 
 | Commit | What |
 | - | - |
 | `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| `cb47ff5` | Phase 4: deploy workflow (Astro action, January 1 schedule) and README |
+| `cde62e6` | Phase 3: `scripts/audit.mjs`, `--ink-faint` text token, wordmark and cover accessible names, metric-matched font fallback, fixed-width headline letters |
 | `e9bfab2` | Phase 2: CSS intro (`src/styles/motion.css`), scroll effects and Lenis (`src/scripts/motion.ts`), Home replay, skip link focus with Lenis |
 | `0ac6c60` | Phase 1: Research (graph in a size container with slice scaling; hub label tracks its node), hero overlap check in `shoot.mjs` |
 | `421c6d1` | Phase 1: Experience (badge rail on a board, fanned hand on phones; case cards; EcoChamps fitted heading and phone-frame slot) |
@@ -89,6 +104,12 @@ Phases 1 and 2 complete (overnight run, 2026-11-05). Phase 3 (quality pass) next
 - **Home nav avatar** starts hidden through an `html.motion` class set in the head (only when motion is allowed), so it doesn't blink on load.
 - **Research hub label** got a solid background so the travelling packets never cross its text.
 
+- **Faint text token (Phase 3).** The design's `--ink3` (`#6E6E74` dark, `#8A8A90` light) is about 3 to 3.9:1 for small text, under WCAG AA. Labels using `.faint` now use `--ink-faint` (`#848489` dark, `#5F5F63` light), at least 4.5:1 on the page and on cards. `--ink3` still draws strokes, outlines, and brackets. In light mode faint labels sit closer to the muted gray than in the design.
+- **Accessible names (Phase 3).** The R/K wordmark reads "R/K, Home" (or "R/K, Replay intro" on Home), so the name contains the visible text. Projects covers take their name from their printed text (level, status, title, tag, year).
+- **No font shift (Phase 3).** `'Archivo Fallback'` is Arial with `size-adjust` 98.21%, ascent 89.4%, descent 21.38%, measured from Archivo's own file. Hero letters get their exact Archivo width in em, so the headline doesn't move when the font arrives.
+- **`npm run audit`** (`scripts/audit.mjs`, uses `@axe-core/playwright` as a dev dependency) is the Phase 3 gate: axe WCAG 2.1 A/AA on every route in both themes at 1440 and 390, every internal `href`/`src` in `dist/` resolves, no `href="#"`, and the banned-pattern scan of `src/` and `dist/`.
+- **Deploy workflow (Phase 4).** `actions/checkout@v7`, `withastro/action@v6` (Node 24), `actions/deploy-pages@v5`, as in the current Astro docs. Triggers: push to `main`, `workflow_dispatch`, and `cron: '0 6 1 1 *'` for the copyright year. `concurrency: pages` without cancelling a deploy in progress.
+
 ## Questions for Rudra
 
 The five Phase 0 questions were answered; see Decisions. New ones from the overnight run (each already has a working default):
@@ -115,17 +136,11 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Known issues
 
-- This interactive session's Playwright MCP process still targets Chrome until it's reconnected (`/mcp`, playwright, Reconnect). New sessions pick up the Edge config automatically.
-- On short landscape screens the menu's bottom corner brackets sit close to the email row. Cosmetic; revisit in the Phase 2 polish.
-- Archivo uses `font-display: swap` (Fontsource default). It's preloaded, but check for headline shift in Phase 3 and add a metric-matched fallback if it shows.
+- This interactive session's Playwright MCP process targets Chrome until reconnected (`/mcp`, playwright, Reconnect). New sessions use the Edge config. The build's own scripts use Playwright's Chromium and are unaffected.
+- On short landscape screens (844 x 390) the menu's bottom corner brackets sit close to the email row. Cosmetic.
+- Projects progress-photo slots (`project-cyberdefender-N`, `project-drone-glove-N`) exist in `slots.ts` but the design has no place for them on the page yet, so photos dropped there won't show until a spot is designed.
+- The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
 
 ## Next
 
-**Phase 3: quality pass.**
-
-1. `npx astro check` and `npm run build` clean.
-2. Install `@axe-core/playwright` (dev only) and add `scripts/a11y.mjs`: axe on every route in both themes; fix what it finds. One h1 per page, real buttons and links, visible focus rings, alt text, decorative SVGs `aria-hidden`, AA contrast for body text.
-3. No console errors on any route (shoot already checks). Check every internal link in `dist/` resolves.
-4. Grep `src/` and `dist/` for em dashes, sparkle glyphs, "Inter", `backdrop-filter` outside the nav, gradient text outside the hero headline, phone-number-like strings.
-5. Performance: no layout shift from fonts (consider a metric-matched fallback for Archivo), images sized, hero photo preload on Home (already wired for when the slot exists), JS only where needed.
-6. Commit, update this file. Then Phase 4 (`deploy.yml` with the January 1 schedule, README, Morning review).
+Polish passes: compare each 1440 render with `design-handoff/screenshots/dark/` side by side and fix the biggest differences first; re-shoot after each fix.
