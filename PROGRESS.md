@@ -144,4 +144,8 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Next
 
-Polish passes: compare each 1440 render with `design-handoff/screenshots/dark/` side by side and fix the biggest differences first; re-shoot after each fix.
+Rudra's review (see **Morning review** at the top). After that:
+
+1. Apply answers to the four questions.
+2. Content pass with real photos and text (`design-handoff/PROMPT-CONTENT-PASS.md`): drop processed photos into `src/assets/slots/`, replace placeholders in `src/content/`, add `public/resume.pdf` and set `pdf.href`.
+3. Re-run `npm run check && npm run shoot && npm run audit`, then push to deploy.
