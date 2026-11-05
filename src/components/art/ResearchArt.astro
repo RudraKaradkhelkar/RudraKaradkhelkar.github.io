@@ -1,0 +1,150 @@
+---
+// Research hero art: a network graph whose most central node pulses in the accent while packets
+// travel toward it along the edges. SVG copied from design-handoff/reference/Research.html,
+// with the viewBox trimmed to the drawing (x 72 to 1368, y 190 to 640 of the 1440 x 900 board).
+//
+// The box is a size container with preserveAspectRatio="xMidYMid slice": on desktop it shows
+// the whole graph; on narrower screens the box gets taller relative to its width, so the graph
+// keeps a readable scale and the far edges crop instead of the whole thing shrinking. The
+// "Highest centrality" label is placed in the same coordinates, so it stays on its node.
+import { heroArt } from '../../content/research';
+
+// Board coordinates (viewBox origin 72, 190; hub at 720, 380).
+const edges = [
+  'M720 380 L560 300', 'M720 380 L880 290', 'M720 380 L600 520', 'M720 380 L860 500', 'M720 380 L720 230',
+  'M720 380 L730 600', 'M560 300 L420 230', 'M560 300 L400 430', 'M560 300 L720 230', 'M880 290 L1020 210',
+  'M880 290 L720 230', 'M880 290 L1150 320', 'M600 520 L400 430', 'M600 520 L500 610', 'M600 520 L730 600',
+  'M860 500 L1060 420', 'M860 500 L950 610', 'M860 500 L730 600', 'M420 230 L290 320', 'M290 320 L400 430',
+  'M1020 210 L1150 320', 'M1150 320 L1060 420', 'M1060 420 L950 610',
+];
+const packets = [
+  { d: 'M420 230 L560 300 L720 380', delay: 1.4 },
+  { d: 'M1020 210 L880 290 L720 380', delay: 2.1 },
+  { d: 'M500 610 L600 520 L720 380', delay: 2.7 },
+  { d: 'M950 610 L860 500 L720 380', delay: 1.8 },
+];
+const nodes = [
+  [420, 230, 9, 0.9], [290, 320, 8, 0.95], [400, 430, 10, 1], [500, 610, 8, 1.05], [720, 230, 10, 0.85],
+  [730, 600, 10, 1], [1020, 210, 8, 0.95], [1150, 320, 9, 1], [1060, 420, 10, 1.05], [950, 610, 8, 1.1],
+] as const;
+const hot = [
+  [560, 300, 16, 14, 0.7], [880, 290, 16, 14, 0.75], [600, 520, 15, 13, 0.8], [860, 500, 15, 13, 0.85],
+] as const;
+---
+
+<div class="rart">
+  <svg class="rart__svg" role="img" aria-label={heroArt.alt} viewBox="72 190 1296 450" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="nodeGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="9"></feGaussianBlur>
+      </filter>
+    </defs>
+    <g opacity="0.35">
+      <path class="edge" d="M180 250 L290 320 M1260 260 L1150 320 M230 520 L400 430 M1210 540 L1060 420"></path>
+      <circle class="node" cx="180" cy="250" r="4"></circle>
+      <circle class="node" cx="1260" cy="260" r="4"></circle>
+      <circle class="node" cx="230" cy="520" r="5"></circle>
+      <circle class="node" cx="1210" cy="540" r="5"></circle>
+    </g>
+    {edges.map((d, i) => <path class="edge drawn" pathLength="1" style={`--d:${(0.5 + i * 0.03).toFixed(2)}s`} d={d} />)}
+    {
+      packets.map((p) => (
+        <path class="packet" pathLength="1" fill="none" stroke-width="4" stroke-linecap="round" style={`animation-delay:${p.delay}s`} d={p.d} />
+      ))
+    }
+    <path class="edge drawn" pathLength="1" style="--d:1.14s" d="M742 362 L796 330"></path>
+    {nodes.map(([cx, cy, r, d]) => <circle class="node popin" cx={cx} cy={cy} r={r} style={`--d:${d}s`} />)}
+    {hot.map(([cx, cy, r]) => <circle cx={cx} cy={cy} r={r} filter="url(#nodeGlow)" opacity="0.7" class="rart__hot-glow" />)}
+    {hot.map(([cx, cy, , r, d]) => <circle class="node popin rart__hot" cx={cx} cy={cy} r={r} style={`--d:${d}s`} />)}
+    <circle cx="720" cy="380" r="34" filter="url(#nodeGlow)" class="rart__hub-glow"></circle>
+    <circle class="rart__pulse" cx="720" cy="380" r="26" fill="none" stroke-width="2"></circle>
+    <circle class="popin rart__hub" cx="720" cy="380" r="26" style="--d:.6s"></circle>
+    <circle cx="720" cy="380" r="9" class="rart__hub-core"></circle>
+  </svg>
+  <p class="rart__label cap" data-box="hub label">
+    {heroArt.hubCaption} · <span class="mono rim-ink">{heroArt.hubTag}</span>
+  </p>
+</div>
+
+<style>
+  .rart {
+    /* Board units: the box is 1296 x 450 at desktop. */
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1296 / 450;
+    container-type: size;
+  }
+
+  .rart__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .rart__hot-glow,
+  .rart__hub-glow,
+  .rart__hub {
+    fill: var(--accent);
+  }
+
+  .rart__hot {
+    stroke: var(--accent);
+    stroke-width: 3;
+  }
+
+  .rart__hub-core {
+    fill: #0B0B0C;
+  }
+
+  .rart__pulse {
+    stroke: var(--accent);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse 2s ease-out 1.6s infinite;
+  }
+
+  .packet {
+    stroke: var(--rim);
+    stroke-dasharray: .04 .96;
+    stroke-dashoffset: 1;
+    animation: packet 2.6s linear infinite;
+  }
+
+  /* One board unit in this box: the box height is 450 units (slice fills the height). */
+  .rart__label {
+    --u: calc(100cqh / 450);
+    position: absolute;
+    left: calc(50cqw + 80 * var(--u));
+    top: calc(120 * var(--u));
+    margin: 0;
+    padding: 8px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--line2);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* Tablet: a little taller, the outermost faint nodes crop. */
+  @media (max-width: 1099px) {
+    .rart {
+      aspect-ratio: 2.4;
+    }
+  }
+
+  /* Phones: the graph keeps a readable scale; the label sits under the hub so it stays inside. */
+  @media (max-width: 767px) {
+    .rart {
+      aspect-ratio: 1.45;
+      width: calc(100% + 2 * var(--pad));
+      margin-inline: calc(-1 * var(--pad));
+    }
+    .rart__label {
+      left: 50cqw;
+      top: calc(240 * var(--u));
+      transform: translateX(-50%);
+      background-color: var(--bg);
+    }
+  }
+</style>

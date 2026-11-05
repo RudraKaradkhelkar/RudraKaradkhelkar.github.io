@@ -146,6 +146,27 @@ function inspect() {
     });
   }
 
+  // Text and art in the poster hero must not overlap (DESIGN.md section 11). Elements marked
+  // data-box="name" inside a [data-hero] are compared pairwise. Home's figure in front of RUDRA is
+  // the one intended overlap, so its art is not marked.
+  for (const hero of document.querySelectorAll('[data-hero]')) {
+    const boxes = [...hero.querySelectorAll('[data-box]')]
+      .map((el) => ({ name: el.dataset.box, r: el.getBoundingClientRect(), el }))
+      .filter((b) => b.r.width > 0 && b.r.height > 0 && getComputedStyle(b.el).visibility !== 'hidden');
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i];
+        const b = boxes[j];
+        if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const x = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+        const y = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
+        if (x > 2 && y > 2) {
+          problems.push({ kind: 'HERO OVERLAP', detail: `${a.name} and ${b.name} overlap by ${Math.round(x)}x${Math.round(y)}px` });
+        }
+      }
+    }
+  }
+
   const h1s = document.querySelectorAll('h1');
   if (h1s.length !== 1) problems.push({ kind: 'H1 COUNT', detail: `${h1s.length} h1 elements (want exactly 1)` });
   for (const h1 of h1s) {

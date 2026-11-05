@@ -90,17 +90,17 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
       <div class="brk bl ph__brk" aria-hidden="true"></div>
       <div class="brk br ph__brk" aria-hidden="true"></div>
 
-      <p class="ph__sub wide" data-hero-fade>{hero.subtitle}</p>
+      <p class="ph__sub wide" data-hero-fade data-box="subtitle">{hero.subtitle}</p>
 
       <ul role="list" class="ph__caps ph__caps--l cap" data-hero-fade>
-        {hero.captionsLeft.map((c) => <li>{c}</li>)}
+        {hero.captionsLeft.map((c) => <li data-box="caption">{c}</li>)}
       </ul>
       <ul role="list" class="ph__caps ph__caps--r cap" data-hero-fade>
-        {hero.captionsRight.map((c) => <li>{c}</li>)}
+        {hero.captionsRight.map((c) => <li data-box="caption">{c}</li>)}
       </ul>
 
       <div class="ph__head">
-        <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word>
+        <h1 class="ph__h1 huge lit" aria-label={hero.headlineLabel} data-hero-word data-box="headline">
           {
             letters.map((c) => (
               <span class="ch" aria-hidden="true">
@@ -113,7 +113,7 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
 
       <div class="ph__halo" aria-hidden="true" data-hero-halo></div>
 
-      <div class="ph__art" data-hero-art>
+      <div class="ph__art" data-hero-art data-box={artMode === 'below' ? 'art' : undefined}>
         <slot name="art" />
       </div>
 
@@ -122,14 +122,14 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
 
       {
         hero.sideLabelLeft && (
-          <p class="ph__side ph__side--l mono faint" aria-hidden="true" data-hero-fade>
+          <p class="ph__side ph__side--l mono faint" aria-hidden="true" data-hero-fade data-box="side label">
             {hero.sideLabelLeft}
           </p>
         )
       }
       {
         hero.sideLabelRight && (
-          <p class="ph__side ph__side--r mono faint" aria-hidden="true" data-hero-fade>
+          <p class="ph__side ph__side--r mono faint" aria-hidden="true" data-hero-fade data-box="side label">
             {hero.sideLabelRight}
           </p>
         )
@@ -139,12 +139,12 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
         hasFoot && (
           <div class="ph__foot">
             {hasFootLeft ? (
-              <div class="ph__foot-l" data-hero-fade>
+              <div class="ph__foot-l" data-hero-fade data-box="bottom left">
                 <slot name="foot-left" />
               </div>
             ) : (
               hero.about && (
-                <div class="ph__about ph__foot-l" data-hero-fade>
+                <div class="ph__about ph__foot-l" data-hero-fade data-box="about">
                   <p class="cap muted">{hero.about.label}</p>
                   <p class="ph__about-text">{hero.about.text}</p>
                   {hero.about.link && (
@@ -161,12 +161,12 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
               )
             )}
             {hasFootRight ? (
-              <div class="ph__foot-r" data-hero-fade>
+              <div class="ph__foot-r" data-hero-fade data-box="bottom right">
                 <slot name="foot-right" />
               </div>
             ) : (
               hero.badges.length > 0 && (
-                <ul role="list" class="ph__badges ph__foot-r" data-hero-fade>
+                <ul role="list" class="ph__badges ph__foot-r" data-hero-fade data-box="badges">
                   {hero.badges.map((b) => (
                     <li class="ph__badge">
                       <span
@@ -345,7 +345,8 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
     align-self: start;
     width: 0;
     height: 0;
-    margin-top: calc(var(--art-gap) + var(--halo-y));
+    /* Pages can move the halo per breakpoint by setting --halo-y-at on the hero. */
+    margin-top: calc(var(--art-gap) + var(--halo-y-at, var(--halo-y)));
     mix-blend-mode: var(--halo-blend);
     opacity: var(--halo-opacity);
     pointer-events: none;

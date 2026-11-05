@@ -11,14 +11,9 @@ interface Props {
 const { label, placeholder = false, mono = false, class: className } = Astro.props;
 ---
 
-<span class:list={['chip', mono ? 'mono' : 'chip--sans', { 'chip--ph': placeholder }, className]}>{label}</span>
+<span class:list={['chip', mono ? 'mono' : 'cap', { 'chip--ph': placeholder }, className]}>{label}</span>
 
 <style>
-  .chip--sans {
-    font-size: 13px;
-    line-height: 1;
-  }
-
   .chip--ph {
     color: var(--ink2);
     border-style: dashed;
