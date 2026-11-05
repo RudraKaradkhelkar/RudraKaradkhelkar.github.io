@@ -4,7 +4,7 @@ Running log for the portfolio build. Read at the start of every session and afte
 
 ## Status
 
-Phase 0 complete. Phases 1 to 4 (overnight) not started.
+Phase 1 in progress (overnight run started 2026-11-05). Home and Projects built and passing `npm run shoot`.
 
 - Astro site builds; every route exists as a temporary stub (subtitle, fitted headline, About text) inside the real Layout, Nav, and Footer.
 - `npm run shoot` passes on all 9 routes x 8 sizes x 2 themes (no horizontal scroll, headline on screen, one h1, no console errors).
@@ -14,6 +14,8 @@ Phase 0 complete. Phases 1 to 4 (overnight) not started.
 
 | Commit | What |
 | - | - |
+| `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| `68430b8` | Phase 1: Projects page and level select (covers, detail strip, click / arrows / swipe, pop, ring, Web Audio tick), art primitives from `poster3.css`, per-theme accent ink |
 | `6805962` | Phase 0 scaffold: Astro 7 + TS strict, Fontsource fonts (Archivo preloaded), tokens and global CSS ported from `poster3.css`, grain overlay, `Layout` (no-flash theme), `Nav` (under-1100 menu, theme toggle, Projects sound toggle, Home avatar and replay button), `Footer`, `Marquee`, `ImageSlot`, `src/content/` seeded with all reference copy, build-time headline fitting (`src/lib/fit.ts`), stub pages for every route, `scripts/shoot.mjs` |
 
 ### Phase 0 checks
@@ -47,7 +49,14 @@ Phase 0 complete. Phases 1 to 4 (overnight) not started.
 - **404 (Rudra, Phase 0):** a full poster page in the same style as the others, not a plain error page. The draft copy stands (subtitle "PAGE NOT FOUND", headline "404", one sentence, then links to every page).
 - **Meta descriptions (Rudra, Phase 0):** approved as written.
 - **Shoot script** forces reduced motion by default so every element shows its final state in full-page shots (`--motion` turns animation back on). 390, 768, and 844x390 are emulated as touch devices so `hover`/`pointer` media queries behave like real phones and tablets. It writes `review/index.html` as a contact sheet. Landscape is `<theme>-844.png`.
-- **Copyright** stays the literal "© 2026" from the design, not the build year.
+- **Copyright** stays the literal "© 2026" from the design, not the build year. (Superseded by Rudra's Phase 0 answer above: it uses the build year.)
+- **PosterHero layout (Phase 1).** The section bleeds; inside it a `min(100%, 1760px)` stage is the `ph` inline-size container. One CSS grid with named rows `sub / caps / head / art / foot / below`. All poster sizes are design px at 1440 converted to `cqi` (`px / 14.4`), with clamp floors and caps. Layers interleave inside the stage's stacking context in the design's order (headline 1, halo 2, art 3, vignette 4, labels 5). Background layers (top light, vignette, floor, Home band) bleed with `left/right: calc(50% - 50vw)`.
+- **Headline fit.** Every design headline at 1440 already spans the 1296 px content width (measured: RUDRA 1300, RESEARCH 1283, EXPERIENCE 1270), so all headlines are fitted to the content width. Pages whose design word is narrower pass `headlineSize` (design px) and keep that proportion. A `62svh` cap keeps landscape phones sane.
+- **Halo** is a zero-size grid item with a pseudo-element, so it never grows the art row and still blends (`screen`, `multiply` in light) with the headline behind it.
+- **Top captions** sit on the subtitle line at 1280+; under 1280 they move to their own row under the subtitle (DESIGN.md section 11). On phones each pair stacks (left aligned and right aligned) under the subtitle, instead of being hidden.
+- **Home under 1280:** the About block and badges no longer fit beside the figure (they would touch its arms), so they move under it and the figure grows to 56cqi. The hero runs taller than one screen at 1024x768, but nothing is cut off. On phones the figure is 82% of the width with its head over the D, and the hero fits in 844 px.
+- **Projects level select.** Covers are `<button aria-pressed>` in a labelled group; the locked one is disabled. Both detail strips render in one grid cell so swapping never changes height; the inactive one is `inert` and hidden. Arrow keys work while focus is on a cover or the strip controls. Phones: a scroll-snap row; when swiping settles, the centered unlocked cover is selected (the locked one can be scrolled to but not selected). First charm 1.3 s after load, as in the design. Sound toggle plays one tick when switched on, as in the design.
+- **Accent ink.** Small accent-colored text (rim-light labels, row labels) uses `--accent-ink` / `--rim-ink`, computed in `src/lib/accent.ts` per theme so it reaches 4.5:1 on cards for any accent. In light mode the red rim labels (`#F77E77`, about 2:1) become a darker red. Big accent type (Home statement) keeps the true accent.
 - **Meta descriptions** are built from each page's existing About copy, not new claims.
 
 ## Questions for Rudra
@@ -77,7 +86,7 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Next
 
-**Phase 1, page 1: Home.** Then Projects, Research, Experience, High School, Clubs, Drawings, Resume, and the styled 404.
+**Phase 1, page 3: Research.** Then Experience, High School, Clubs, Drawings, Resume, and the styled 404.
 
 1. Build `PosterHero` (DESIGN.md sections 5 and 11): a container stage `min(100vw, 1760px)` with `container-type: inline-size`, laid out in grid rows (subtitle, headline, art, bottom row), headline fitted with `emWidth()` and `cqi`, art box with a fixed aspect ratio, corner brackets, top captions, vertical side labels (hidden under 1100), halo, vignette, floor, and the About + badges row. Background, halo, band, and vignette bleed to the screen edges above 1760. Use `svh` heights on phones.
 2. Also build `Surface`, `Chip`, `RowLink` from the reference markup.
