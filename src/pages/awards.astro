@@ -1,0 +1,525 @@
+---
+// Awards (design-handoff/CHANGES.md section 2). Copy and the single list of every award:
+// src/content/awards.ts. Every award's id is its anchor here; other pages link to it with
+// <AwardLink>. Each id appears on exactly one element: the headline section, a featured card,
+// or its row in the full list.
+import Layout from '../layouts/Layout.astro';
+import PosterHero from '../components/PosterHero.astro';
+import MedalArt from '../components/art/MedalArt.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import { meta, hero, deansList, podcastEpisode, featured, allAwards, awards, levelLabels, award } from '../content/awards';
+import type { AwardLevel } from '../content/awards';
+
+const featuredAwards = featured.ids.map(award);
+const fairAwards = featured.scienceFair.ids.map(award);
+// Ids already anchored above the full list.
+const anchoredAbove = new Set([deansList.id, ...featured.ids, ...featured.scienceFair.ids]);
+const levels = Object.keys(levelLabels) as AwardLevel[];
+const groups = levels.map((level) => ({ level, items: awards.filter((a) => a.level === level) })).filter((g) => g.items.length);
+---
+
+<Layout meta={meta}>
+  <PosterHero hero={hero} artGap={14} footGap={-20} padBottom={70} halo={{ y: 340, w: 1000, h: 860, center: 'rgba(233, 196, 120, .32)' }}>
+    <MedalArt slot="art" />
+  </PosterHero>
+
+  <!-- ---------- The headline award ---------- -->
+  <section class="section wrap aw-dl" id={deansList.id} aria-labelledby="dl-h">
+    <SectionHead label={deansList.label} heading={deansList.heading} id="dl-h" drift="left" accentLabel />
+    <div class="aw-dl__grid">
+      <div class="aw-dl__main" data-reveal>
+        <p class="aw-dl__title cond">{deansList.title}</p>
+        <p class="aw-dl__text">{deansList.text}</p>
+        <a href={podcastEpisode.href} rel="noopener" class="btn-accent cap aw-dl__listen">
+          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
+          {deansList.listen}
+        </a>
+      </div>
+      <div class="aw-dl__stat" data-reveal>
+        <p class="huge litx aw-dl__big">{deansList.stat.value}</p>
+        <p class="mono faint">{deansList.stat.label}</p>
+      </div>
+    </div>
+
+    <dl class="aw-facts" data-reveal>
+      {
+        deansList.facts.map((f) => (
+          <div class="aw-fact">
+            <dt class="mono faint">{f.label}</dt>
+            <dd class="huge litx aw-fact__v">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <ol role="list" class="aw-steps" data-reveal>
+      {
+        deansList.steps.map((st, i) => (
+          <li class:list={['aw-step', { 'aw-step--hi': i === 1 }]}>
+            <span class="aw-step__dot" aria-hidden="true" />
+            <p class:list={['mono', i === 1 ? 'rim-ink' : 'faint']}>{st.label}</p>
+            <p class="aw-step__title cond">{st.title}</p>
+            <p class="aw-step__text muted">{st.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- ---------- Featured ---------- -->
+  <section class="section wrap" aria-labelledby="feat-h">
+    <SectionHead label={featured.label} heading={featured.heading} id="feat-h" drift="right" />
+    <ul role="list" class="aw-feat">
+      {
+        featuredAwards.map((a) => (
+          <li id={a.id} class="aw-anchor" data-reveal>
+            <Surface as="article" class="aw-card">
+              <p class="mono faint">
+                {levelLabels[a.level]} · {a.date.toUpperCase()}
+              </p>
+              <h3 class="aw-card__title cond">{a.title}</h3>
+              <p class="aw-card__org muted">{a.org}</p>
+              {a.note && <p class="aw-card__note">{a.note}</p>}
+              {a.link && (
+                <a href={a.link.href} rel="noopener" class="aw-card__link cap">
+                  {a.link.label}
+                  <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              )}
+            </Surface>
+          </li>
+        ))
+      }
+      <li class="aw-feat__fair" data-reveal>
+        <Surface as="article" class="aw-card aw-fair">
+          <div class="aw-fair__head">
+            <p class="mono faint">SCIENCE AND ENGINEERING FAIR · 2025</p>
+            <h3 class="aw-card__title cond">{featured.scienceFair.title}</h3>
+            <p class="aw-card__org muted">{featured.scienceFair.text}</p>
+            <a href={featured.scienceFair.link.href} class="aw-card__link cap">
+              {featured.scienceFair.link.label}
+              <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+          <ul role="list" class="aw-fair__list">
+            {
+              fairAwards.map((a) => (
+                <li id={a.id} class="aw-anchor aw-fair__item">
+                  <p class="mono faint">
+                    {levelLabels[a.level]} · {a.date.toUpperCase()}
+                  </p>
+                  <p class="aw-fair__title cond">{a.title}</p>
+                  <p class="aw-card__org muted">{a.org}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </Surface>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ---------- Every award ---------- -->
+  <section class="section wrap" aria-labelledby="all-h">
+    <SectionHead label={allAwards.label} heading={allAwards.heading} meta={`${awards.length} ENTRIES`} id="all-h" drift="left" size="mid" />
+    <div class="aw-all">
+      {
+        groups.map((g) => (
+          <section class="aw-group" aria-label={levelLabels[g.level]} data-reveal>
+            <h3 class="mono aw-group__h">
+              <span>{levelLabels[g.level]}</span>
+              <span class="faint">{String(g.items.length).padStart(2, '0')}</span>
+            </h3>
+            <ul role="list" class="aw-rows">
+              {g.items.map((a) => (
+                <li id={anchoredAbove.has(a.id) ? undefined : a.id} class="aw-row aw-anchor">
+                  <span class="aw-row__date mono faint">{a.date ? a.date.toUpperCase() : 'ARTICLE'}</span>
+                  <span class="aw-row__main">
+                    <span class="aw-row__title">
+                      {anchoredAbove.has(a.id) ? <a href={`#${a.id}`}>{a.title}</a> : a.title}
+                    </span>
+                    <span class="aw-row__org muted">{a.org}</span>
+                    {a.note && <span class="aw-row__note faint">{a.note}</span>}
+                  </span>
+                  {a.link && (
+                    <a href={a.link.href} rel="noopener" class="aw-row__link cap">
+                      {a.link.label}
+                      <svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 17L17 7M9 7h8v8" />
+                      </svg>
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Anchored awards clear the fixed nav when linked to. */
+  .aw-anchor,
+  .aw-dl {
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+  }
+
+  .aw-anchor:target :global(.aw-card),
+  .aw-row:target {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+    border-radius: 18px;
+  }
+
+  /* ---------- Dean's List ---------- */
+  .aw-dl__grid {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px 64px;
+    align-items: end;
+  }
+
+  .aw-dl__title {
+    max-width: 18em;
+    font-size: clamp(30px, 3.19vw, 56px);
+    line-height: 1.05;
+  }
+
+  .aw-dl__text {
+    margin-top: 20px;
+    max-width: 42em;
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .aw-dl__listen {
+    margin-top: 28px;
+    min-height: 54px;
+    padding: 12px 26px;
+    text-align: left;
+    line-height: 1.3;
+  }
+
+  .aw-dl__stat {
+    text-align: right;
+  }
+
+  .aw-dl__big {
+    font-size: clamp(96px, 13.9vw, 244px);
+  }
+
+  .aw-facts {
+    margin: 52px 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .aw-fact {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding-top: 22px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .aw-fact dt {
+    margin-top: 14px;
+  }
+
+  .aw-fact__v {
+    margin: 0;
+    font-size: clamp(56px, 7.64vw, 134px);
+  }
+
+  .aw-steps {
+    position: relative;
+    margin: 64px 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .aw-steps::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 9px;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--line2), var(--accent) 35%, var(--line2));
+  }
+
+  .aw-step {
+    position: relative;
+  }
+
+  .aw-step__dot {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--ink2);
+    background-color: var(--bg);
+  }
+
+  .aw-step--hi .aw-step__dot {
+    border: 0;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 6px var(--halo-soft), 0 0 24px var(--halo);
+  }
+
+  .aw-step__title {
+    margin-top: 6px;
+    font-size: clamp(24px, 1.81vw, 30px);
+    line-height: 1.08;
+  }
+
+  .aw-step__text {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1099px) {
+    .aw-dl__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .aw-dl__stat {
+      text-align: left;
+    }
+    .aw-steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+      padding-left: 44px;
+    }
+    .aw-steps::before {
+      left: 9px;
+      right: auto;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      height: auto;
+      background-image: linear-gradient(180deg, var(--line2), var(--accent) 35%, var(--line2));
+    }
+    .aw-step__dot {
+      position: absolute;
+      left: -44px;
+      top: 0;
+      margin: 0;
+    }
+    .aw-step__text {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .aw-facts {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .aw-dl__listen {
+      width: 100%;
+    }
+  }
+
+  /* ---------- Featured ---------- */
+  .aw-feat {
+    margin: 52px 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .aw-feat :global(.aw-card) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(22px, 2.2vw, 34px);
+    border-radius: 18px;
+  }
+
+  .aw-card__title {
+    margin-top: 14px;
+    font-size: clamp(24px, 1.94vw, 32px);
+    line-height: 1.1;
+  }
+
+  .aw-card__org {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .aw-card__note {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .aw-card__link {
+    margin-top: auto;
+    padding-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  @media (hover: hover) {
+    .aw-card__link:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 5px;
+    }
+  }
+
+  .aw-feat__fair {
+    grid-column: 1 / -1;
+  }
+
+  .aw-feat :global(.aw-fair) {
+    display: grid;
+    grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
+    gap: 24px 40px;
+  }
+
+  .aw-fair__head {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aw-fair__list {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .aw-fair__item {
+    padding-top: 16px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .aw-fair__title {
+    margin-top: 10px;
+    font-size: clamp(20px, 1.53vw, 26px);
+    line-height: 1.12;
+  }
+
+  @media (max-width: 1099px) {
+    .aw-feat {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .aw-feat :global(.aw-fair) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .aw-feat {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .aw-fair__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- Every award ---------- */
+  .aw-all {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 56px;
+    align-items: start;
+  }
+
+  .aw-group__h {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line2);
+    font-weight: 700;
+  }
+
+  .aw-rows {
+    margin: 0;
+  }
+
+  .aw-row {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) auto;
+    gap: 6px 20px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aw-row__main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .aw-row__title {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .aw-row__title a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: .22em;
+  }
+
+  .aw-row__org,
+  .aw-row__note {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .aw-row__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1099px) {
+    .aw-all {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .aw-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .aw-row__org,
+    .aw-row__note,
+    .aw-row__title {
+      font-size: 16px;
+    }
+    .aw-row__link {
+      justify-self: start;
+      white-space: normal;
+    }
+  }
+</style>

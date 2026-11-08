@@ -28,25 +28,6 @@ export const meta: PageMeta = {
     "Rudra Karadkhelkar's awards: the 2025 FIRST Dean's List Award (1 of 10 worldwide), the Congressional App Challenge, two MITES Semester awards, National Merit Commended Scholar, and more.",
 };
 
-export const hero: PosterHeroContent = {
-  subtitle: 'HONORS',
-  headline: 'AWARDS',
-  headlineLabel: 'Awards',
-  captionsLeft: ["FIRST Dean's List", 'Congressional App Challenge'],
-  captionsRight: ['MITES Semester', 'National Merit'],
-  sideLabelLeft: "2025 FIRST DEAN'S LIST AWARD / 1 OF 10",
-  sideLabelRight: '30.2241° N · 92.0198° W / LAFAYETTE, LA',
-  about: {
-    label: 'About',
-    text: "Led by the 2025 FIRST Dean's List Award: 1 of 10 winners worldwide from more than 95,000 students.",
-  },
-  badges: [
-    { value: '1/10', label: 'Worldwide', filled: true, href: '/awards/#deans-list-2025' },
-    { value: '95K+', label: 'FRC students' },
-    { value: "'25", label: "Dean's List" },
-  ],
-};
-
 /** The gold medal in the hero (moved here from High School). */
 export const heroArt = {
   alt: "Gold medal for the 2025 FIRST Dean's List Award, one of ten worldwide",
@@ -57,7 +38,7 @@ export const heroArt = {
 
 /** The episode with Rudra (EP8 S2; he is also on S3). */
 export const podcastEpisode: Link = {
-  label: 'Listen: EP8, Dean\'s List w/ Michelle Long and Rudra Karadkhelkar',
+  label: 'Listen to the episode',
   href: 'https://podcasts.apple.com/us/podcast/ep8-s2-deans-list-w-michelle-long-and-rudra-karadkhelkar/id1836262141?i=1000741147238',
   external: true,
 };
@@ -74,6 +55,8 @@ export const deansList = {
     { value: '1st', label: 'WINNER FROM LAFAYETTE' },
     { value: 'Since 2017', label: 'FIRST FROM LOUISIANA' },
   ],
+  /** The podcast button in this section. */
+  listen: 'Listen: FRC Outside the Bot, EP8',
   text: 'Chosen as 1 of 10 winners from more than 95,000 FRC students at the FIRST Championship in Houston: the first winner from Lafayette, and the first from Louisiana since 2017.',
   steps: [
     { label: 'MAR 2025', title: "Dean's List Finalist", text: 'Named a finalist first.', anchor: 'deans-list-finalist-2025' },
@@ -81,7 +64,7 @@ export const deansList = {
     {
       label: 'GLOBAL SUMMIT',
       title: "Global Dean's List Summit",
-      text: "FIRST flew him in: a tour of MIT, the Dean's List celebration dinner at Dean Kamen's house, and a tour of DEKA.",
+      text: "Flown in by FIRST: a tour of MIT, the Dean's List celebration dinner at Dean Kamen's house, and a tour of DEKA.",
     },
     {
       label: 'PODCAST',
@@ -327,6 +310,28 @@ export const awards: Award[] = [
     },
   },
 ];
+
+/** Every award except press. */
+export const awardCount = awards.filter((a) => a.level !== 'press').length;
+
+export const hero: PosterHeroContent = {
+  subtitle: 'HONORS',
+  headline: 'AWARDS',
+  headlineLabel: 'Awards',
+  captionsLeft: ["FIRST Dean's List", 'National Merit'],
+  captionsRight: ['MITES Semester', 'Science fairs'],
+  sideLabelLeft: "2025 FIRST DEAN'S LIST AWARD / 1 OF 10",
+  sideLabelRight: '30.2241° N · 92.0198° W / LAFAYETTE, LA',
+  about: {
+    label: 'About',
+    text: "Led by the 2025 FIRST Dean's List Award: 1 of 10 winners worldwide from more than 95,000 students.",
+  },
+  badges: [
+    { value: '1/10', label: 'Worldwide', filled: true, href: '/awards/#deans-list-2025' },
+    { value: '95K+', label: 'FRC students' },
+    { value: String(awardCount), label: 'Honors listed' },
+  ],
+};
 
 const byId = new Map(awards.map((a) => [a.id, a]));
 
