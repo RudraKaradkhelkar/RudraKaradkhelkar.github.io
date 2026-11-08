@@ -1,147 +1,158 @@
-// Resume page copy. Source: design-handoff/reference/Resume.html.
-// The PDF goes at public/resume.pdf only after Rudra confirms it has no phone number.
-// Until then `pdf.href` stays empty and the download buttons point nowhere useful.
+// Resume page copy. Source: assets-incoming/docs/resume.pdf (November 2026, one page) and
+// ANSWERS.md. The PDF is public/resume.pdf: confirmed to have no phone number.
 import type { Chip, PageMeta, PosterHeroContent } from './types';
 
 export const meta: PageMeta = {
   title: 'Resume',
-  description: "Rudra Karadkhelkar's resume: MIT computer science and AI, CGI, the CAPE Satellite Program, MIT UROP, and FRC Team 3616.",
+  description:
+    "Rudra Karadkhelkar's one-page resume: MIT computer science and AI, the MIT UROP at CAMS, CGI Federal, CyberDefender and Jarvis, the MIT Satellite Team, FRC Team 3616, and the CAPE Satellite Program.",
 };
 
 export const hero: PosterHeroContent = {
-  subtitle: 'TWO PAGES · PDF',
+  subtitle: 'ONE PAGE · PDF',
   headline: 'RESUME',
   headlineLabel: 'Resume',
-  captionsLeft: ['Updated [Month 2026]', "MIT '30"],
+  captionsLeft: ['Updated November 2026', "MIT '30"],
   captionsRight: ['rudrak@mit.edu', 'LinkedIn'],
-  sideLabelLeft: 'RESUME · 2 PAGES · PDF',
+  sideLabelLeft: 'RESUME · 1 PAGE · PDF',
   sideLabelRight: 'RUDRAK@MIT.EDU / LINKEDIN',
   about: {
     label: 'About',
-    text: 'The full resume in two pages. Download it, or skim the highlights below.',
+    text: 'The full resume on one page. Download it, or skim the highlights below.',
   },
   badges: [],
 };
 
 export const pdf = {
-  /** Set to '/resume.pdf' once public/resume.pdf exists. */
-  href: '',
+  /** public/resume.pdf (no phone number). */
+  href: '/resume.pdf',
   fileName: 'RESUME_RUDRA_KARADKHELKAR.PDF',
   downloadLabel: 'Download PDF',
   toolbarDownload: 'DOWNLOAD',
-  pageLabel: 'PAGE 1 / 2',
-  zoomLabel: '100%',
+  pageLabel: 'PAGE 1 / 1',
+  zoomLabel: 'NOV 2026',
   placeholder: '[EMBEDDED RESUME PDF]',
-  /** Accessible title for the embedded PDF viewer, once the PDF exists. */
+  /** Accessible title for the embedded PDF viewer. */
   viewerTitle: 'Resume PDF',
   /** Shown inside the viewer if the browser cannot display PDFs inline. */
   viewerFallback: 'Open the PDF',
 };
 
-/** The paper sheet in the hero art. A summary drawn as a page, not the PDF itself. */
+/** The paper sheet in the hero art: a summary of the one-page resume, drawn as a page. */
 export const heroSheet = {
-  /** Accessible name for the drawn sheet in the hero. */
   alt: 'A paper-clipped resume sheet over a second page',
   name: 'RUDRA KARADKHELKAR',
-  contact: 'rudrak@mit.edu · linkedin.com/in/rudra-karadkhelkar',
+  contact: 'rudrak@mit.edu · linkedin.com/in/rudra-karadkhelkar · Cambridge, MA',
   sections: [
     {
       heading: 'EDUCATION',
       entries: [
         {
           title: 'Massachusetts Institute of Technology',
-          date: 'Class of 2030',
-          lines: ['Computer science and AI · [Course number]'],
+          date: 'Expected June 2030',
+          lines: ['B.S. in Computer Science and Artificial Intelligence'],
           plain: true,
         },
       ],
     },
     {
-      heading: 'EXPERIENCE',
+      heading: 'RESEARCH & EXPERIENCE',
       entries: [
         {
-          title: 'CGI · Software Intern, 3 summers',
-          date: '2024 to 2026',
-          lines: [
-            'Technical lead on EMS/IMS, a SharePoint data hub for the CSR STEM team',
-            'Built EcoChamps, a gamified sustainability app used by CGI nationally',
-            'Power BI license tracking across 8 CGI Federal business units',
-          ],
+          title: 'MIT UROP, Cybersecurity at MIT Sloan (CAMS)',
+          date: 'Aug 2026 to Present',
+          lines: ['Two-dimensional graph centrality metrics for critical assets in infrastructure networks'],
         },
         {
-          title: 'CAPE Satellite Program · Backend Developer',
-          date: '2024 to 2026',
-          lines: ['Django endpoints for the ESG Grid ground station', 'PostgreSQL schemas for satellite telemetry'],
+          title: 'CGI Federal · Technical/Project Lead & AI Intern',
+          date: 'Jun to Aug 2026',
+          lines: ['Consolidated 3 systems into 1 nationwide data hub', 'Built an AI agent that drafts requests from Microsoft Teams Q&A'],
         },
       ],
     },
     {
-      heading: 'RESEARCH',
+      heading: 'PROJECTS',
       entries: [
         {
-          title: 'MIT UROP · Cybersecurity at MIT Sloan',
-          date: 'Fall 2026',
-          lines: ['Two-dimensional centrality metrics for infrastructure cyber risk'],
+          title: 'CyberDefender: Autonomous AI Network Defense Agent',
+          date: 'In Progress',
+          lines: ['Multi-agent SOC on an isolated Linux home lab'],
+        },
+        {
+          title: 'Jarvis: Self-Hosted AI Automation System',
+          date: '',
+          lines: ['4+ specialized AI subagents on a hardened Linux server'],
         },
       ],
     },
     {
-      heading: 'LEADERSHIP',
+      heading: 'LEADERSHIP & ACTIVITIES',
       entries: [
         {
-          title: 'FRC Team 3616 · President, Project Manager',
-          date: '2021 to 2026',
-          lines: ["2025 FIRST Dean's List Award, 1 of 10 worldwide"],
+          title: 'FIRST Robotics, Team 3616 · Lead Programmer, President, PM',
+          date: 'May 2021 to Jul 2026',
+          lines: ["2025 FIRST Dean's List Award Winner, 1 of 10 worldwide"],
         },
       ],
     },
   ],
 };
 
-export const highlights = {
-  education: {
+export interface HighlightCard {
+  label: string;
+  items: { title: string; text: string }[];
+}
+
+/** The cards beside the viewer, in the resume's order. */
+export const highlights: HighlightCard[] = [
+  {
     label: 'EDUCATION',
-    title: 'Massachusetts Institute of Technology',
-    text: 'Computer science and AI · Class of 2030 · [Exact course and degree wording]',
-  },
-  experience: {
-    label: 'EXPERIENCE',
     items: [
-      { title: 'CGI', text: 'Software intern, three summers · 2024 to 2026' },
-      { title: 'CAPE Satellite Program, UL Lafayette', text: 'Backend developer · 2024 to 2026' },
-      { title: 'LPSS', text: 'Software intern · 2024 to 2025' },
+      {
+        title: 'Massachusetts Institute of Technology',
+        text: 'B.S. in Computer Science and Artificial Intelligence · Expected June 2030 · Coursework: 6.100A, 18.02, 8.01, 3.091',
+      },
     ],
   },
-  research: {
-    label: 'RESEARCH',
-    title: 'MIT UROP, Cybersecurity at MIT Sloan',
-    text: 'Critical asset cyber risk in infrastructure networks · Fall 2026',
+  {
+    label: 'RESEARCH & EXPERIENCE',
+    items: [
+      { title: 'MIT UROP, Cybersecurity at MIT Sloan (CAMS)', text: 'Undergraduate Researcher · Aug 2026 to present' },
+      { title: 'CGI Federal', text: 'Technical/Project Lead and AI Intern · 2026; Data Analysis/Software Intern · 2025' },
+      { title: 'CAPE Satellite Program, UL Lafayette', text: 'Backend Developer · Mar 2024 to Mar 2026' },
+    ],
   },
-  leadership: {
-    label: 'LEADERSHIP',
-    title: 'FRC Team 3616 Phenomena',
-    text: "President, then project manager · 2025 FIRST Dean's List Award",
+  {
+    label: 'PROJECTS',
+    items: [
+      { title: 'CyberDefender', text: 'Autonomous AI network defense agent · in progress, MVP targeted December 2026' },
+      { title: 'Jarvis', text: 'Self-hosted AI automation system · running' },
+    ],
   },
-  skills: {
-    label: 'SKILLS',
-    chips: [
-      'Python',
-      'C++',
-      'Java',
-      'SQL',
-      'PowerShell',
-      'Django',
-      'Django Ninja',
-      'PostgreSQL',
-      'Power Apps',
-      'Power Automate',
-      'SharePoint',
-      'Power BI',
-      'Kali Linux',
-      'Scapy',
-    ].map((label) => ({ label })) satisfies Chip[],
+  {
+    label: 'LEADERSHIP & ACTIVITIES',
+    items: [
+      { title: 'MIT Satellite Team', text: 'Software Developer · Sep 2026 to present' },
+      { title: 'MIT AI Alignment (MAIA)', text: 'AI Safety Fundamentals reading group · Sep 2026 to present' },
+      { title: 'FRC Team 3616 Phenomena', text: "Lead Programmer, President, Project Manager · 2025 FIRST Dean's List Award Winner" },
+    ],
   },
-  contact: {
-    label: 'CONTACT',
-  },
+];
+
+/** Skills, grouped as on the resume. */
+export const skills = {
+  label: 'SKILLS',
+  groups: [
+    { title: 'Languages', chips: ['Python', 'C++', 'Java', 'SQL', 'PowerShell'] },
+    { title: 'Security & Systems', chips: ['Linux', 'Kali Linux', 'VirtualBox', 'Tailscale', 'Git'] },
+    { title: 'Backend', chips: ['Django', 'Django Ninja', 'PostgreSQL', 'SQLite'] },
+    {
+      title: 'AI & Automation',
+      chips: ['LLM agents', 'Local LLMs', 'Claude Code', 'n8n', 'Copilot Studio', 'Power Automate', 'Power Apps', 'Power BI', 'SharePoint'],
+    },
+  ].map((g) => ({ ...g, chips: g.chips.map((label) => ({ label })) satisfies Chip[] })),
+};
+
+export const contact = {
+  label: 'CONTACT',
 };

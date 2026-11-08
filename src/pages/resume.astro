@@ -1,14 +1,14 @@
 ---
 // Resume. Copy: src/content/resume.ts. Design: design-handoff/reference/Resume.html.
-// The PDF goes in public/resume.pdf only after Rudra confirms it has no phone number; then set
-// pdf.href to '/resume.pdf'. Until then the download buttons are shown but are not links, so the
+// public/resume.pdf is the one-page public resume (confirmed: no phone number). If pdf.href is
+// ever emptied, the download buttons are shown but are not links, so the
 // page never points at a file that does not exist.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import ResumeArt from '../components/art/ResumeArt.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
-import { meta, hero, pdf, highlights as h } from '../content/resume';
+import { meta, hero, pdf, highlights, skills, contact } from '../content/resume';
 import { site } from '../content/site';
 
 const hasPdf = pdf.href.trim() !== '';
@@ -71,11 +71,23 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
         <div class="rs-doc media">
           {
             hasPdf ? (
-              <object data={pdf.href} type="application/pdf" class="rs-doc__pdf" title={pdf.viewerTitle}>
-                <a href={pdf.href} class="mono">
-                  {pdf.viewerFallback}
-                </a>
-              </object>
+              <>
+                <object data={pdf.href} type="application/pdf" class="rs-doc__pdf" title={pdf.viewerTitle}>
+                  <div class="rs-doc__page rs-doc__page--open">
+                    <span class="mono rs-doc__ph">{pdf.fileName}</span>
+                    <a href={pdf.href} class="btn-accent cap">
+                      {pdf.viewerFallback}
+                    </a>
+                  </div>
+                </object>
+                {/* Phones rarely show PDFs inline, so they get a card that opens it instead. */}
+                <div class="rs-doc__page rs-doc__page--open rs-doc__phone">
+                  <span class="mono rs-doc__ph">{pdf.fileName}</span>
+                  <a href={pdf.href} class="btn-accent cap">
+                    {pdf.viewerFallback}
+                  </a>
+                </div>
+              </>
             ) : (
               <div class="rs-doc__page">
                 <span class="mono rs-doc__ph">{pdf.placeholder}</span>
@@ -86,42 +98,38 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
       </div>
 
       <div class="rs-cards">
+        {
+          highlights.map((card) => (
+            <Surface class="rs-card" data-reveal>
+              <h2 class="mono rim-ink">{card.label}</h2>
+              <ul role="list" class="rs-card__list">
+                {card.items.map((it) => (
+                  <li>
+                    <p class="rs-card__sub cond">{it.title}</p>
+                    <p class="rs-card__text rs-card__text--tight muted">{it.text}</p>
+                  </li>
+                ))}
+              </ul>
+            </Surface>
+          ))
+        }
         <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.education.label}</h2>
-          <p class="rs-card__title cond">{h.education.title}</p>
-          <p class="rs-card__text muted">{h.education.text}</p>
+          <h2 class="mono rim-ink">{skills.label}</h2>
+          {
+            skills.groups.map((g) => (
+              <div class="rs-skill">
+                <p class="rs-skill__title">{g.title}</p>
+                <div class="rs-card__chips">
+                  {g.chips.map((c) => (
+                    <Chip label={c.label} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
         </Surface>
         <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.experience.label}</h2>
-          <ul role="list" class="rs-card__list">
-            {
-              h.experience.items.map((it) => (
-                <li>
-                  <p class="rs-card__sub cond">{it.title}</p>
-                  <p class="rs-card__text rs-card__text--tight muted">{it.text}</p>
-                </li>
-              ))
-            }
-          </ul>
-        </Surface>
-        <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.research.label}</h2>
-          <p class="rs-card__sub rs-card__sub--first cond">{h.research.title}</p>
-          <p class="rs-card__text rs-card__text--tight muted">{h.research.text}</p>
-        </Surface>
-        <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.leadership.label}</h2>
-          <p class="rs-card__sub rs-card__sub--first cond">{h.leadership.title}</p>
-          <p class="rs-card__text rs-card__text--tight muted">{h.leadership.text}</p>
-        </Surface>
-        <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.skills.label}</h2>
-          <div class="rs-card__chips">
-            {h.skills.chips.map((c) => <Chip label={c.label} />)}
-          </div>
-        </Surface>
-        <Surface class="rs-card" data-reveal>
-          <h2 class="mono rim-ink">{h.contact.label}</h2>
+          <h2 class="mono rim-ink">{contact.label}</h2>
           <a href={`mailto:${site.email}`} class="rs-card__mail cond">{site.email}</a>
           <a href={linkedin.href} rel="noopener" class="rs-card__li muted">{linkedinText}</a>
         </Surface>
@@ -235,6 +243,32 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
     color: #6E6E74;
   }
 
+  .rs-doc__page--open {
+    flex-direction: column;
+    gap: 22px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  /* The object's fallback fills the viewer like the page does. */
+  .rs-doc__pdf > .rs-doc__page--open {
+    width: 72%;
+    margin: 8% auto 0;
+  }
+
+  .rs-doc__phone {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .rs-doc__pdf {
+      display: none;
+    }
+    .rs-doc__phone {
+      display: flex;
+    }
+  }
+
   .rs-doc__pdf {
     position: relative;
     width: calc(100% - 28px);
@@ -276,6 +310,23 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
 
   .rs-card__text--tight {
     margin-top: 2px;
+  }
+
+  .rs-skill + .rs-skill {
+    margin-top: 16px;
+  }
+
+  .rs-skill:first-of-type {
+    margin-top: 14px;
+  }
+
+  .rs-skill__title {
+    font-size: 14px;
+    color: var(--ink2);
+  }
+
+  .rs-skill .rs-card__chips {
+    margin-top: 8px;
   }
 
   .rs-card__list {
