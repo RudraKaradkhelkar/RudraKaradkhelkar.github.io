@@ -177,7 +177,7 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     <ol role="list" class="xcases">
       {
         more.cases.map((c, i) => (
-          <li data-reveal>
+          <li id={c.watermark.toLowerCase()} class="xcase-anchor" data-reveal>
             <Surface as="article" class="xcase">
               <div class="xcase__id">
                 <p class="xcase__wm huge outline" aria-hidden="true" style={`--fit:${wmFits[i]}`}>
@@ -624,6 +624,10 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
   }
 
   /* ---------- CAPE and LPSS ---------- */
+  .xcase-anchor {
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+  }
+
   .xcases {
     margin: 52px 0 0;
     display: flex;

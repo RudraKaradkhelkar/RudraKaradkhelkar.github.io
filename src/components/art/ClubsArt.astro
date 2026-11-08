@@ -1,87 +1,141 @@
 ---
-// Clubs hero art: three embroidered patches whose ring text spins slowly (48 s). SVG copied from
-// design-handoff/reference/Clubs.html. The art box is a 900 x 340 board (x 270 to 1170 of the
-// 1440 design); phones overlap the three patches in one row, smaller.
+// Clubs hero art: four embroidered patches whose ring text spins slowly (48 s), in the style of
+// design-handoff/reference/Clubs.html (CHANGES.md section 7: four clubs).
+//   MIT Satellite Team: the team's white mark, drawn through an SVG mask so it takes the ink
+//   color (white on the dark theme, near-black on the light one).
+//   MAIA: the purple mark, which reads on both themes.
+//   AI@MIT and the Global Security Technology Club: drawn patches with their names.
+// The art box is a 1000 x 320 board; phones overlap the four patches in one row.
+import satelliteLogo from '../../assets/logos/mit-satellite-team.png';
+import maiaMark from '../../assets/logos/maia-mark.png';
 import { heroPatches } from '../../content/clubs';
 
-const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatches)[number], (typeof heroPatches)[number]];
+const [sat, maia, ai, gstc] = heroPatches as [
+  (typeof heroPatches)[number],
+  (typeof heroPatches)[number],
+  (typeof heroPatches)[number],
+  (typeof heroPatches)[number],
+];
+const ring = 'M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0';
 ---
 
 <div class="cart" data-box="art">
-  <div class="cart__p cart__p--a" data-deal style="--dd: .4s">
-    <svg role="img" aria-label={a.alt} viewBox="0 0 300 300">
+  <!-- MIT Satellite Team -->
+  <div class="cart__p cart__p--0" data-deal style="--dd: .4s">
+    <svg role="img" aria-label={sat.alt} viewBox="0 0 300 300">
       <defs>
-        <filter id="patchShadowA" x="-20%" y="-20%" width="140%" height="150%">
+        <filter id="patchShadow0" x="-20%" y="-20%" width="140%" height="150%">
           <feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow>
         </filter>
-        <radialGradient id="patchFaceA" cx="35%" cy="25%" r="80%">
+        <radialGradient id="patchFace0" cx="35%" cy="25%" r="80%">
           <stop offset="0" style="stop-color: var(--card2)"></stop>
           <stop offset="1" style="stop-color: var(--card)"></stop>
         </radialGradient>
-        <path id="ringA" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>
+        <path id="ring0" d={ring}></path>
+        <mask id="satMask" maskUnits="userSpaceOnUse" x="96" y="99" width="108" height="103">
+          <image href={satelliteLogo.src} x="96" y="99" width="108" height="103"></image>
+        </mask>
       </defs>
-      <circle cx="150" cy="150" r="140" fill="url(#patchFaceA)" filter="url(#patchShadowA)" style="stroke: var(--ink2); stroke-width: 6"></circle>
+      <circle cx="150" cy="150" r="140" fill="url(#patchFace0)" filter="url(#patchShadow0)" style="stroke: var(--ink2); stroke-width: 6"></circle>
       <circle cx="150" cy="150" r="131" style="fill: none; stroke: var(--ink3); stroke-width: 1.4; stroke-dasharray: 3 4"></circle>
       <circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
       <g class="cart__spin" style="transform-origin: 150px 150px">
-        <text class="cart__ring"><textPath href="#ringA">{a.ring}</textPath></text>
+        <text class="cart__ring"><textPath href="#ring0">{sat.ring}</textPath></text>
       </g>
-      <ellipse cx="150" cy="150" rx="64" ry="22" transform="rotate(-24 150 150)" style="fill: none; stroke-width: 2.5; stroke: var(--accent)"></ellipse>
-      <circle cx="150" cy="150" r="26" style="fill: var(--ink)"></circle>
-      <circle cx="206" cy="124" r="8" style="fill: var(--rim)"></circle>
+      <rect x="96" y="99" width="108" height="103" mask="url(#satMask)" class="cart__ink"></rect>
     </svg>
   </div>
 
-  <div class="cart__p cart__p--b" data-deal style="--dd: .5s">
-    <svg role="img" aria-label={b.alt} viewBox="0 0 300 300">
+  <!-- MAIA -->
+  <div class="cart__p cart__p--1" data-deal style="--dd: .5s">
+    <svg role="img" aria-label={maia.alt} viewBox="0 0 300 300">
       <defs>
-        <filter id="patchShadowB" x="-20%" y="-20%" width="140%" height="150%">
+        <filter id="patchShadow1" x="-20%" y="-20%" width="140%" height="150%">
           <feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow>
         </filter>
-        <radialGradient id="patchFaceB" cx="35%" cy="25%" r="80%">
+        <radialGradient id="patchFace1" cx="35%" cy="25%" r="80%">
           <stop offset="0" style="stop-color: var(--card2)"></stop>
           <stop offset="1" style="stop-color: var(--card)"></stop>
         </radialGradient>
-        <path id="ringB" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>
+        <path id="ring1" d={ring}></path>
       </defs>
-      <circle cx="150" cy="150" r="140" fill="url(#patchFaceB)" filter="url(#patchShadowB)" style="stroke-width: 6; stroke: var(--accent)"></circle>
+      <circle cx="150" cy="150" r="140" fill="url(#patchFace1)" filter="url(#patchShadow1)" style="stroke-width: 6; stroke: var(--accent)"></circle>
       <circle cx="150" cy="150" r="131" style="fill: none; stroke-width: 1.4; stroke-dasharray: 3 4; stroke: var(--rim)"></circle>
       <circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
       <g class="cart__spin cart__spin--rev" style="transform-origin: 150px 150px">
-        <text class="cart__ring"><textPath href="#ringB">{b.ring}</textPath></text>
+        <text class="cart__ring"><textPath href="#ring1">{maia.ring}</textPath></text>
       </g>
-      <text x="150" y="176" text-anchor="middle" class="cart__word" style="font-size: 76px">{b.text}</text>
+      <image href={maiaMark.src} x="94" y="114" width="112" height="71"></image>
     </svg>
   </div>
 
-  <div class="cart__p cart__p--c" data-deal style="--dd: .6s">
-    <svg role="img" aria-label={c.alt} viewBox="0 0 300 300">
+  <!-- AI@MIT -->
+  <div class="cart__p cart__p--2" data-deal style="--dd: .6s">
+    <svg role="img" aria-label={ai.alt} viewBox="0 0 300 300">
       <defs>
-        <path id="ringC" d="M150 150 m -118 0 a 118 118 0 1 1 236 0 a 118 118 0 1 1 -236 0"></path>
+        <filter id="patchShadow2" x="-20%" y="-20%" width="140%" height="150%">
+          <feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow>
+        </filter>
+        <radialGradient id="patchFace2" cx="35%" cy="25%" r="80%">
+          <stop offset="0" style="stop-color: var(--card2)"></stop>
+          <stop offset="1" style="stop-color: var(--card)"></stop>
+        </radialGradient>
+        <path id="ring2" d={ring}></path>
       </defs>
-      <circle cx="150" cy="150" r="140" class="cart__empty"></circle>
+      <circle cx="150" cy="150" r="140" fill="url(#patchFace2)" filter="url(#patchShadow2)" style="stroke: var(--ink2); stroke-width: 6"></circle>
+      <circle cx="150" cy="150" r="131" style="fill: none; stroke: var(--ink3); stroke-width: 1.4; stroke-dasharray: 3 4"></circle>
+      <circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
       <g class="cart__spin" style="transform-origin: 150px 150px">
-        <text class="cart__ring cart__ring--faint"><textPath href="#ringC">{c.ring}</textPath></text>
+        <text class="cart__ring"><textPath href="#ring2">{ai.ring}</textPath></text>
       </g>
-      <text x="150" y="182" text-anchor="middle" class="cart__word cart__word--faint" style="font-size: 100px">{c.text}</text>
+      <text x="150" y="170" text-anchor="middle" class="cart__word" style="font-size: 58px">{ai.text}</text>
+      <path d="M112 186 H188" style="stroke: var(--accent); stroke-width: 3; stroke-linecap: round"></path>
+    </svg>
+  </div>
+
+  <!-- MIT Sloan Global Security Technology Club -->
+  <div class="cart__p cart__p--3" data-deal style="--dd: .7s">
+    <svg role="img" aria-label={gstc.alt} viewBox="0 0 300 300">
+      <defs>
+        <filter id="patchShadow3" x="-20%" y="-20%" width="140%" height="150%">
+          <feDropShadow dx="0" dy="18" stdDeviation="16" style="flood-color: #000000; flood-opacity: 0.6"></feDropShadow>
+        </filter>
+        <radialGradient id="patchFace3" cx="35%" cy="25%" r="80%">
+          <stop offset="0" style="stop-color: var(--card2)"></stop>
+          <stop offset="1" style="stop-color: var(--card)"></stop>
+        </radialGradient>
+        <path id="ring3" d={ring}></path>
+      </defs>
+      <circle cx="150" cy="150" r="140" fill="url(#patchFace3)" filter="url(#patchShadow3)" style="stroke: var(--ink2); stroke-width: 6"></circle>
+      <circle cx="150" cy="150" r="131" style="fill: none; stroke: var(--ink3); stroke-width: 1.4; stroke-dasharray: 3 4"></circle>
+      <circle cx="150" cy="150" r="100" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></circle>
+      <g class="cart__spin cart__spin--rev" style="transform-origin: 150px 150px">
+        <text class="cart__ring"><textPath href="#ring3">{gstc.ring}</textPath></text>
+      </g>
+      <!-- A shield over a globe line -->
+      <ellipse cx="150" cy="150" rx="62" ry="24" style="fill: none; stroke: var(--line2); stroke-width: 1.5"></ellipse>
+      <path d="M150 104 L188 118 V148 C188 172 172 188 150 198 C128 188 112 172 112 148 V118 Z" class="cart__shield"></path>
+      <path d="M136 150 L147 161 L166 138" style="fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"></path>
     </svg>
   </div>
 </div>
 
 <style>
   .cart {
-    --u: calc(100cqi / 900);
-    --size: 300;
-    --step: 300;
+    --u: calc(100cqi / 1000);
+    --size: 260;
+    --step: 245;
+    --x0: 2;
     position: relative;
-    width: min(100%, 62.5cqi);
+    width: min(100%, 69.4cqi);
     margin-inline: auto;
-    aspect-ratio: 900 / 340;
+    aspect-ratio: 1000 / 320;
     container-type: inline-size;
   }
 
   .cart__p {
     position: absolute;
+    left: calc((var(--x0) + var(--i) * var(--step)) * var(--u));
     width: calc(var(--size) * var(--u));
     aspect-ratio: 1;
   }
@@ -92,20 +146,10 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
     overflow: visible;
   }
 
-  .cart__p--a {
-    left: 0;
-    top: calc(24 * var(--u));
-    transform: rotate(-8deg);
-  }
-  .cart__p--b {
-    left: calc(var(--step) * var(--u));
-    top: 0;
-  }
-  .cart__p--c {
-    left: calc(2 * var(--step) * var(--u));
-    top: calc(32 * var(--u));
-    transform: rotate(7deg);
-  }
+  .cart__p--0 { --i: 0; top: calc(30 * var(--u)); transform: rotate(-8deg); }
+  .cart__p--1 { --i: 1; top: calc(6 * var(--u)); }
+  .cart__p--2 { --i: 2; top: calc(24 * var(--u)); transform: rotate(5deg); }
+  .cart__p--3 { --i: 3; top: calc(40 * var(--u)); transform: rotate(-4deg); }
 
   .cart__spin {
     animation: spin 48s linear infinite;
@@ -121,9 +165,6 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
     font-size: 13px;
     letter-spacing: .22em;
   }
-  .cart__ring--faint {
-    fill: var(--ink3);
-  }
 
   .cart__word {
     fill: var(--ink);
@@ -131,33 +172,34 @@ const [a, b, c] = heroPatches as [(typeof heroPatches)[number], (typeof heroPatc
     font-weight: 900;
     font-stretch: 62%;
   }
-  .cart__word--faint {
-    fill: var(--ink3);
+
+  .cart__ink {
+    fill: var(--ink);
   }
 
-  .cart__empty {
-    fill: var(--chip-bg);
-    stroke: var(--ink3);
-    stroke-width: 2;
-    stroke-dasharray: 6 8;
+  .cart__shield {
+    fill: var(--card2);
+    stroke: var(--ink);
+    stroke-width: 3;
+    stroke-linejoin: round;
   }
 
   @media (max-width: 1279px) {
     .cart {
-      width: min(100%, 76cqi);
+      width: min(100%, 86cqi);
     }
   }
 
-  /* Phones: one overlapping row, the middle patch in front. */
+  /* Phones: one overlapping row, the second and third patches in front. */
   @media (max-width: 767px) {
     .cart {
-      --size: 390;
-      --step: 255;
+      --size: 340;
+      --step: 220;
+      --x0: 0;
       width: 100%;
-      aspect-ratio: 900 / 450;
+      aspect-ratio: 1000 / 420;
     }
-    .cart__p--b {
-      z-index: 1;
-    }
+    .cart__p--1 { z-index: 2; }
+    .cart__p--2 { z-index: 1; }
   }
 </style>
