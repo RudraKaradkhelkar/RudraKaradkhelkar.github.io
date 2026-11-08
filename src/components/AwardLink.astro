@@ -1,0 +1,35 @@
+---
+// Link to one award's entry on /awards (design-handoff/CHANGES.md section 2, cross-linking rule).
+// Every page that mentions an award uses this, so the anchors live in one place
+// (src/content/awards.ts). An unknown id fails the build.
+//
+//   <AwardLink id="deans-list-2025" />                 the award's own title
+//   <AwardLink id="deans-list-2025">Dean's List</AwardLink>   custom text
+import { award, awardHref } from '../content/awards';
+
+interface Props {
+  id: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+const a = award(id);
+---
+
+<a href={awardHref(id)} class:list={['awl', className]}><slot>{a.title}</slot></a>
+
+<style>
+  .awl {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: .22em;
+  }
+
+  @media (hover: hover) {
+    .awl:hover {
+      text-decoration-thickness: 2.5px;
+    }
+  }
+</style>

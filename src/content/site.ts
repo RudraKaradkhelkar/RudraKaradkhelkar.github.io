@@ -35,9 +35,10 @@ export const site = {
     { label: 'Research', href: '/research/' },
     { label: 'Experience', href: '/experience/' },
     { label: 'Projects', href: '/projects/' },
+    { label: 'Awards', href: '/awards/' },
     { label: 'Clubs', href: '/clubs/' },
     { label: 'High School', href: '/high-school/' },
-    { label: 'Drawings & Life', href: '/drawings/' },
+    { label: 'Life', href: '/life/' },
   ] satisfies Link[],
 
   /** Accessible labels for the nav controls. */
@@ -57,7 +58,7 @@ export const site = {
 
   footer: {
     /** Repeats in the tilted accent stripe (shown uppercase). Wording confirmed by Rudra. */
-    marquee: ['Open to Summer 2027 Internships/Roles', 'rudrak@mit.edu', 'Cambridge, MA'],
+    marquee: ['Open to Summer 2027 roles in software engineering and cybersecurity/AI', 'rudrak@mit.edu', 'Cambridge, MA'],
     label: 'OPEN TO',
     headline: 'SUMMER 2027',
     text: 'Looking for a research or internship role in AI security for Summer 2027. Email is the fastest way to reach me.',

@@ -25,6 +25,8 @@ export interface Badge {
   filled?: boolean;
   /** Dashed, muted outline for an open slot (Clubs "+1"). */
   dashed?: boolean;
+  /** Makes the badge a link (for example the Home Dean's List badge to /awards/#deans-list-2025). */
+  href?: string;
 }
 
 /** Every page's poster hero (DESIGN.md section 5). */

@@ -18,7 +18,7 @@ const preload = photo ? await getImage({ src: photo, width: Math.min(1200, photo
 <Layout meta={meta} nav="home">
   {preload && <link slot="head" rel="preload" as="image" href={preload.src} fetchpriority="high" />}
 
-  <PosterHero hero={hero} headlineSize={518} artMode="over" artGap={-10} padBottom={0} halo={{ y: 420, w: 1100, h: 1000 }}>
+  <PosterHero hero={hero} class="home-hero" headlineSize={518} artMode="over" artGap={-10} padBottom={0} halo={{ y: 420, w: 1100, h: 1000 }}>
     <HomeArt slot="art" />
   </PosterHero>
 
@@ -27,6 +27,7 @@ const preload = photo ? await getImage({ src: photo, width: Math.min(1200, photo
     <p class="home-about__statement cond" data-reveal>
       {about.statement} <span class="accent-text">{about.statementHighlight}</span>
     </p>
+    <p class="home-about__body" data-reveal>{about.body}</p>
     <ul role="list" class="home-stats">
       {
         about.stats.map((s) => (
@@ -78,12 +79,25 @@ const preload = photo ? await getImage({ src: photo, width: Math.min(1200, photo
 </Layout>
 
 <style>
+  /* The About block stays clear of the photo's left sleeve. */
+  :global(.home-hero) {
+    --about-w: 21.5cqi;
+  }
+
   /* ---------- About ---------- */
   .home-about__statement {
     margin-top: 26px;
     max-width: 15.4em;
     font-size: clamp(32px, 5.14vw, 90px);
     line-height: 1.05;
+  }
+
+  .home-about__body {
+    margin-top: clamp(24px, 2.2vw, 40px);
+    max-width: 46em;
+    font-size: clamp(18px, 1.46vw, 24px);
+    line-height: 1.5;
+    color: var(--ink2);
   }
 
   .home-stats {
@@ -122,8 +136,14 @@ const preload = photo ? await getImage({ src: photo, width: Math.min(1200, photo
   .chapters {
     margin: 52px 0 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
+  }
+
+  @media (max-width: 1279px) {
+    .chapters {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .chapter {

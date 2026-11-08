@@ -23,7 +23,7 @@ const ASTRO = path.join(ROOT, 'node_modules', 'astro', 'bin', 'astro.mjs');
 const THEME_KEY = 'rk-theme';
 const argv = process.argv.slice(2);
 
-const ROUTES = ['/', '/research/', '/experience/', '/projects/', '/clubs/', '/high-school/', '/drawings/', '/resume/', '/this-page-does-not-exist/'];
+const ROUTES = ['/', '/research/', '/experience/', '/projects/', '/awards/', '/clubs/', '/high-school/', '/life/', '/resume/', '/this-page-does-not-exist/'];
 const SIZES = [
   { name: 'desktop', width: 1440, height: 900, touch: false },
   { name: 'phone', width: 390, height: 844, touch: true },

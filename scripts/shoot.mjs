@@ -31,9 +31,10 @@ const ROUTES = [
   { name: 'research', path: '/research/' },
   { name: 'experience', path: '/experience/' },
   { name: 'projects', path: '/projects/' },
+  { name: 'awards', path: '/awards/' },
   { name: 'clubs', path: '/clubs/' },
   { name: 'high-school', path: '/high-school/' },
-  { name: 'drawings', path: '/drawings/' },
+  { name: 'life', path: '/life/' },
   { name: 'resume', path: '/resume/' },
   { name: '404', path: '/this-page-does-not-exist/' },
 ];

@@ -16,7 +16,9 @@ const L = site.navLabels;
 const norm = (p: string) => p.replace(/\/+$/, '') || '/';
 const here = norm(Astro.url.pathname);
 const isCurrent = (href: string) => norm(href) === here;
+// Home's avatar: the dark-background headshot in the dark theme, the wood one in the light theme.
 const headshot = getSlotImage('headshot');
+const headshotDark = getSlotImage('headshot-dark');
 const menuLinks = [...site.nav, site.links.resume];
 ---
 
@@ -27,7 +29,12 @@ const menuLinks = [...site.nav, site.links.resume];
         variant === 'home' && (
           <span class="nav__avatar" data-nav-avatar>
             {headshot ? (
-              <Image src={headshot} alt="" width={72} height={72} class="nav__avatar-img" loading="eager" />
+              <>
+                <Image src={headshot} alt="" width={72} height={72} class="nav__avatar-img nav__avatar-img--light" loading="eager" />
+                {headshotDark && (
+                  <Image src={headshotDark} alt="" width={72} height={72} class="nav__avatar-img nav__avatar-img--dark" loading="eager" />
+                )}
+              </>
             ) : (
               <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
                 <circle cx="18" cy="18" r="17" class="nav__avatar-ring" />
@@ -286,6 +293,18 @@ const menuLinks = [...site.nav, site.links.resume];
     border-radius: 50%;
     border: 1.5px solid var(--accent);
     object-fit: cover;
+  }
+
+  /* One headshot per theme, when both exist. */
+  .nav__avatar-img--dark + .nav__avatar-img,
+  .nav__avatar-img--light:has(+ .nav__avatar-img--dark) {
+    display: none;
+  }
+  :global(:root[data-theme='light']) .nav__avatar-img--light:has(+ .nav__avatar-img--dark) {
+    display: block;
+  }
+  :global(:root[data-theme='light']) .nav__avatar-img--dark {
+    display: none;
   }
 
   .nav__mark {

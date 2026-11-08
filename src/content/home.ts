@@ -1,5 +1,7 @@
-// Home page copy. Source: design-handoff/reference/Main.html.
+// Home page copy. Source: design-handoff/reference/Main.html, updated from
+// assets-incoming/ANSWERS.md (approved About blurb) and design-handoff/CHANGES.md (8 chapters).
 import type { PageMeta, PosterHeroContent } from './types';
+import { awardHref } from './awards';
 
 export const meta: PageMeta = {
   title: 'Rudra Karadkhelkar',
@@ -23,7 +25,7 @@ export const hero: PosterHeroContent = {
   badges: [
     { value: "'30", label: 'MIT class' },
     { value: '3×', label: 'CGI summers', filled: true },
-    { value: "'25", label: "Dean's List" },
+    { value: "'25", label: "Dean's List", href: awardHref('deans-list-2025') },
   ],
 };
 
@@ -31,7 +33,7 @@ export const hero: PosterHeroContent = {
 export const heroBand = ['AI security', 'Machine learning', 'Cyber defense', 'Robotics', 'Satellites'];
 
 export const heroArt = {
-  /** Shown until src/assets/slots/hero-photo.png exists. */
+  /** Shown only if src/assets/slots/hero-photo.webp is missing. */
   standInLabel: 'STAND-IN FOR PHOTO',
   standInAlt: 'Stand-in figure for the hero photo, arms crossed and backlit',
   photoAlt: 'Rudra Karadkhelkar, arms crossed',
@@ -39,11 +41,16 @@ export const heroArt = {
   avatarAlt: 'Rudra Karadkhelkar',
 };
 
+/**
+ * Rudra's approved About text (ANSWERS.md), used exactly. The first sentence is the big
+ * statement (its end in the accent); the other two run below it as a lead paragraph.
+ */
 export const about = {
   label: 'ABOUT',
-  statement: 'I study computer science and AI at MIT. This fall that means cyber risk research with CAMS and an AI agent that guards',
+  statement: "I'm a first-year at MIT studying computer science and AI,",
   /** Set in the accent color, at the end of the statement. */
-  statementHighlight: 'my home-lab server.',
+  statementHighlight: 'focused on AI security.',
+  body: "This fall I'm researching cyber risk in infrastructure networks with MIT Sloan's CAMS and building CyberDefender, a team of AI agents that detects and contains attacks on my own home lab. Before MIT: three summers at CGI, two years on a NASA-partnered CubeSat team, and five seasons on FRC Team 3616.",
   stats: [
     { value: '3×', label: 'SUMMERS AT CGI' },
     { value: '2 YRS', label: 'NASA-PARTNERED CUBESAT TEAM' },
@@ -55,7 +62,7 @@ export const about = {
 export const chapters = {
   label: 'INDEX',
   heading: 'CHAPTERS',
-  count: '6 PAGES',
+  count: '8 PAGES',
   items: [
     {
       index: '01',
@@ -67,43 +74,59 @@ export const chapters = {
     },
     {
       index: '02',
-      tag: 'CGI · CAPE',
+      tag: 'CGI · CAPE · LPSS',
       title: 'Experience',
-      text: 'Three summers at CGI and a CubeSat ground station before college.',
+      text: 'Three summers at CGI, a CubeSat ground station, and the skills from each.',
       href: '/experience/',
       watermark: 'EXPERIENCE',
     },
     {
       index: '03',
-      tag: '2 IN PROGRESS',
+      tag: '3 UNLOCKED',
       title: 'Projects',
-      text: 'An AI cyberdefender agent and a gesture-controlled drone glove.',
+      text: 'CyberDefender, Jarvis, and a gesture-controlled drone glove.',
       href: '/projects/',
       watermark: 'PROJECTS',
     },
     {
       index: '04',
+      tag: '1 OF 10',
+      title: 'Awards',
+      text: "The 2025 FIRST Dean's List Award, and every honor since 2023.",
+      href: '/awards/',
+      watermark: 'AWARDS',
+    },
+    {
+      index: '05',
       tag: 'FALL 2026',
       title: 'Clubs',
-      text: 'The MIT Satellite Team and an AI safety reading group.',
+      text: 'The MIT Satellite Team, MAIA, AI@MIT, and the Global Security Technology Club.',
       href: '/clubs/',
       watermark: 'CLUBS',
     },
     {
-      index: '05',
+      index: '06',
       tag: 'FRC 3616',
       title: 'High School',
-      text: "Robotics president, lead programmer, and the Dean's List award.",
+      text: 'FRC Team 3616, three apps, and student leadership in Lafayette.',
       href: '/high-school/',
       watermark: 'HIGH SCHOOL',
     },
     {
-      index: '06',
-      tag: 'SKETCHBOOK',
-      title: 'Drawings & Life',
-      text: 'Pencil, paint, charcoal, and the places I come from.',
-      href: '/drawings/',
-      watermark: 'DRAWINGS',
+      index: '07',
+      tag: 'OUTSIDE CLASS',
+      title: 'Life',
+      text: 'Zeta Beta Tau, drawing, fantasy football, and poker.',
+      href: '/life/',
+      watermark: 'LIFE',
+    },
+    {
+      index: '08',
+      tag: 'ONE PAGE · PDF',
+      title: 'Resume',
+      text: 'The one-page resume, to download or skim.',
+      href: '/resume/',
+      watermark: 'RESUME',
     },
   ],
 };
@@ -120,8 +143,8 @@ export const now = {
     },
     {
       tag: 'BUILDING',
-      title: 'Cyberdefender Agent',
-      text: 'An AI agent that spots intrusions on a home-lab server and responds.',
+      title: 'CyberDefender',
+      text: 'A team of AI agents that detects and contains attacks on my own home lab.',
       href: '/projects/',
     },
     {

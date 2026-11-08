@@ -1,8 +1,11 @@
 ---
-// Home hero art: the backlit, arms-crossed figure in front of RUDRA, with the accent stripe and
-// its marquee running behind it. The stand-in SVG is copied from design-handoff/reference/Main.html.
-// Once src/assets/slots/hero-photo.(png|webp|avif) exists, Rudra's cut-out photo replaces it in
-// the same 640 x 760 box, so nothing else moves.
+// Home hero art: Rudra, arms crossed, in front of RUDRA, with the accent stripe and its marquee
+// running behind. The photo is src/assets/slots/hero-photo.webp (the cut-out from
+// assets-incoming/hero/hero-cutout.png, nearly square). Without it, the stand-in SVG copied from
+// design-handoff/reference/Main.html takes its place in a 640 x 760 box.
+//
+// Photo placement (ANSWERS.md): about 10% smaller than the first preview so the crossed arms clear
+// the round badges, the head overlapping RUDRA, a soft accent rim light, and 0.9 brightness.
 import { Image } from 'astro:assets';
 import Marquee from '../Marquee.astro';
 import { heroArt, heroBand } from '../../content/home';
@@ -11,7 +14,7 @@ import { getSlotImage } from '../../lib/slot-images';
 const photo = getSlotImage('hero-photo');
 ---
 
-<div class="hart">
+<div class:list={['hart', { 'hart--photo': photo }]}>
   <div class="hart__band stripe" data-hero-band>
     <Marquee items={heroBand} repeat={4} class="hart__marquee" />
   </div>
@@ -23,7 +26,7 @@ const photo = getSlotImage('hero-photo');
           src={photo}
           alt={heroArt.photoAlt}
           widths={[480, 800, 1200, 1600].filter((w) => w <= photo.width)}
-          sizes="(min-width: 1280px) 44vw, (min-width: 768px) 56vw, 82vw"
+          sizes="(min-width: 1760px) 838px, (min-width: 1280px) 48vw, (min-width: 768px) 56vw, 82vw"
           loading="eager"
           fetchpriority="high"
           class="hart__photo"
@@ -166,6 +169,56 @@ const photo = getSlotImage('hero-photo');
   @media (orientation: landscape) and (max-height: 520px) {
     .hart__fig {
       width: min(44cqi, 118svh);
+    }
+  }
+
+  /* ---------- The photo ----------
+     The figure box is the photo's own shape (2275 x 2181). --fw is its width; the photo starts a
+     little below the headline's top (15% of its width) so the head sits over the middle of the
+     letters, and the band crosses the chest. At 1440: 662 px wide, top at 239, band at 600. */
+  .hart--photo {
+    --fw: 46cqi;
+    padding-top: calc(var(--fw) * .15);
+  }
+
+  .hart--photo .hart__fig {
+    width: var(--fw);
+    aspect-ratio: 2275 / 2181;
+  }
+
+  .hart--photo .hart__band {
+    top: calc(var(--fw) * .6707);
+  }
+
+  /* Backlit: a soft accent rim around the silhouette, brighter toward the upper right like the
+     stand-in's rim light, and the photo a touch darker so it sits in the poster. */
+  .hart--photo .hart__photo {
+    object-fit: contain;
+    object-position: 50% 100%;
+    filter: brightness(.9) drop-shadow(0 0 1.5px var(--rim))
+      drop-shadow(5px -4px 16px color-mix(in srgb, var(--accent) 50%, transparent));
+  }
+
+  :global(:root[data-theme='light']) .hart--photo .hart__photo {
+    filter: drop-shadow(0 0 1.5px var(--rim))
+      drop-shadow(5px -4px 14px color-mix(in srgb, var(--accent) 55%, transparent));
+  }
+
+  @media (max-width: 1279px) {
+    .hart--photo {
+      --fw: min(58cqi, 640px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hart--photo {
+      --fw: max(64cqi, min(86cqi, calc((100svh - 450px) * 1.02)));
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 520px) {
+    .hart--photo {
+      --fw: min(46cqi, 120svh);
     }
   }
 </style>

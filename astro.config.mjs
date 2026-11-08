@@ -11,4 +11,9 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  // Drawings & Life became Life (design-handoff/CHANGES.md section 4). Static builds write a
+  // meta-refresh page at /drawings/ that sends old links to /life/.
+  redirects: {
+    '/drawings': '/life/',
+  },
 });

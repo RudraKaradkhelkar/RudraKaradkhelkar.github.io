@@ -177,15 +177,20 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
             ) : (
               hero.badges.length > 0 && (
                 <ul role="list" class="ph__badges ph__foot-r" data-hero-fade data-box="badges">
-                  {hero.badges.map((b) => (
-                    <li class="ph__badge">
-                      <span
-                        class:list={['ph__badge-val huge', b.filled ? 'ph__badge-val--fill' : 'ghost', { 'ph__badge-val--long': b.value.length >= 4, 'ph__badge-val--dash': b.dashed }]}>
-                        {b.value}
-                      </span>
-                      <span class="ph__badge-label cap muted">{b.label}</span>
-                    </li>
-                  ))}
+                  {hero.badges.map((b) => {
+                    const Tag = b.href ? 'a' : 'div';
+                    return (
+                      <li class="ph__badge">
+                        <Tag class:list={['ph__badge-in', { 'ph__badge-link': b.href }]} href={b.href}>
+                          <span
+                            class:list={['ph__badge-val huge', b.filled ? 'ph__badge-val--fill' : 'ghost', { 'ph__badge-val--long': b.value.length >= 4, 'ph__badge-val--dash': b.dashed }]}>
+                            {b.value}
+                          </span>
+                          <span class="ph__badge-label cap muted">{b.label}</span>
+                        </Tag>
+                      </li>
+                    );
+                  })}
                 </ul>
               )
             )}
@@ -425,8 +430,9 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
     min-width: 0;
   }
 
+  /* Pages can narrow the About block with --about-w (Home keeps it clear of the photo's arm). */
   .ph__about {
-    width: clamp(280px, 24cqi, 420px);
+    width: clamp(280px, var(--about-w, 24cqi), 420px);
   }
 
   .ph__about-text {
@@ -465,10 +471,28 @@ const hasFoot = hasFootLeft || hasFootRight || hero.about || hero.badges.length 
 
   .ph__badge {
     width: max(96px, calc(var(--badge) * 1.333));
+  }
+
+  .ph__badge-in {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  /* A badge that links (Home's Dean's List badge to its award). */
+  .ph__badge-link .ph__badge-val {
+    transition: transform .3s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .ph__badge-link:hover .ph__badge-val {
+      transform: translateY(-3px);
+    }
+    .ph__badge-link:hover .ph__badge-label {
+      color: var(--ink);
+    }
   }
 
   .ph__badge-val {

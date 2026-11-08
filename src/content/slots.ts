@@ -15,8 +15,11 @@ export interface SlotSpec {
 }
 
 export const slots = {
-  'hero-photo': { ratio: 640 / 760, ratioLabel: 'PORTRAIT, CUT OUT', label: '[PHOTO: HERO, ARMS CROSSED]' },
+  /** The cut-out hero photo (hero/hero-cutout.png): 2275 x 2181, transparent background. */
+  'hero-photo': { ratio: 2275 / 2181, ratioLabel: 'CUT OUT', label: '[PHOTO: HERO, ARMS CROSSED]' },
+  /** Light-theme headshot (wood background) and dark-theme headshot (dark background). */
   headshot: { ratio: 1, ratioLabel: '1:1', label: '[HEADSHOT]' },
+  'headshot-dark': { ratio: 1, ratioLabel: '1:1', label: '[HEADSHOT]' },
   'hs-robot': { ratio: 16 / 9, ratioLabel: '16:9', label: '[PHOTO: ROBOT ON THE FIELD]' },
   'hs-team': { ratio: 4 / 5, ratioLabel: '4:5', label: '[PHOTO: TEAM]' },
   'hs-outreach': { ratio: 4 / 5, ratioLabel: '4:5', label: '[PHOTO: OUTREACH]' },
