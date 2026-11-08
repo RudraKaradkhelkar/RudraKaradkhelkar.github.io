@@ -1,0 +1,241 @@
+---
+// Life (replaces Drawings & Life; design-handoff/CHANGES.md section 4). Copy: src/content/life.ts.
+// Sections: Zeta Beta Tau, the featured drawing, fantasy football, and poker. The old
+// sketchbook grid and Places section are gone; /drawings redirects here (astro.config.mjs).
+import Layout from '../layouts/Layout.astro';
+import PosterHero from '../components/PosterHero.astro';
+import LifeArt from '../components/art/LifeArt.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Surface from '../components/Surface.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import AwardLink from '../components/AwardLink.astro';
+import { meta, hero, drawing, zbt, drawingSection, games } from '../content/life';
+import { getSlotImage } from '../lib/slot-images';
+
+const scan = getSlotImage(drawing.slot);
+const ratio = scan ? scan.width / scan.height : 753 / 989;
+const isPlaceholder = (t: string) => t.startsWith('[');
+---
+
+<Layout meta={meta}>
+  <PosterHero hero={hero} headlineSize={420} artGap={10} footGap={10} padBottom={110} halo={{ y: 340, w: 1100, h: 820, alpha: 0.14, center: 'rgba(255, 236, 200, .16)' }}>
+    <LifeArt slot="art" />
+  </PosterHero>
+
+  <!-- ---------- Zeta Beta Tau ---------- -->
+  <section class="section wrap" aria-labelledby="zbt-h">
+    <SectionHead label={zbt.label} heading={zbt.heading} id="zbt-h" drift="left" />
+    <Surface class="lf-zbt" data-reveal>
+      <p class="lf-zbt__wm huge outline" aria-hidden="true">ZBT</p>
+      <p class="lf-zbt__text">{zbt.text}</p>
+    </Surface>
+  </section>
+
+  <!-- ---------- Drawing ---------- -->
+  <section class="section wrap" id="drawing" aria-labelledby="draw-h">
+    <SectionHead label={drawingSection.label} heading={drawingSection.heading} id="draw-h" drift="right" />
+    <div class="lf-draw">
+      <figure class="lf-draw__fig" data-reveal>
+        <ImageSlot name={drawing.slot} alt={drawing.alt} ratio={ratio} radius="6px" showRatio={false} sizes="(min-width: 768px) 500px, 100vw" class="lf-draw__img" />
+        <figcaption class="lf-draw__cap">
+          <span class:list={['cond lf-draw__title', { placeholder: isPlaceholder(drawing.title) }]}>{drawing.title}</span>
+          <span class="mono faint">
+            {drawing.medium} · {drawing.year}
+          </span>
+        </figcaption>
+      </figure>
+      <div class="lf-draw__body" data-reveal>
+        {drawingSection.paragraphs.map((t) => <p class="lf-lead">{t}</p>)}
+        <p class="lf-award">
+          <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="9" r="6" />
+            <path d="M8.5 14L7 22l5-3 5 3-1.5-8" />
+          </svg>
+          <AwardLink id={drawingSection.award}>{drawingSection.awardText}</AwardLink>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Fantasy football and poker ---------- -->
+  <section class="section wrap" aria-labelledby="games-h">
+    <SectionHead label={games.label} heading={games.heading} id="games-h" drift="left" />
+    <ul role="list" class="lf-games">
+      {
+        games.items.map((g) => (
+          <li id={g.id} data-reveal>
+            <Surface as="article" class="lf-game">
+              <p class="lf-game__wm huge outline" aria-hidden="true">
+                {g.id === 'football' ? 'PPR' : "HOLD'EM"}
+              </p>
+              <p class="mono rim-ink">{g.label}</p>
+              <h3 class="lf-game__title cond">{g.title}</h3>
+              <p class="lf-game__text muted">{g.text}</p>
+              {g.link && (
+                <a href={g.link.href} class="lf-game__link cap">
+                  {g.link.label}
+                  <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              )}
+            </Surface>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .lf-lead {
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .lf-lead + .lf-lead {
+    margin-top: 12px;
+  }
+
+  /* ---------- ZBT ---------- */
+  :global(.lf-zbt) {
+    margin-top: 40px;
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(180px, 16vw, 280px);
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(24px, 3.06vw, 54px);
+    border-radius: 20px;
+  }
+
+  .lf-zbt__wm {
+    position: absolute;
+    right: clamp(16px, 3vw, 48px);
+    bottom: -.12em;
+    font-size: clamp(120px, 16.7vw, 290px);
+    -webkit-text-stroke: 1px var(--line2);
+  }
+
+  .lf-zbt__text {
+    position: relative;
+    max-width: 30em;
+    font-size: clamp(20px, 1.67vw, 28px);
+    line-height: 1.4;
+  }
+
+  /* ---------- Drawing ---------- */
+  .lf-draw {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 88px);
+    align-items: center;
+  }
+
+  .lf-draw__fig {
+    margin: 0;
+  }
+
+  .lf-draw__fig :global(.lf-draw__img) {
+    box-shadow: 0 40px 90px -30px var(--shadow);
+  }
+
+  .lf-draw__cap {
+    margin-top: 16px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .lf-draw__title {
+    font-size: clamp(22px, 1.67vw, 28px);
+  }
+
+  .lf-award {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .lf-award .ico {
+    flex: none;
+    color: var(--accent);
+  }
+
+  @media (max-width: 899px) {
+    .lf-draw {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .lf-draw__fig {
+      max-width: 500px;
+    }
+  }
+
+  /* ---------- Games ---------- */
+  .lf-games {
+    margin: 52px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .lf-games :global(.lf-game) {
+    position: relative;
+    height: 100%;
+    min-height: clamp(260px, 22vw, 380px);
+    overflow: hidden;
+    padding: clamp(24px, 3.06vw, 54px);
+    border-radius: 20px;
+  }
+
+  .lf-game__wm {
+    position: absolute;
+    left: clamp(24px, 3.06vw, 54px);
+    bottom: -.12em;
+    font-size: clamp(110px, 12.5vw, 220px);
+    -webkit-text-stroke: 1px var(--line2);
+  }
+
+  .lf-game__title {
+    position: relative;
+    margin-top: 14px;
+    font-size: clamp(32px, 3.19vw, 56px);
+    line-height: 1.05;
+  }
+
+  .lf-game__text {
+    position: relative;
+    margin-top: 14px;
+    max-width: 26em;
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  .lf-game__link {
+    position: relative;
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 5px;
+  }
+
+  @media (max-width: 767px) {
+    .lf-games {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .lf-game__text {
+      font-size: 16px;
+    }
+  }
+</style>
