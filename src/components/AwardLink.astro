@@ -5,18 +5,21 @@
 //
 //   <AwardLink id="deans-list-2025" />                 the award's own title
 //   <AwardLink id="deans-list-2025">Dean's List</AwardLink>   custom text
+//   <AwardLink id="region6-yale-2025" withOrg />          title, then the event in muted ink
 import { award, awardHref } from '../content/awards';
 
 interface Props {
   id: string;
+  /** Add the presenting organization or event after the title. */
+  withOrg?: boolean;
   class?: string;
 }
 
-const { id, class: className } = Astro.props;
+const { id, withOrg = false, class: className } = Astro.props;
 const a = award(id);
 ---
 
-<a href={awardHref(id)} class:list={['awl', className]}><slot>{a.title}</slot></a>
+<a href={awardHref(id)} class:list={['awl', className]}><slot>{a.title}</slot>{withOrg && <span class="awl__org">, {a.org}</span>}</a>
 
 <style>
   .awl {
@@ -25,6 +28,10 @@ const a = award(id);
     text-decoration-color: var(--accent);
     text-decoration-thickness: 1.5px;
     text-underline-offset: .22em;
+  }
+
+  .awl__org {
+    color: var(--ink2);
   }
 
   @media (hover: hover) {
