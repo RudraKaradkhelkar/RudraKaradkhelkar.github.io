@@ -1,12 +1,17 @@
 ---
-// Experience hero art: four ID badges hanging from short accent lanyards on a metal rail, each
-// swinging gently; the last one is accent-filled. Markup and values copied from
+// Experience hero art: five ID badges (CHANGES.md section 5) hanging from short accent lanyards on
+// a metal rail, each swinging gently; the CGI '26 badge is accent-filled. Markup and values from
 // design-handoff/reference/Experience.html, re-expressed in board units so the whole rail scales.
+// The badge photos use src/assets/slots/headshot-dark.jpg.
 //
-// The art box is a 900-unit-wide board (x 270 to 1170 of the 1440 design). Each badge is an
-// inline-size container, so everything printed on it scales with the badge.
-// Phones: the same four badges, smaller and overlapping like a fanned hand, on a shorter rail.
+// The art box is a 1000-unit-wide board. Each badge is an inline-size container, so everything
+// printed on it scales with the badge.
+// Phones: the same five badges, smaller and overlapping like a fanned hand, on a shorter rail.
+import { Image } from 'astro:assets';
 import { heroBadges } from '../../content/experience';
+import { getSlotImage } from '../../lib/slot-images';
+
+const photo = getSlotImage('headshot-dark') ?? getSlotImage('headshot');
 
 const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year}`).join('; ');
 ---
@@ -23,11 +28,15 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
             <div class="xart__in">
               <span class="xart__org huge">{b.org}</span>
               <span class="xart__who">
-                <span class:list={['xart__photo', { media: !b.filled }]}>
-                  <svg viewBox="0 0 64 78">
-                    <circle cx="32" cy="30" r="12" />
-                    <path d="M8 78 C10 58 20 50 32 50 C44 50 54 58 56 78 Z" />
-                  </svg>
+                <span class:list={['xart__photo', { media: !b.filled && !photo }]}>
+                  {photo ? (
+                    <Image src={photo} alt="" widths={[120, 240]} sizes="(min-width: 768px) 64px, 48px" class="xart__img" />
+                  ) : (
+                    <svg viewBox="0 0 64 78">
+                      <circle cx="32" cy="30" r="12" />
+                      <path d="M8 78 C10 58 20 50 32 50 C44 50 54 58 56 78 Z" />
+                    </svg>
+                  )}
                 </span>
                 <span>
                   <span class="xart__name cond">{b.name}</span>
@@ -49,18 +58,18 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
 
 <style>
   .xart {
-    /* u = one design px at 1440. The board is 900 u wide and 420 u tall. */
-    --u: calc(100cqi / 900);
-    --bw: 210;
-    --step: 220;
-    --x0: 15;
+    /* u = one design px at 1440. The board is 1000 u wide and 400 u tall. */
+    --u: calc(100cqi / 1000);
+    --bw: 190;
+    --step: 200;
+    --x0: 5;
     --yard: 64;
-    --rail-x: 60;
-    --rail-w: 780;
+    --rail-x: 50;
+    --rail-w: 900;
     position: relative;
-    width: min(100%, 62.5cqi);
+    width: min(100%, 69.4cqi);
     margin-inline: auto;
-    aspect-ratio: 900 / 420;
+    aspect-ratio: 1000 / 400;
     container-type: inline-size;
   }
 
@@ -103,13 +112,15 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
 
   /* Resting angles are the design's first keyframe, so reduced motion keeps the fan. */
   .xart__swing--0 { transform: rotate(-10deg); animation: swA 6s ease-in-out infinite; }
-  .xart__swing--1 { transform: rotate(-3deg); animation: swB 6.6s ease-in-out infinite; }
-  .xart__swing--2 { transform: rotate(4deg); animation: swC 5.8s ease-in-out infinite; }
-  .xart__swing--3 { transform: rotate(11deg); animation: swD 7s ease-in-out infinite; }
+  .xart__swing--1 { transform: rotate(-4deg); animation: swB 6.6s ease-in-out infinite; }
+  .xart__swing--2 { transform: rotate(1deg); animation: swE 6.2s ease-in-out infinite; }
+  .xart__swing--3 { transform: rotate(6deg); animation: swC 5.8s ease-in-out infinite; }
+  .xart__swing--4 { transform: rotate(11deg); animation: swD 7s ease-in-out infinite; }
 
   @keyframes swA { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(-7deg); } }
-  @keyframes swB { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(-.5deg); } }
-  @keyframes swC { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(6.5deg); } }
+  @keyframes swB { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(-1.5deg); } }
+  @keyframes swE { 0%, 100% { transform: rotate(1deg); } 50% { transform: rotate(-1.5deg); } }
+  @keyframes swC { 0%, 100% { transform: rotate(6deg); } 50% { transform: rotate(8.5deg); } }
   @keyframes swD { 0%, 100% { transform: rotate(11deg); } 50% { transform: rotate(8deg); } }
 
   .xart__clip {
@@ -168,6 +179,15 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
 
   .xart__photo.media::before {
     display: none;
+  }
+
+  .xart__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
   }
 
   .xart__photo svg {
@@ -234,21 +254,21 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
   /* Tablet: the rail takes more of the width. */
   @media (max-width: 1279px) {
     .xart {
-      width: min(100%, 78cqi);
+      width: min(100%, 88cqi);
     }
   }
 
   /* Phones: a shorter rail and a fanned, overlapping hand of badges. */
   @media (max-width: 767px) {
     .xart {
-      --bw: 330;
-      --step: 175;
-      --x0: 22;
+      --bw: 300;
+      --step: 165;
+      --x0: 20;
       --yard: 46;
       --rail-x: 120;
-      --rail-w: 660;
+      --rail-w: 760;
       width: 100%;
-      aspect-ratio: 900 / 600;
+      aspect-ratio: 1000 / 600;
     }
   }
 </style>

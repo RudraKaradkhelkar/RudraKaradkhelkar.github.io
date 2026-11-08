@@ -1,19 +1,19 @@
 ---
-// Experience. Copy: src/content/experience.ts. Design: design-handoff/reference/Experience.html.
+// Experience. Copy: src/content/experience.ts. Design: design-handoff/reference/Experience.html,
+// restructured by design-handoff/CHANGES.md section 5: a skills overview right under the hero,
+// CGI as three chapters, EcoChamps linked to CGI's article, CAPE and LPSS with full skill blocks.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import ExperienceArt from '../components/art/ExperienceArt.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
-import ImageSlot from '../components/ImageSlot.astro';
-import { meta, hero, work, ecochamps } from '../content/experience';
-import { getSlotImage } from '../lib/slot-images';
+import { meta, hero, roles, skills, cgi, ecochamps, more } from '../content/experience';
 import { emWidth } from '../lib/fit';
 
 const ecoFit = await emWidth(ecochamps.heading);
-const wmFits = await Promise.all(work.cases.map((c) => emWidth(c.watermark)));
-const ecoScreen = getSlotImage(ecochamps.figure.slot);
+const wmFits = await Promise.all(more.cases.map((c) => emWidth(c.watermark)));
+const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
 ---
 
 <Layout meta={meta}>
@@ -21,78 +21,136 @@ const ecoScreen = getSlotImage(ecochamps.figure.slot);
     <ExperienceArt slot="art" />
   </PosterHero>
 
-  <section class="section wrap" aria-labelledby="work-h">
-    <SectionHead label={work.label} heading={work.heading} id="work-h" drift="left" />
-    <ol role="list" class="xcases">
+  <!-- ---------- Skills overview ---------- -->
+  <section class="section wrap" id="skills" aria-labelledby="skills-h">
+    <SectionHead label={skills.label} heading={skills.heading} meta={`${skillCount} SKILLS`} id="skills-h" drift="left" />
+    <div class="xs-lead" data-reveal>
+      <p class="xs-lead__text">{skills.text}</p>
+      <ul role="list" class="xs-legend">
+        {Object.values(roles).map((r) => <li class="mono">{r}</li>)}
+      </ul>
+    </div>
+    <div class="xs-groups">
       {
-        work.cases.map((c, i) => (
+        skills.groups.map((g) => (
+          <Surface as="section" class="xs-group" aria-label={g.title} data-reveal>
+            <h3 class="xs-group__title cond">{g.title}</h3>
+            <ul role="list" class="xs-list">
+              {g.items.map((it) => (
+                <li class="xs-item">
+                  <span class="xs-item__name">{it.name}</span>
+                  <span class="xs-item__roles mono">{it.roles.map((r) => roles[r]).join(' · ')}</span>
+                </li>
+              ))}
+            </ul>
+          </Surface>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ---------- CGI, three chapters ---------- -->
+  <section class="section wrap" id={cgi.id} aria-labelledby="cgi-h">
+    <SectionHead label={cgi.label} heading={cgi.heading} id="cgi-h" drift="right" />
+    <p class="x-intro" data-reveal>{cgi.intro}</p>
+
+    <div class="x-thru" data-reveal>
+      <p class="mono faint">{cgi.throughLine.label}</p>
+      <ol role="list" class="x-thru__steps">
+        {
+          cgi.throughLine.steps.map((st) => (
+            <li class="x-thru__step">
+              <span class="huge litx x-thru__year">{st.year}</span>
+              <span class="x-thru__text">{st.text}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <ol role="list" class="x-chapters">
+      {
+        cgi.chapters.map((ch) => (
           <li data-reveal>
-            <Surface as="article" class="xcase">
-              <div class="xcase__id">
-                <p class="xcase__wm huge outline" aria-hidden="true" style={`--fit:${wmFits[i]}`}>
-                  {c.watermark}
+            <Surface as="article" class="x-ch">
+              <div class="x-ch__id">
+                <p class="huge outline x-ch__year" aria-hidden="true">
+                  {ch.year}
                 </p>
-                <p class="mono faint xcase__label">{c.label}</p>
+                <p class="mono faint x-ch__label">{ch.label}</p>
+                <h3 class="x-ch__role cond">{ch.role}</h3>
+                <p class="x-ch__team muted">{ch.team}</p>
+                {ch.context && <p class="x-ch__context">{ch.context}</p>}
               </div>
-              <div class="xcase__head">
-                <p class="cap muted">{c.kicker}</p>
-                <h3 class="xcase__title cond">{c.title}</h3>
-                {c.chips.length > 0 && (
-                  <div class="xcase__chips">
-                    {c.chips.map((chip) => (
-                      <Chip label={chip.label} />
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div class="xcase__body">
-                {c.timeline ? (
-                  <ol role="list" class="xtl">
-                    {c.timeline.map((t) => (
-                      <li class:list={['xtl__item', { 'xtl__item--now': t.current }]}>
-                        <p class:list={['mono', t.current ? 'rim-ink' : 'faint']}>{t.label}</p>
-                        <p class="xtl__text">{t.text}</p>
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <div class="xcase__paras">
-                    {c.paragraphs?.map((p) => (
-                      <p>{p}</p>
-                    ))}
-                    {c.note && <p class="muted">{c.note}</p>}
-                  </div>
-                )}
+              <div class="x-ch__body">
+                <p class="mono faint">WHAT I BUILT</p>
+                <ul role="list" class="x-ch__built">
+                  {ch.built.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+                <p class="mono faint x-ch__h">SKILLS LEARNED</p>
+                <div class="x-chips">
+                  {ch.skills.map((sk) => (
+                    <Chip label={sk.label} />
+                  ))}
+                </div>
+                <p class="mono faint x-ch__h">RECOGNITION</p>
+                <ul role="list" class="x-ch__rec">
+                  {ch.recognition.map((r) => (
+                    <li>
+                      {r.text}{' '}
+                      {r.link && (
+                        <a href={r.link.href} rel="noopener" class="x-link">
+                          {r.link.label}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <figure class="x-quote">
+                  <figcaption class="mono rim-ink">IN MY WORDS</figcaption>
+                  <blockquote class="cond">“{ch.quote}”</blockquote>
+                </figure>
               </div>
             </Surface>
           </li>
         ))
       }
     </ol>
+
+    <Surface as="section" class="x-vol" aria-labelledby="vol-h" data-reveal>
+      <div class="x-vol__head">
+        <p class="mono faint">{cgi.volunteering.label}</p>
+        <h3 class="x-vol__title cond" id="vol-h">{cgi.volunteering.title}</h3>
+      </div>
+      <ul role="list" class="x-vol__items">
+        {
+          cgi.volunteering.items.map((it) => (
+            <li class="x-vol__item">
+              <span class="huge litx x-vol__val">{it.value}</span>
+              <span class="x-vol__text">{it.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="x-vol__note muted">{cgi.volunteering.note}</p>
+    </Surface>
   </section>
 
+  <!-- ---------- EcoChamps ---------- -->
   <section class="section wrap" aria-labelledby="eco-h">
     <div class="eco">
-      <figure class="eco__fig media" data-reveal>
-        <div class="eco__phone surface">
-          <span class="eco__notch" aria-hidden="true"></span>
-          {
-            ecoScreen ? (
-              <ImageSlot name={ecochamps.figure.slot} alt={ecochamps.figure.alt} fill radius="26px" class="eco__screen" />
-            ) : (
-              <span class="eco__ph mono faint">
-                [ECOCHAMPS
-                <br />
-                SCREEN]
-              </span>
-            )
-          }
-        </div>
-        <figcaption>
-          <span class="eco__cap eco__cap--tl mono faint">{ecochamps.figure.label}</span>
-          <span class="eco__cap eco__cap--br mono faint">{ecochamps.figure.tag}</span>
-        </figcaption>
-      </figure>
+      <a href={ecochamps.press.link.href} rel="noopener" class="eco__press media lift" data-reveal>
+        <span class="eco__press-label mono faint">{ecochamps.press.label}</span>
+        <span class="eco__press-title cond">“{ecochamps.press.title}”</span>
+        <span class="eco__press-cta cap">
+          {ecochamps.press.link.label}
+          <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </span>
+      </a>
       <div class="eco__body" data-reveal>
         <p class="mono faint">{ecochamps.label}</p>
         <div class="eco__fit">
@@ -112,105 +170,358 @@ const ecoScreen = getSlotImage(ecochamps.figure.slot);
       </div>
     </div>
   </section>
+
+  <!-- ---------- CAPE and LPSS ---------- -->
+  <section class="section wrap" aria-labelledby="more-h">
+    <SectionHead label={more.label} heading={more.heading} id="more-h" drift="left" />
+    <ol role="list" class="xcases">
+      {
+        more.cases.map((c, i) => (
+          <li data-reveal>
+            <Surface as="article" class="xcase">
+              <div class="xcase__id">
+                <p class="xcase__wm huge outline" aria-hidden="true" style={`--fit:${wmFits[i]}`}>
+                  {c.watermark}
+                </p>
+                <p class="mono faint xcase__label">{c.label}</p>
+              </div>
+              <div class="xcase__head">
+                <p class="cap muted">{c.kicker}</p>
+                <h3 class="xcase__title cond">{c.title}</h3>
+              </div>
+              <div class="xcase__body">
+                <ul role="list" class="x-ch__built x-ch__built--first">
+                  {c.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+                <p class="mono faint x-ch__h">{c.skillsLabel}</p>
+                <div class="x-chips">
+                  {c.skills.map((sk) => (
+                    <Chip label={sk.label} />
+                  ))}
+                </div>
+              </div>
+            </Surface>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
 </Layout>
 
 <style>
-  /* ---------- Work cases ---------- */
-  .xcases {
-    margin: 52px 0 0;
+  /* ---------- Skills ---------- */
+  .xs-lead {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+  }
+
+  .xs-lead__text {
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .xs-legend {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .xs-legend li {
+    height: 30px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid var(--line2);
+    color: var(--ink2);
+  }
+
+  .xs-groups {
+    margin-top: 40px;
+    columns: 3 320px;
+    column-gap: 24px;
+  }
+
+  .xs-groups :global(.xs-group) {
+    break-inside: avoid;
+    margin-bottom: 24px;
+    padding: clamp(22px, 2.2vw, 34px);
+    border-radius: 18px;
+  }
+
+  .xs-group__title {
+    font-size: clamp(24px, 1.94vw, 32px);
+    line-height: 1.1;
+  }
+
+  .xs-list {
+    margin: 16px 0 0;
+  }
+
+  .xs-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 16px;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .xs-item__name {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .xs-item__roles {
+    color: var(--rim-ink);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* ---------- CGI ---------- */
+  .x-intro {
+    margin-top: 26px;
+    max-width: 840px;
+    font-size: clamp(18px, 1.39vw, 22px);
+    line-height: 1.5;
+  }
+
+  .x-thru {
+    margin-top: 40px;
+    padding: clamp(22px, 2.2vw, 34px) 0;
+    border-top: 1px solid var(--line2);
+    border-bottom: 1px solid var(--line2);
+  }
+
+  .x-thru__steps {
+    margin: 18px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 64px;
+  }
+
+  .x-thru__step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  /* Arrow from 2024 to 2026. */
+  .x-thru__step + .x-thru__step::before {
+    content: '';
+    position: absolute;
+    left: -48px;
+    top: .7em;
+    width: 32px;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--line2), var(--accent));
+  }
+
+  .x-thru__year {
+    flex: none;
+    font-size: clamp(44px, 4.17vw, 72px);
+  }
+
+  .x-thru__text {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .x-chapters {
+    margin: 40px 0 0;
     display: flex;
     flex-direction: column;
     gap: 24px;
   }
 
-  .xcases :global(.xcase) {
+  .x-chapters :global(.x-ch) {
     display: grid;
-    /* 250 / 330 / rest of the 1208 px inner width at 1440. */
-    grid-template-columns: minmax(0, 20.7%) minmax(0, 27.3%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
     gap: 40px;
     padding: clamp(24px, 3.06vw, 54px);
     overflow: hidden;
     border-radius: 20px;
   }
 
-  /* The watermark never runs past its column. */
-  .xcase__id {
-    container-type: inline-size;
+  .x-ch__year {
+    font-size: clamp(84px, 9.72vw, 170px);
   }
 
-  .xcase__wm {
-    font-size: min(clamp(84px, 8.9vw, 150px), calc(100cqi / var(--fit)));
-  }
-
-  .xcase__label {
+  .x-ch__label {
     margin-top: 14px;
   }
 
-  .xcase__title {
+  .x-ch__role {
     margin-top: 10px;
-    font-size: clamp(30px, 2.78vw, 46px);
-    line-height: 1.05;
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.06;
   }
 
-  .xcase__chips {
-    margin-top: 18px;
+  .x-ch__team {
+    margin-top: 8px;
+    font-size: 16px;
+  }
+
+  .x-ch__context {
+    margin-top: 16px;
+    padding-left: 14px;
+    border-left: 2px solid var(--accent);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .x-ch__built {
+    margin: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .x-ch__built--first {
+    margin-top: 0;
+  }
+
+  .x-ch__built li {
+    position: relative;
+    padding-left: 22px;
+    font-size: clamp(16px, 1.11vw, 18px);
+    line-height: 1.55;
+  }
+
+  .x-ch__built li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .7em;
+    width: 10px;
+    height: 2px;
+    background-color: var(--accent);
+  }
+
+  .x-ch__h {
+    margin-top: 26px;
+  }
+
+  .x-chips {
+    margin-top: 12px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
 
-  .xtl {
+  .x-ch__rec {
+    margin: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .x-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: .22em;
+  }
+
+  .x-quote {
+    margin: 28px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .x-quote blockquote {
+    margin: 10px 0 0;
+    font-size: clamp(22px, 1.81vw, 30px);
+    line-height: 1.2;
+  }
+
+  .x-vol {
+    margin-top: 24px;
+  }
+
+  .x-chapters + :global(.x-vol) {
+    display: grid;
+    grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
+    gap: 24px 40px;
+    padding: clamp(24px, 3.06vw, 54px);
+    border-radius: 20px;
+  }
+
+  .x-vol__title {
+    margin-top: 10px;
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.06;
+  }
+
+  .x-vol__items {
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .x-vol__item {
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line2);
   }
 
-  .xtl__item {
-    padding-left: 18px;
-    border-left: 2px solid var(--line2);
+  .x-vol__val {
+    font-size: clamp(56px, 5.56vw, 96px);
   }
 
-  .xtl__item--now {
-    border-left-color: var(--accent);
+  .x-vol__text {
+    font-size: 16px;
+    line-height: 1.5;
   }
 
-  .xtl__text,
-  .xcase__paras p {
-    font-size: clamp(16px, 1.11vw, 18px);
-    line-height: 1.56;
-  }
-
-  .xtl__text {
-    margin-top: 8px;
-  }
-
-  .xcase__paras {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  .x-vol__note {
+    grid-column: 2;
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   @media (max-width: 1099px) {
-    .xcases :global(.xcase) {
-      grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
-      gap: 28px 40px;
+    .x-chapters :global(.x-ch),
+    .x-chapters + :global(.x-vol) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
     }
-    .xcase__body {
-      grid-column: 1 / -1;
+    .x-vol__note {
+      grid-column: 1;
     }
   }
 
   @media (max-width: 767px) {
-    .xcases {
-      gap: 16px;
-    }
-    .xcases :global(.xcase) {
+    .x-thru__steps {
       grid-template-columns: minmax(0, 1fr);
-      gap: 22px;
     }
-    .xcase__wm {
-      font-size: min(84px, calc(100cqi / var(--fit)));
+    .x-thru__step + .x-thru__step::before {
+      left: 18px;
+      top: -20px;
+      width: 2px;
+      height: 16px;
+      background-image: linear-gradient(180deg, var(--line2), var(--accent));
+    }
+    .x-ch__year {
+      font-size: 84px;
+    }
+    .x-vol__items {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -222,61 +533,42 @@ const ecoScreen = getSlotImage(ecochamps.figure.slot);
     align-items: center;
   }
 
-  .eco__fig {
-    margin: 0;
+  .eco__press {
     aspect-ratio: 680 / 480;
     border-radius: 20px;
-  }
-
-  .eco__phone {
-    position: absolute;
-    left: 50%;
-    top: 11.7%;
-    height: 83.3%;
-    aspect-ratio: 1 / 2;
-    transform: translateX(-50%);
-    border-radius: 34px;
-    border: 2px solid var(--line2);
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(28px, 3.3vw, 56px);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .eco__press-label,
+  .eco__press-title,
+  .eco__press-cta {
+    position: relative;
+  }
+
+  .eco__press-title {
+    font-size: clamp(30px, 3.19vw, 56px);
+    line-height: 1.06;
+    max-width: 14em;
+  }
+
+  .eco__press-cta {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    gap: 10px;
+    min-height: 44px;
   }
 
-  .eco__phone :global(.eco__screen) {
-    position: absolute;
-    inset: 6px;
-    width: auto;
-    height: auto;
-  }
-
-  .eco__notch {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 12px;
-    width: 30%;
-    height: 8px;
-    transform: translateX(-50%);
-    border-radius: 4px;
-    background-color: var(--bg);
-  }
-
-  .eco__ph {
-    text-align: center;
-    line-height: 1.5;
-  }
-
-  .eco__cap {
-    position: absolute;
-  }
-  .eco__cap--tl {
-    left: 30px;
-    top: 28px;
-  }
-  .eco__cap--br {
-    right: 30px;
-    bottom: 26px;
+  @media (hover: hover) {
+    .eco__press:hover .eco__press-cta {
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 6px;
+    }
   }
 
   /* The heading is fitted to its column (it overflowed the column in the design file). */
@@ -324,19 +616,70 @@ const ecoScreen = getSlotImage(ecochamps.figure.slot);
     .eco {
       grid-template-columns: minmax(0, 1fr);
     }
+    .eco__press {
+      aspect-ratio: auto;
+      min-height: 280px;
+      gap: 28px;
+    }
+  }
+
+  /* ---------- CAPE and LPSS ---------- */
+  .xcases {
+    margin: 52px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .xcases :global(.xcase) {
+    display: grid;
+    /* 250 / 330 / rest of the 1208 px inner width at 1440. */
+    grid-template-columns: minmax(0, 20.7%) minmax(0, 27.3%) minmax(0, 1fr);
+    gap: 40px;
+    padding: clamp(24px, 3.06vw, 54px);
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  /* The watermark never runs past its column. */
+  .xcase__id {
+    container-type: inline-size;
+  }
+
+  .xcase__wm {
+    font-size: min(clamp(84px, 8.9vw, 150px), calc(100cqi / var(--fit)));
+  }
+
+  .xcase__label {
+    margin-top: 14px;
+  }
+
+  .xcase__title {
+    margin-top: 10px;
+    font-size: clamp(30px, 2.78vw, 46px);
+    line-height: 1.05;
+  }
+
+  @media (max-width: 1099px) {
+    .xcases :global(.xcase) {
+      grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+      gap: 28px 40px;
+    }
+    .xcase__body {
+      grid-column: 1 / -1;
+    }
   }
 
   @media (max-width: 767px) {
-    .eco__fig {
-      aspect-ratio: 4 / 4.2;
+    .xcases {
+      gap: 16px;
     }
-    .eco__cap--tl {
-      left: 24px;
-      top: 22px;
+    .xcases :global(.xcase) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 22px;
     }
-    .eco__cap--br {
-      right: 24px;
-      bottom: 20px;
+    .xcase__wm {
+      font-size: min(84px, calc(100cqi / var(--fit)));
     }
   }
 </style>
