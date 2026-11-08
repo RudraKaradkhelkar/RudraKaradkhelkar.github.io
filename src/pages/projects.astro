@@ -533,8 +533,8 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
     padding-top: clamp(88px, 9vw, 160px);
   }
 
+  /* Locked: grayed out with muted ink (not opacity, so the text keeps AA contrast). */
   .pj-next {
-    opacity: .6;
     filter: grayscale(1);
     display: flex;
     align-items: center;
@@ -557,6 +557,7 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
   }
 
   .pj-next__h {
+    color: var(--ink-faint);
     margin-top: 14px;
     font-size: clamp(56px, 7.64vw, 134px);
   }

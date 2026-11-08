@@ -2,31 +2,34 @@
 
 Running log for the portfolio build. Read at the start of every session and after any context compaction, then continue from **Next**.
 
-## Morning review
+## Review (content pass, 2026-11-08)
 
-Everything from the overnight run is committed on `main` and **not pushed**. Start here:
+The content pass (design-handoff/PROMPT-CONTENT-PASS.md) and CHANGES.md are applied to every page, committed on `main`, and **not pushed**. Rudra asked to review all pages at once.
 
-1. **Look at the pages.** `npm run build && npm run preview`, then open each page at desktop and phone width (or open `review/index.html` after `npm run shoot` for every size and theme side by side). Home and Projects carry the most design weight.
-2. **Try the motion with motion turned on in your OS:** the intro on load, the hero drifting and fading as you scroll, the Home avatar appearing after the hero, the Projects level select (click, arrow keys, swipe on a phone, the sound toggle in the nav), and the R/K wordmark replaying the Home intro.
-3. **Answer the four questions** under "Questions for Rudra" below (each already has a working default).
-4. **Fill placeholders** as you're ready (table below). The README says where each one lives.
-5. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`. The workflow also rebuilds every January 1.
+1. **Look at each page** at desktop and phone width: `npm run build && npm run preview`, or `npm run shoot` and open `review/index.html` (every route, 8 sizes, both themes).
+2. **What changed:** see the "Content pass" rows in Done and the "Content pass" decisions below.
+3. **Placeholders still showing** are in the table below; the questions list is short.
+4. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`.
 
-Checks at the end of the run: `npx astro check` 0 errors / 0 warnings / 0 hints; `npm run shoot` passes 9 routes x 8 sizes x 2 themes (reduced motion and `--motion`); `npm run audit` passes (axe WCAG 2.1 AA on every route, both themes, desktop and phone; every internal link resolves; no banned patterns).
+Checks at the end of the pass: `npx astro check` 0 errors / 0 warnings / 0 hints; `npm run shoot` passes 10 routes x 8 sizes x 2 themes (and with `--motion`); `npm run audit` passes (axe WCAG 2.1 AA on all 10 routes in both themes at desktop and phone, all internal links resolve, no banned patterns).
 
 ## Status
 
-All four overnight phases are done (2026-11-05).
-
-- Phase 1: all nine routes built from the design (Home, Research, Experience, Projects, Clubs, High School, Drawings & Life, Resume, styled 404), responsive per DESIGN.md section 11.
-- Phase 2: CSS intro, GSAP ScrollTrigger scroll effects, Lenis on mouse and trackpad, Projects selection charm, theme toggle with no flash, reduced motion shows final states.
-- Phase 3: axe clean, links and banned patterns audited (`npm run audit`), no font layout shift (CLS 0.0001 with the font delayed 600 ms), one 50 KB gzipped script for the whole site.
-- Phase 4: `.github/workflows/deploy.yml` and `README.md`. Not pushed.
+Content pass done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/projects/`, `/awards/` (new), `/clubs/`, `/high-school/`, `/life/` (new, replaces `/drawings/`, which redirects), `/resume/`, and the styled 404.
 
 ## Done
 
 | Commit | What |
 | - | - |
+| `fb30046` | Content pass: Resume (PDF wired, one page, Nov 2026, degree wording, sheet and cards from the real resume, phone card for the PDF) |
+| `a15c689` | Content pass: Life replaces Drawings & Life (real drawing on polaroid 1, drawn poker and football polaroids, ZBT, drawing, games; /drawings redirect) |
+| `061c2d0` | Content pass: Clubs (four clubs, four patches, Satellite Team and MAIA logos) |
+| `b930844` | Content pass: High School (FRC lead section with Act 211 line, robot bumper hero art, projects, clubs and civic roles, awards teaser) |
+| `52b0815` | Content pass: new Awards page (medal moved here, Dean's List headline, featured honors, full list, anchors) |
+| `93cddce` | Content pass: Experience (five badges with the headshot, skills overview, CGI in three chapters, CAPE and LPSS skills, EcoChamps press card) |
+| `ca58620` | Content pass: Research (CARMA named, MITES Semester 2025, shoreline expanded with award links, chess bot removed) |
+| `4023a87` | Content pass: Projects (four covers: CyberDefender 15%, Jarvis running, Drone Glove 5%, locked poker bot) |
+| `a80ddbd` | Content pass: nav (Awards, Life), awards.ts and AwardLink, hero photo, Home (approved About text, 8 chapters), footer line, process-images.mjs |
 | `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
 | (polish) | Home phone hero fits one screen; resume sheet and polaroid type at design size (container units measure the content box); dark cover shadow in light mode |
 | (polish) | Resume viewer and page at the design's proportions; menu bottom brackets no longer touch the email row on phones or short landscape screens |
@@ -112,14 +115,27 @@ All four overnight phases are done (2026-11-05).
 - **`npm run audit`** (`scripts/audit.mjs`, uses `@axe-core/playwright` as a dev dependency) is the Phase 3 gate: axe WCAG 2.1 A/AA on every route in both themes at 1440 and 390, every internal `href`/`src` in `dist/` resolves, no `href="#"`, and the banned-pattern scan of `src/` and `dist/`.
 - **Deploy workflow (Phase 4).** `actions/checkout@v7`, `withastro/action@v6` (Node 24), `actions/deploy-pages@v5`, as in the current Astro docs. Triggers: push to `main`, `workflow_dispatch`, and `cron: '0 6 1 1 *'` for the copyright year. `concurrency: pages` without cancelling a deploy in progress.
 
+- **Content pass: hero photo (Home).** `hero-cutout.png` is used as is (checked clean on both themes), re-encoded to WebP at 1800 px with no metadata. The figure box is the photo's own shape (2275 x 2181), 46cqi wide at desktop (about 662 px at 1440, roughly 10% under the first preview) so the arms clear the round badges; the head overlaps the D; brightness 0.9 in the dark theme; a soft accent rim light is a CSS `drop-shadow` on the cut-out's alpha. Home's About block is a touch narrower so it clears the left sleeve.
+- **Content pass: approved About text.** Used exactly. Its first sentence is the big statement under the hero (end in the accent), the other two run as a lead paragraph below it; the hero's short About line stays.
+- **Content pass: awards.** One data file, `src/content/awards.ts`; each award's `id` is its anchor, rendered on exactly one element of /awards (headline section, featured card, or full-list row). `<AwardLink>` throws at build time on an unknown id. The Home Dean's List badge, Research, High School, and Life link through it. The podcast links to the exact episode (EP8 S2 on Apple Podcasts, Dec 13, 2025; the award entry keeps PROFILE's Oct 2025).
+- **Content pass: Projects.** Jarvis is LVL 02 (2026, running, no progress bar, only the two cleared facts). The poker bot is a grayed-out locked LVL 04 (cover and card), per Rudra. CyberDefender milestones are the default list Rudra approved.
+- **Content pass: Experience skills.** Every skill from the PROFILE lists, grouped as CHANGES.md says, each tagged with the roles that used it. Groupings for a few (Angular, HTML/CSS under Languages; Google Forms, CWE research under Backend and data) are my call.
+- **Content pass: Clubs.** The Satellite Team's white mark is drawn through an SVG luminance mask filled with `--ink`, so it is white on dark and near-black on light. AI@MIT and the Global Security Technology Club show name and "MEMBER" only (no description in PROFILE).
+- **Content pass: Life.** Polaroid 1 crops the drawing from the top (UFO, beam, MIT letters); the Drawing section shows it whole at up to 500 px. Drawing title, medium, and year stay placeholders.
+- **Content pass: Resume.** The PDF is embedded on desktop; phones and browsers without inline PDF get a paper card with an Open the PDF button.
+- **Content pass: footer line** (Rudra, Nov 8): "Open to Summer 2027 roles in software engineering and cybersecurity/AI".
+- **Content pass: images.** `scripts/process-images.mjs` re-encodes every incoming file with sharp (no EXIF/GPS/XMP) into `src/assets/slots/` and `src/assets/logos/`, and copies the resume to `public/resume.pdf`. Originals in `assets-incoming/` are untouched and still gitignored.
+
 ## Questions for Rudra
 
-The five Phase 0 questions were answered; see Decisions. New ones from the overnight run (each already has a working default):
+Open from the content pass (each has a working default on the site):
 
-1. **Hero captions on phones.** The design files hide the four top captions on phones. The build shows them as two small stacked pairs under the subtitle instead. Keep them, or hide them on phones?
-2. **Research graph on phones** crops its outer edges to stay readable rather than shrinking the whole graph. OK?
-3. **Resume buttons before the PDF exists** are visible but inactive. They could be hidden until the PDF is ready instead. Which do you prefer?
-4. **404 captions** read "Rudra Karadkhelkar / MIT '30" and "Lafayette, LA / Cambridge, MA". Fine, or something else?
+1. **Drawing title, medium, and year** for `drawing-01` (shown as `[Title]`, `[Medium]`, `[Year]`).
+2. **UROP status line** (still `[One or two lines on progress, once cleared to share.]`).
+3. **Poker bot details**, after the tournament, to unlock LVL 04.
+4. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
+
+The overnight questions (captions on phones, Research graph crop, Resume buttons, 404 captions) were covered by "defaults are fine".
 
 ## Placeholders
 
@@ -127,14 +143,12 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 | Page | Placeholder |
 | - | - |
-| Home | Hero cut-out photo (slot `hero-photo`, stand-in figure until then); nav avatar (slot `headshot`) |
-| Research | UROP status "[One or two lines on progress, once cleared to share.]"; shoreline "[Data, method, and result in two lines.]"; shoreline figures (slot `research-shoreline-1`) |
-| Experience | EcoChamps screen (slot `experience-ecochamps-1`, only if CGI is OK with it) |
-| Projects | Four milestone `[STATUS]` values; LVL 03 "[What's next, in one line.]"; progress photos (slots `project-cyberdefender-N`, `project-drone-glove-N`) |
-| Clubs | Third club `[ROLE · TERM]`, `[Next club]`, "[Add a club here once it's official.]" |
-| High School | Three photos (slots `hs-robot`, `hs-team`, `hs-outreach`); podcast `[LINK TO EPISODE]`; "[Add other service work: organization, role, hours.]" |
-| Drawings | Six scans (slots `drawing-01` to `drawing-06`) with `[Title]` and `[YEAR]`; `[06 PIECES]`; third place `[LOCATION]` and "[A favorite place to draw, and why.]"; place photos (slots `place-home`, `place-school`, `place-draw`); hobbies "[Add more]" |
-| Resume | PDF (`public/resume.pdf`, only once confirmed phone-free; `pdf.href` in `resume.ts`); "Updated [Month 2026]"; "[Course number]"; "[Exact course and degree wording]" |
+| Research | UROP status "[One or two lines on progress, once cleared to share.]"; shoreline figure (slot `research-shoreline-1`, an illustration shows until then) |
+| Projects | Poker bot (locked LVL 04 until Rudra sends details); progress photos (slots `project-*`, no spot on the page yet) |
+| High School | Three photos (slots `hs-robot`, `hs-team`, `hs-outreach`) |
+| Life | Drawing `[Title]`, `[Medium]`, `[Year]` |
+
+Everything else from the overnight list is filled (hero photo, headshots, resume PDF and wording, podcast link, milestones, service work, clubs). The Drawings sketchbook and Places placeholders are gone with that page.
 
 ## Known issues
 
@@ -144,8 +158,4 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 ## Next
 
-Rudra's review (see **Morning review** at the top). After that:
-
-1. Apply answers to the four questions.
-2. Content pass with real photos and text (`design-handoff/PROMPT-CONTENT-PASS.md`): drop processed photos into `src/assets/slots/`, replace placeholders in `src/content/`, add `public/resume.pdf` and set `pdf.href`.
-3. Re-run `npm run check && npm run shoot && npm run audit`, then push to deploy.
+Rudra reviews every page and sends changes. Then answer the open questions above, add the remaining photos through `scripts/process-images.mjs`, re-run `npm run check && npm run shoot && npm run audit`, and push to deploy.

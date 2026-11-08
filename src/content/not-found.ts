@@ -3,7 +3,6 @@
 // Captions, side labels, and the page list reuse copy that already appears elsewhere on the site.
 import type { PageMeta, PosterHeroContent } from './types';
 import { chapters, hero as homeHero } from './home';
-import { hero as resumeHero } from './resume';
 import { site } from './site';
 
 export const meta: PageMeta = {
@@ -39,9 +38,8 @@ export const list = {
   label: chapters.label,
 };
 
-/** Every page, in nav order, with the same one-line descriptions used on Home. */
+/** Every page, in nav order, with the same one-line descriptions used on Home (whose eight chapters include Resume). */
 export const pages = [
   { label: 'HOME', title: site.name, text: homeHero.about!.text, href: '/' },
   ...chapters.items.map((c) => ({ label: c.tag, title: c.title, text: c.text, href: c.href })),
-  { label: 'PDF', title: site.links.resume.label, text: resumeHero.about!.text, href: site.links.resume.href },
 ];
