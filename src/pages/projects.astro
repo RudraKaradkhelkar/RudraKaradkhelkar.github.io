@@ -8,7 +8,7 @@ import LevelDetail from '../components/LevelDetail.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
-import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '../content/projects';
+import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLevel } from '../content/projects';
 ---
 
 <Layout meta={meta} nav="projects">
@@ -45,10 +45,16 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
         <ul role="list" class="pj-list__items">
           {
             cd.milestones.items.map((m) => (
-              <li class="pj-list__item pj-ms">
-                <span class="pj-ms__box" aria-hidden="true" />
+              <li class:list={['pj-list__item pj-ms', { 'pj-ms--done': 'done' in m && m.done }]}>
+                <span class="pj-ms__box" aria-hidden="true">
+                  {'done' in m && m.done && (
+                    <svg class="ico" width="14" height="14" viewBox="0 0 24 24">
+                      <path d="M5 12.5l4.5 4.5L19 7.5" />
+                    </svg>
+                  )}
+                </span>
                 <span class="pj-ms__title">{m.title}</span>
-                <span class="pj-ms__status mono faint">{m.status}</span>
+                <span class:list={['pj-ms__status mono', 'done' in m && m.done ? 'rim-ink' : 'faint']}>{m.status}</span>
               </li>
             ))
           }
@@ -57,8 +63,59 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
     </div>
   </section>
 
-  <section class="section wrap" id={dg.id} aria-labelledby="lvl2-h">
-    <SectionHead label={dg.label} heading={dg.heading} id="lvl2-h" drift="right" accentLabel />
+  <section class="section wrap" id={jv.id} aria-labelledby="lvl2-h">
+    <SectionHead label={jv.label} heading={jv.heading} id="lvl2-h" drift="right" accentLabel />
+    <div class="jv">
+      <div class="jv__body" data-reveal>
+        <p class="jv__title cond">{jv.title}</p>
+        <ul role="list" class="jv__facts">
+          {
+            jv.facts.map((f) => (
+              <li class="jv__fact">
+                <p class="mono faint">{f.label}</p>
+                <p class="jv__fact-t cond">{f.title}</p>
+                <p class="jv__fact-x muted">{f.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="jv__status mono rim-ink">
+          <span class="jv__dot" aria-hidden="true"></span>
+          {jv.status}
+        </p>
+      </div>
+      <figure class="jv__fig media" data-reveal>
+        <svg class="jv__svg" role="img" aria-label={jv.figure.alt} viewBox="0 0 240 182">
+          <defs>
+            <filter id="jarvisFigGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+            </filter>
+          </defs>
+          <circle cx="120" cy="91" r="66" class="art" style="stroke-dasharray: 3 7"></circle>
+          <path class="art" d="M120 60 L120 38 M144 91 L174 91 M120 122 L120 144 M96 91 L66 91"></path>
+          <circle class="node" cx="120" cy="26" r="11"></circle>
+          <circle class="node" cx="186" cy="91" r="11"></circle>
+          <circle class="node" cx="120" cy="156" r="11"></circle>
+          <circle class="node" cx="54" cy="91" r="11"></circle>
+          <circle cx="120" cy="26" r="3.5" style="fill: var(--rim)"></circle>
+          <circle cx="186" cy="91" r="3.5" style="fill: var(--rim)"></circle>
+          <circle cx="120" cy="156" r="3.5" style="fill: var(--rim)"></circle>
+          <circle cx="54" cy="91" r="3.5" style="fill: var(--rim)"></circle>
+          <rect x="96" y="60" width="48" height="62" rx="7" style="fill: var(--fig3); stroke: var(--line2)"></rect>
+          <path d="M104 74 H136 M104 86 H136 M104 98 H136" style="fill: none; stroke: var(--ink3); stroke-width: 2; stroke-linecap: round"></path>
+          <circle cx="131" cy="111" r="7" filter="url(#jarvisFigGlow)" style="fill: var(--accent)"></circle>
+          <circle cx="131" cy="111" r="3.5" style="fill: var(--rim)"></circle>
+        </svg>
+        <figcaption>
+          <span class="glove__cap glove__cap--tl mono faint">{jv.figure.label}</span>
+          <span class="glove__cap glove__cap--br mono faint">{jv.figure.tag}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section wrap" id={dg.id} aria-labelledby="lvl3-h">
+    <SectionHead label={dg.label} heading={dg.heading} id="lvl3-h" drift="left" accentLabel />
     <div class="glove">
       <figure class="glove__fig media" data-reveal>
         <svg class="glove__svg" role="img" aria-label={dg.figure.alt} viewBox="0 0 320 420">
@@ -99,7 +156,8 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
             dg.parts.map((p, i) => (
               <li class="glove__part rowh">
                 <span class="mono glove__num">{String(i + 1).padStart(2, '0')}</span>
-                <span class="cond glove__part-t">{p}</span>
+                <span class="cond glove__part-t">{p.title}</span>
+                <span class="mono faint glove__status">{p.status}</span>
               </li>
             ))
           }
@@ -112,7 +170,7 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
     </div>
   </section>
 
-  <section class="wrap pj-next-wrap" aria-labelledby="lvl3-h">
+  <section class="wrap pj-next-wrap" aria-labelledby="lvl4-h">
     <div class="pj-next ghost" data-reveal>
       <div class="pj-next__main">
         <svg class="ico faint pj-next__lock" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true">
@@ -121,11 +179,11 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
         </svg>
         <div>
           <p class="mono faint">{nextLevel.label}</p>
-          <h2 class="pj-next__h huge" id="lvl3-h">{nextLevel.heading}</h2>
+          <h2 class="pj-next__h huge" id="lvl4-h">{nextLevel.heading}</h2>
         </div>
       </div>
       <p class="pj-next__text muted">
-        {nextLevel.text} <span class="placeholder">{nextLevel.textPlaceholder}</span>
+        {nextLevel.text}
       </p>
     </div>
   </section>
@@ -267,8 +325,17 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
     width: 20px;
     height: 20px;
     flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 6px;
     border: 1.5px solid var(--line2);
+  }
+
+  .pj-ms--done .pj-ms__box {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: var(--on-accent);
   }
 
   .pj-ms__title {
@@ -333,7 +400,7 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
 
   .glove__part {
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: 64px minmax(0, 1fr) auto;
     gap: 16px;
     align-items: center;
     padding: 20px 0;
@@ -347,6 +414,95 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
   .glove__part-t {
     font-size: clamp(22px, 1.81vw, 30px);
     line-height: 1.15;
+  }
+
+  .glove__status {
+    white-space: nowrap;
+  }
+
+  /* ---------- Jarvis ---------- */
+  .jv {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 34%);
+    gap: clamp(40px, 5vw, 88px);
+    align-items: center;
+  }
+
+  .jv__title {
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.1;
+  }
+
+  .jv__facts {
+    margin: 32px 0 0;
+    border-top: 1px solid var(--line2);
+  }
+
+  .jv__fact {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .jv__fact-t {
+    margin-top: 10px;
+    font-size: clamp(24px, 1.94vw, 32px);
+    line-height: 1.12;
+  }
+
+  .jv__fact-x {
+    margin-top: 8px;
+    max-width: 40em;
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  .jv__status {
+    margin-top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .jv__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--halo-soft);
+  }
+
+  .jv__fig {
+    margin: 0;
+    aspect-ratio: 440 / 520;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .jv__svg {
+    position: relative;
+    width: 82%;
+    height: auto;
+  }
+
+  @media (max-width: 899px) {
+    .jv {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .jv__fig {
+      order: -1;
+      max-width: 440px;
+      width: 100%;
+      aspect-ratio: 440 / 360;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .jv__fact-x {
+      font-size: 16px;
+    }
   }
 
   .glove__chips {
@@ -378,6 +534,8 @@ import { meta, hero, cyberdefender as cd, droneGlove as dg, nextLevel } from '..
   }
 
   .pj-next {
+    opacity: .6;
+    filter: grayscale(1);
     display: flex;
     align-items: center;
     justify-content: space-between;

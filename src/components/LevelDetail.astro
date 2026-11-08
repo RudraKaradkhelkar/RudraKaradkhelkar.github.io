@@ -18,12 +18,21 @@ const unlocked = levels.filter((l) => !l.locked && l.detail);
             <p class="ldet__text muted">{l.detail!.text}</p>
           </div>
           <div class="ldet__meta">
-            <div class="ldet__bar" role="img" aria-label={l.detail!.progressLabel}>
-              <span style={`width:${l.detail!.progress}%`} />
-            </div>
-            <span class="mono faint ldet__pct" aria-hidden="true">
-              {l.detail!.progressLabel}
-            </span>
+            {l.detail!.progress !== undefined ? (
+              <>
+                <div class="ldet__bar" role="img" aria-label={l.detail!.progressLabel}>
+                  <span style={`width:${l.detail!.progress}%`} />
+                </div>
+                <span class="mono faint ldet__pct" aria-hidden="true">
+                  {l.detail!.progressLabel}
+                </span>
+              </>
+            ) : (
+              <span class="mono ldet__live">
+                <span class="ldet__dot" aria-hidden="true" />
+                {l.detail!.progressLabel}
+              </span>
+            )}
             <a href={l.detail!.enter.href} class="btn-accent cap ldet__enter">
               {l.detail!.enter.label}
             </a>
@@ -114,6 +123,23 @@ const unlocked = levels.filter((l) => !l.locked && l.detail);
     height: 100%;
     background-color: var(--accent);
     box-shadow: 0 0 12px var(--glow);
+  }
+
+  /* A running project: a steady accent dot instead of a progress bar (no blinking). */
+  .ldet__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 160px;
+    color: var(--rim-ink);
+  }
+
+  .ldet__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--halo-soft);
   }
 
   .ldet__enter {

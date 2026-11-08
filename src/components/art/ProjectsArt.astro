@@ -1,6 +1,7 @@
 ---
-// Projects hero art: three game-box covers as a level select (DESIGN.md sections 5 and 7).
-// Cover art is copied from design-handoff/reference/Projects.html. Each cover is an inline-size
+// Projects hero art: game-box covers as a level select (DESIGN.md sections 5 and 7).
+// CyberDefender and Drone Glove art is copied from design-handoff/reference/Projects.html; the
+// Jarvis and locked poker covers are drawn in the same style. Each cover is an inline-size
 // container, so everything printed on it scales with the cover.
 //
 // Desktop and tablet: the covers sit in a row. Phones: a horizontal scroll-snap row with the
@@ -25,13 +26,37 @@ import { levels, controls } from '../../content/projects';
                   </span>
                   <span>{l.status}</span>
                 </span>
-                <span class="cv__lock">
+                <span class="cv__screen cv__screen--locked">
+                  <svg class="cv__svg" viewBox="0 0 240 182" aria-hidden="true">
+                    <g transform="rotate(-12 96 92)">
+                      <rect x="62" y="40" width="68" height="96" rx="8" class="cv-card" />
+                      <text x="72" y="62" class="cv-card-t">A</text>
+                      <path d="M96 78 C96 78 80 92 80 101 C80 108 87 112 93 108 L90 118 H102 L99 108 C105 112 112 108 112 101 C112 92 96 78 96 78 Z" class="cv-card-s" />
+                    </g>
+                    <g transform="rotate(10 138 92)">
+                      <rect x="104" y="38" width="68" height="96" rx="8" class="cv-card" />
+                      <text x="114" y="60" class="cv-card-t">K</text>
+                      <path d="M138 76 C138 76 122 90 122 99 C122 106 129 110 135 106 L132 116 H144 L141 106 C147 110 154 106 154 99 C154 90 138 76 138 76 Z" class="cv-card-s" />
+                    </g>
+                    <g class="cv-chips">
+                      <ellipse cx="190" cy="150" rx="22" ry="7" />
+                      <ellipse cx="190" cy="142" rx="22" ry="7" />
+                      <ellipse cx="190" cy="134" rx="22" ry="7" />
+                    </g>
+                  </svg>
                   <svg class="ico cv__lock-ico" viewBox="0 0 24 24" aria-hidden="true">
                     <rect x="5" y="11" width="14" height="10" rx="2" />
                     <path d="M8 11V8a4 4 0 0 1 8 0v3" />
                   </svg>
-                  <span class="cv__q huge">{l.coverTitle.join(' ')}</span>
-                  <span class="mono faint cv__next">{l.coverTag}</span>
+                </span>
+                <span class="cv__title huge cv__title--locked">
+                  {l.coverTitle.map((line) => (
+                    <span class="cv__line">{line}</span>
+                  ))}
+                </span>
+                <span class="cv__foot mono">
+                  <span>{l.coverTag}</span>
+                  <span>{l.coverYear}</span>
                 </span>
               </span>
             </button>
@@ -70,6 +95,30 @@ import { levels, controls } from '../../content/projects';
                       <circle cx="160" cy="60" r="7" filter="url(#sweepGlow)" style="fill: var(--accent)" />
                       <circle cx="160" cy="60" r="3.5" style="fill: var(--rim)" />
                       <circle cx="84" cy="122" r="3" style="fill: var(--rim)" />
+                    </svg>
+                  ) : l.id === 'jarvis' ? (
+                    <svg class="cv__svg" viewBox="0 0 240 182" aria-hidden="true">
+                      <defs>
+                        <filter id="jarvisGlow" x="-50%" y="-50%" width="200%" height="200%">
+                          <feGaussianBlur stdDeviation="5" />
+                        </filter>
+                      </defs>
+                      <g class="cv-spin cv-spin--slow" style="transform-origin: 120px 91px">
+                        <circle cx="120" cy="91" r="66" class="art" style="stroke-dasharray: 3 7" />
+                      </g>
+                      <path class="art" d="M120 60 L120 38 M144 91 L174 91 M120 122 L120 144 M96 91 L66 91" />
+                      <circle class="node" cx="120" cy="26" r="11" />
+                      <circle class="node" cx="186" cy="91" r="11" />
+                      <circle class="node" cx="120" cy="156" r="11" />
+                      <circle class="node" cx="54" cy="91" r="11" />
+                      <circle cx="120" cy="26" r="3.5" style="fill: var(--rim)" />
+                      <circle cx="186" cy="91" r="3.5" style="fill: var(--rim)" />
+                      <circle cx="120" cy="156" r="3.5" style="fill: var(--rim)" />
+                      <circle cx="54" cy="91" r="3.5" style="fill: var(--rim)" />
+                      <rect x="96" y="60" width="48" height="62" rx="7" style="fill: var(--fig3); stroke: var(--line2)" />
+                      <path d="M104 74 H136 M104 86 H136 M104 98 H136" style="fill: none; stroke: var(--ink3); stroke-width: 2; stroke-linecap: round" />
+                      <circle cx="131" cy="111" r="7" filter="url(#jarvisGlow)" style="fill: var(--accent)" />
+                      <circle cx="131" cy="111" r="3.5" style="fill: var(--rim)" />
                     </svg>
                   ) : (
                     <svg class="cv__svg" viewBox="0 0 240 182" aria-hidden="true">
@@ -289,7 +338,7 @@ import { levels, controls } from '../../content/projects';
     animation: ring-in .38s cubic-bezier(.3, .7, .3, 1.3) both, ring-pulse 1.6s ease-in-out .5s infinite;
   }
 
-  /* Locked cover: dashed outline, no fill. */
+  /* Locked cover: grayed out and dashed, like a level not yet unlocked. */
   .cv--locked {
     border: 1.5px dashed var(--line2);
     background-color: transparent;
@@ -298,8 +347,53 @@ import { levels, controls } from '../../content/projects';
     cursor: not-allowed;
   }
 
-  .cv--locked .cv__bar {
-    border-bottom: 0;
+  .cv--locked .cv__in {
+    filter: grayscale(1);
+    opacity: .62;
+  }
+
+  .cv__screen--locked {
+    background-color: transparent;
+    border: 1px dashed var(--line2);
+  }
+
+  .cv__screen--locked .cv__lock-ico {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--ink);
+  }
+
+  .cv-card {
+    fill: var(--card2);
+    stroke: var(--line2);
+    stroke-width: 1.5;
+  }
+
+  .cv-card-t {
+    fill: var(--ink2);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 18px;
+  }
+
+  .cv-card-s {
+    fill: var(--ink3);
+  }
+
+  .cv-chips ellipse {
+    fill: var(--card2);
+    stroke: var(--ink3);
+    stroke-width: 1.5;
+  }
+
+  .cv__title--locked {
+    color: var(--ink2);
+  }
+
+  .cv--locked .cv__foot {
+    color: var(--ink2);
   }
 
   .cv__lock {
@@ -330,6 +424,9 @@ import { levels, controls } from '../../content/projects';
   .cv-spin {
     animation: spin 4s linear infinite;
   }
+  .cv-spin--slow {
+    animation-duration: 24s;
+  }
   .cv-rotor {
     animation: spin .45s linear infinite;
   }
@@ -350,10 +447,10 @@ import { levels, controls } from '../../content/projects';
     50% { opacity: .45; }
   }
 
-  /* ---------- Tablet: bigger covers ---------- */
+  /* ---------- Tablet: bigger covers (four fit across) ---------- */
   @media (max-width: 1279px) {
     .lvl__slot {
-      width: 24cqi;
+      width: 20.5cqi;
     }
   }
 
