@@ -5,6 +5,7 @@ Personal portfolio site: Astro static site, deployed to GitHub Pages from the re
 ## Read before working
 
 - `design-handoff/DESIGN.md` is the spec. It overrides your defaults.
+- `design-handoff/CHANGES.md` records decisions made after the design (new Awards and Life pages, restructured Experience and High School). Where it conflicts with DESIGN.md or the reference pages, CHANGES.md wins.
 - `design-handoff/reference/*.html` and `design-handoff/screenshots/` show the look at 1440 px. They are references for look and composition, not pixel specs. `screenshots/known-issues/` shows what the fixed-width design files get wrong at other widths; don't repeat those.
 - `PROGRESS.md` at the repo root is the running log. Read it at the start of every session and again after any context compaction, then continue from "Next".
 

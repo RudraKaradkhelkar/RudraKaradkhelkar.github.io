@@ -1,6 +1,6 @@
 # Rudra Karadkhelkar portfolio: design spec
 
-This is the source of truth for the build.
+This is the source of truth for the build, except where `CHANGES.md` (decisions made after the design) says otherwise. Read CHANGES.md right after this file.
 
 - `screenshots/dark/` and `screenshots/light/` show the target look at 1440 px wide.
 - `reference/` has the same designs as plain HTML you can open in Chrome. Scroll effects work there; buttons don't, since they're static. Copy SVG art and exact values from these files rather than redrawing.

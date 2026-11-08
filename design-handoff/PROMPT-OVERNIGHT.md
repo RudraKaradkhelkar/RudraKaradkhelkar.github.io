@@ -8,6 +8,7 @@ This runs in two parts. Phase 0 happens now while I watch. Phases 1 to 4 run ove
 
 1. `CLAUDE.md` (standing rules; they apply the whole run).
 2. `design-handoff/DESIGN.md`, all of it. Section 11 (responsive rules) is required, not optional.
+   Then `design-handoff/CHANGES.md`, which overrides DESIGN.md and the reference pages where they conflict (new Awards page, Life page instead of Drawings, restructured Experience and High School).
 3. `design-handoff/screenshots/dark/`, `light/`, and `known-issues/`.
 4. `design-handoff/reference/*.html`. Open them with the Playwright MCP to inspect exact spacing, type sizes, and SVG art. Copy the SVG art from these files; don't redraw it.
 5. `design-handoff/design/*.dc.html` for `renderVals()` (accent-derived colors) and the Projects selection logic.
@@ -23,7 +24,7 @@ This runs in two parts. Phase 0 happens now while I watch. Phases 1 to 4 run ove
 
 ## Structure
 
-- Routes: `/`, `/research`, `/experience`, `/projects`, `/clubs`, `/high-school`, `/drawings`, `/resume`, plus a styled 404.
+- Routes: `/`, `/research`, `/experience`, `/projects`, `/awards`, `/clubs`, `/high-school`, `/life`, `/resume`, plus a styled 404. CHANGES.md defines the Awards and Life pages.
 - Components: `Layout`, `Nav` (with the under-1100 px menu), `PosterHero` (slots for subtitle, headline letters, top captions, side labels, art, About text, badges), `Footer`, `Marquee`, `Surface`, `Chip`, `RowLink`, `ImageSlot`.
 - All copy and links in typed files under `src/content/`, one per page plus `site.ts` for shared items (name, email, links, footer line, accent, default theme). The GitHub link is https://github.com/RudraKaradkhelkar and the site URL is https://rudrakaradkhelkar.github.io. Lists I'll add to (milestones, drawings, clubs, places, hobbies) are arrays.
 - `ImageSlot` takes a slot name from `assets-incoming/README.md`, holds that slot's aspect ratio, and shows a styled placeholder (the design's `.media` look with the slot label) until a real image exists in `src/assets/slots/`. Swapping in a photo must never move anything else.
@@ -41,7 +42,7 @@ This runs in two parts. Phase 0 happens now while I watch. Phases 1 to 4 run ove
 
 ## Phase 1 (overnight): pages
 
-Order: Home, Projects, Research, Experience, High School, Clubs, Drawings, Resume. For each page:
+Order: Home, Projects, Research, Experience, Awards, High School, Clubs, Life, Resume. Build `src/content/awards.ts` and the `AwardLink` component before High School so every award mention links to its anchor on `/awards`. For each page:
 
 1. Build the desktop composition to match the reference at 1440.
 2. Make it responsive per DESIGN.md section 11, including that page's phone composition.
