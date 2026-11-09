@@ -2,25 +2,30 @@
 
 Running log for the portfolio build. Read at the start of every session and after any context compaction, then continue from **Next**.
 
-## Review (content pass, 2026-11-08)
+## Review round 2 (2026-11-08)
 
-The content pass (design-handoff/PROMPT-CONTENT-PASS.md) and CHANGES.md are applied to every page, committed on `main`, and **not pushed**. Rudra asked to review all pages at once.
+Rudra's first review notes are applied and committed on `main` (`fd6c88e` to `d74c2e8`), **not pushed**. What's left before deploying is under Questions and Placeholders below.
 
-1. **Look at each page** at desktop and phone width: `npm run build && npm run preview`, or `npm run shoot` and open `review/index.html` (every route, 8 sizes, both themes).
-2. **What changed:** see the "Content pass" rows in Done and the "Content pass" decisions below.
-3. **Placeholders still showing** are in the table below; the questions list is short.
-4. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`.
+1. **Look at each page:** `npm run build && npm run preview`, or `npm run shoot` and open `review/index.html` (every route, 8 sizes, both themes). Both scripts now run while a preview is open.
+2. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`.
 
-Checks at the end of the pass: `npx astro check` 0 errors / 0 warnings / 0 hints; `npm run shoot` passes 10 routes x 8 sizes x 2 themes (and with `--motion`); `npm run audit` passes (axe WCAG 2.1 AA on all 10 routes in both themes at desktop and phone, all internal links resolve, no banned patterns).
+Checks at the end of round 2: `npx astro check` 0 errors / 0 warnings / 0 hints; `npm run shoot` passes 10 routes x 8 sizes x 2 themes, and again with `--motion --viewport`; `npm run audit` passes (axe WCAG 2.1 AA on all 10 routes in both themes at desktop and phone, internal links, links to sections on other pages, every external link opens in a new tab, no banned patterns). Interactive checks (Playwright, scratch script): hero fades, popup menu (opens; closes on a click outside, the button, Esc; 390, 844 x 390, 1024; both themes), badge sway (mouse only, off with reduced motion), and the planned drone glove detail.
 
 ## Status
 
-Content pass done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/projects/`, `/awards/` (new), `/clubs/`, `/high-school/`, `/life/` (new, replaces `/drawings/`, which redirects), `/resume/`, and the styled 404.
+Review round 2 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/projects/`, `/awards/`, `/clubs/`, `/high-school/`, `/life/` (`/drawings/` redirects here), `/resume/`, and the styled 404.
 
 ## Done
 
 | Commit | What |
 | - | - |
+| (docs) | README and PROGRESS for review round 2 |
+| `d74c2e8` | Audit checks links to sections on other pages; the dist server sends the 404 page as HTML |
+| `896beaf` | Experience: skills inside each role (no skills bank), CGI newest first, CAPE and LPSS as separate sections, volunteering moved out, CGI article photo on the EcoChamps press card, mouse sway on the ID badges; shoot loads lazy images |
+| `db051f1` | Research: agentic AI and deepfake block removed, MITES moved out. High School: MITES Semester section, CGI volunteering under Community Service, Act 211 quote in regular weight with the phrase in bold |
+| `92e0f06` | Projects: Jarvis LVL 01, CyberDefender LVL 02, Drone Glove LVL 03 planned for IAP, poker bot LVL 04; named section anchors. Home: drone glove off the Fall 2026 rows |
+| `14ae935` | Popup menu under 1100 px (Popover API, animated, burger to X); external links open in a new tab; footer marquee wording, no location; shoot and audit serve dist/ themselves |
+| `fd6c88e` | Hero fades wait until each element reaches the nav (About, badges, and Projects covers stay usable while scrolling) |
 | `fb30046` | Content pass: Resume (PDF wired, one page, Nov 2026, degree wording, sheet and cards from the real resume, phone card for the PDF) |
 | `a15c689` | Content pass: Life replaces Drawings & Life (real drawing on polaroid 1, drawn poker and football polaroids, ZBT, drawing, games; /drawings redirect) |
 | `061c2d0` | Content pass: Clubs (four clubs, four patches, Satellite Team and MAIA logos) |
@@ -67,9 +72,9 @@ Content pass done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/pro
 - **Accent.** `site.ts` holds one hex. Layout sets `--accent` and `--on-accent` (contrast rule ported from `tone()`) on `<html>`; halo, haloSoft, glow, glowShadow, and the rim light are derived in CSS with `color-mix()`, matching `renderVals()` values exactly. Projects' halo uses 0.42 alpha in the design (others 0.55); handle that per page.
 - **The design's `.glass` class is called `.ghost` here.** It's a 1 px outline with no blur, not glassmorphism; the rename avoids confusion with the banned pattern.
 - **Sound toggle** has a fixed label ("Selection sound") with `aria-pressed`. The design changed the label and also set `aria-pressed`, which makes screen readers announce contradictory states. It's off on every visit (not remembered). The toggle sets `html[data-sound]` and dispatches `rk:sound`.
-- **Events for Phase 2.** Nav dispatches `rk:replay` (Home wordmark), `rk:theme`, `rk:sound`, `rk:menu` (open/close, so Lenis can stop while the menu is open). Footer body has `data-reveal` as a hook.
+- **Events for Phase 2.** Nav dispatches `rk:replay` (Home wordmark), `rk:theme`, `rk:sound`. Footer body has `data-reveal` as a hook. (`rk:menu` was removed in review round 2: the menu is a popup now, so the page keeps scrolling under it.)
 - **Nav background after 260 px** is a passive scroll listener (works with Lenis, which scrolls the window). Phase 2 can move it to ScrollTrigger if that's simpler alongside the avatar fade.
-- **Mobile menu is a native `<dialog>`** (focus trap, Esc, focus return for free). It includes Resume as the seventh link and uses two columns on short landscape screens.
+- **Mobile menu is a native `<dialog>`** (focus trap, Esc, focus return for free). It includes Resume as the seventh link and uses two columns on short landscape screens. (Superseded in review round 2: a small popup, see below.)
 - **Internal links end in `/`** (`/research/`) to match GitHub Pages directory URLs and avoid a redirect hop.
 - **Projects progress (Rudra, Phase 0):** Cyberdefender 20%, Drone Glove 5%. Bars fill to those values and the labels read "20% BUILT" and "5% BUILT" (`projects.ts`, `progress` and `progressLabel`).
 - **Footer line (Rudra, Phase 0):** the marquee reads "Open to Summer 2027 Internships/Roles". The big "OPEN TO / SUMMER 2027" block is unchanged.
@@ -102,7 +107,7 @@ Content pass done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/pro
 - **Badges** can be `dashed` (Clubs' "+1 open slot"); long badge labels wrap like the design.
 
 - **Intro is CSS, scroll is GSAP (Phase 2).** The intro keyframes start with the first paint, so the poster never flashes its final state and then hides it while JavaScript loads, and no-JS visitors still see everything. They animate the individual `translate` / `rotate` / `scale` properties (which compose with each element's own tilt) with `backwards` fill, so after the intro the scroll tweens own the element. Scroll tweens use `fromTo()` with explicit start values for the same reason.
-- **Scroll ranges** follow the design's scroll-driven CSS: headline 0 to 900 px (up 160 px, scale .96, opacity .1), art 0 to 860 px (down 90 px, scale .82, fade out), captions and bottom row 0 to 500 px (up 30 px, fade), Home avatar 560 to 860 px. Side labels only fade (they already carry a translate and rotation).
+- **Scroll ranges** follow the design's scroll-driven CSS: headline 0 to 900 px (up 160 px, scale .96, opacity .1), art 0 to 860 px (down 90 px, scale .82, fade out), captions and bottom row 0 to 500 px (up 30 px, fade), Home avatar 560 to 860 px. Side labels only fade (they already carry a translate and rotation). (Superseded in review round 2: each piece fades as it passes under the nav, see below.)
 - **Reveals** use `ScrollTrigger.batch` once per block, and only blocks still below the screen at load start hidden, so nothing on screen blinks out. Transforms are cleared afterwards so CSS hover lifts work.
 - **Drift** (headings 4% to -4%, or the reverse) runs at 1100 px and up only; phones and tablets keep the fades and reveals.
 - **Lenis** runs only on `(pointer: fine)` with reduced motion off (`anchors: true`, `autoRaf: false`, driven by the GSAP ticker with `lagSmoothing(0)` as the Lenis docs show). It stops while the menu dialog is open. Touch devices scroll natively.
@@ -118,24 +123,37 @@ Content pass done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/pro
 - **Content pass: hero photo (Home).** `hero-cutout.png` is used as is (checked clean on both themes), re-encoded to WebP at 1800 px with no metadata. The figure box is the photo's own shape (2275 x 2181), 46cqi wide at desktop (about 662 px at 1440, roughly 10% under the first preview) so the arms clear the round badges; the head overlaps the D; brightness 0.9 in the dark theme; a soft accent rim light is a CSS `drop-shadow` on the cut-out's alpha. Home's About block is a touch narrower so it clears the left sleeve.
 - **Content pass: approved About text.** Used exactly. Its first sentence is the big statement under the hero (end in the accent), the other two run as a lead paragraph below it; the hero's short About line stays.
 - **Content pass: awards.** One data file, `src/content/awards.ts`; each award's `id` is its anchor, rendered on exactly one element of /awards (headline section, featured card, or full-list row). `<AwardLink>` throws at build time on an unknown id. The Home Dean's List badge, Research, High School, and Life link through it. The podcast links to the exact episode (EP8 S2 on Apple Podcasts, Dec 13, 2025; the award entry keeps PROFILE's Oct 2025).
-- **Content pass: Projects.** Jarvis is LVL 02 (2026, running, no progress bar, only the two cleared facts). The poker bot is a grayed-out locked LVL 04 (cover and card), per Rudra. CyberDefender milestones are the default list Rudra approved.
-- **Content pass: Experience skills.** Every skill from the PROFILE lists, grouped as CHANGES.md says, each tagged with the roles that used it. Groupings for a few (Angular, HTML/CSS under Languages; Google Forms, CWE research under Backend and data) are my call.
+- **Content pass: Projects.** Jarvis is LVL 02 (2026, running, no progress bar, only the two cleared facts). The poker bot is a grayed-out locked LVL 04 (cover and card), per Rudra. CyberDefender milestones are the default list Rudra approved. (Order changed in review round 2: Jarvis is LVL 01.)
+- **Content pass: Experience skills.** Every skill from the PROFILE lists, grouped as CHANGES.md says, each tagged with the roles that used it. (Removed in review round 2: Rudra wants the skills inside each role, not in a bank at the top.)
 - **Content pass: Clubs.** The Satellite Team's white mark is drawn through an SVG luminance mask filled with `--ink`, so it is white on dark and near-black on light. AI@MIT and the Global Security Technology Club show name and "MEMBER" only (no description in PROFILE).
 - **Content pass: Life.** Polaroid 1 crops the drawing from the top (UFO, beam, MIT letters); the Drawing section shows it whole at up to 500 px. Drawing title, medium, and year stay placeholders.
 - **Content pass: Resume.** The PDF is embedded on desktop; phones and browsers without inline PDF get a paper card with an Open the PDF button.
-- **Content pass: footer line** (Rudra, Nov 8): "Open to Summer 2027 roles in software engineering and cybersecurity/AI".
+- **Content pass: footer line** (Rudra, Nov 8): "Open to Summer 2027 roles in software engineering and cybersecurity/AI". (Reworded in review round 2, see below.)
 - **Content pass: images.** `scripts/process-images.mjs` re-encodes every incoming file with sharp (no EXIF/GPS/XMP) into `src/assets/slots/` and `src/assets/logos/`, and copies the resume to `public/resume.pdf`. Originals in `assets-incoming/` are untouched and still gitignored.
+
+- **Review round 2: hero fades** (Rudra: everything faded as soon as he scrolled, so he couldn't use it). Each hero piece (art, captions, About, badges, side labels, the Projects detail strip) stays at full opacity while on screen and fades only while it passes under the nav, over at least 220 px of scroll. Positions come from the layout box (`offsetTop`, which ignores transforms), so the tweens never measure their own movement. The headline keeps a slow fade (0 to 1100 px) since it's decoration. At 1440 x 900 the Home About and badges are still at full opacity after 600 px of scroll; the Projects covers at 400 px.
+- **Review round 2: popup menu.** Under 1100 px the menu button opens a 320 px panel under it (520 px and two columns on short landscape screens), built on the Popover API: a click outside, Esc, or the button closes it, and focus returns to the button. It grows out of the button (fade, scale .94 to 1, 0.4 s) with the links dropping in one after another, and the two burger bars turn into an X. `aria-expanded` follows the state. Browsers without the Popover API get the same panel toggled by script. Reduced motion: it just appears.
+- **Review round 2: new tabs.** Every link off the site (LinkedIn, GitHub, the podcast, the Congressional App Challenge announcement, the CGI article) and the two Open the PDF links open in a new tab (`target="_blank" rel="noopener"`), each with a hidden "(opens in a new tab)" from `site.navLabels.newTab`. Download links stay as downloads. The email link stays a `mailto:`.
+- **Review round 2: footer marquee** (Rudra): "Open to Summer 2027 Roles in Software Engineering, Cybersecurity, or AI" and the email, nothing else (no location; he's open to working anywhere, and the site doesn't say so). The "LAFAYETTE, LA → CAMBRIDGE, MA" line under the footer is unchanged; it's where he's from and where he studies, not where he'll work.
+- **Review round 2: Projects.** Order: Jarvis (LVL 01), CyberDefender (LVL 02), Drone Glove (LVL 03), poker bot (LVL 04); Jarvis is selected on load. The glove is "a planned project, starting in IAP": status PLANNED, no progress bar (a hollow dot and STARTS IAP), every part PLANNED, cover year "IAP". The year isn't on the site (see Questions). Section anchors became names (`#jarvis`, `#cyberdefender`, `#drone-glove`, `#poker-bot`); Life's poker link was updated.
+- **Review round 2: Research.** The agentic AI and deepfake voice block is gone (Rudra is no longer on it), and MITES moved to High School, so Research is the UROP, then the shoreline study. Meta description and About updated to match.
+- **Review round 2: High School.** MITES Semester sits right after FRC (MITES was Jun to Dec 2025, senior year), with the same stats, tracks, and award links it had on Research. Community Service now opens with the CGI teaching and mentoring card from Experience; the "Other service" line no longer repeats CGI. The Act 211 quote is regular weight in muted ink, with only "passage of Louisiana Act 211" in bold (the bold phrase is `advocacy.emphasis` in the content file, and the build fails if it isn't in the quote).
+- **Review round 2: Experience.** No skills bank; each CGI chapter, CAPE, and LPSS lists its own skills. CGI chapters run 2026, 2025, 2024, labelled by dates (no "CHAPTER 01" numbers, which would also be a numbered eyebrow). The through-line stays 2024 to 2026, since it tells one system's story in order. CAPE and LPSS each get a section of their own, CAPE first (it ran to March 2026). The volunteering card moved to High School.
+- **Review round 2: CGI article photo.** Cropped from Rudra's screenshot of CGI's article header: the photo runs from x 769 to 1387, and CGI's red corner shape covers its lower left (x up to 913, y from 231), so the crop is x 914 to 1387 at full height, 474 x 375, re-encoded with no metadata (`src/assets/slots/cgi-article.jpg`, slot `cgi-article`). On the press card it fills a 16:10 frame above the headline, anchored low so both faces and the tablet stay in. It's decorative inside the link (`alt=""`); the link text names the article. The source image is in the session's temp folder, not `assets-incoming/`, so `process-images.mjs` doesn't regenerate it.
+- **Review round 2: badge sway.** With a mouse or trackpad, moving the pointer across a hanging badge kicks it into a swing on a damped spring (about 1 s period, settles in about 4 s), on top of the gentle CSS sway. The kick depends on how far and how fast the pointer crosses the badge, up to 26 degrees. Off for touch and with reduced motion.
+- **Review round 2: check scripts.** Astro 7 allows one `astro preview` per project, so `shoot` and `audit` failed while Rudra had a preview open. They now serve `dist/` with a small Node server (`scripts/serve-dist.mjs`) that resolves paths the way GitHub Pages does. `shoot` loads lazy images before full-page shots (they were blank below the first screen). `audit` also checks links to sections on other pages.
 
 ## Questions for Rudra
 
-Open from the content pass (each has a working default on the site):
+Each has a working default on the site:
 
-1. **Drawing title, medium, and year** for `drawing-01` (shown as `[Title]`, `[Medium]`, `[Year]`).
-2. **UROP status line** (still `[One or two lines on progress, once cleared to share.]`).
-3. **Poker bot details**, after the tournament, to unlock LVL 04.
-4. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
-
-The overnight questions (captions on phones, Research graph crop, Resume buttons, 404 captions) were covered by "defaults are fine".
+1. **Resume PDF:** `public/resume.pdf` still has "Apprenticing under a graduate researcher on agentic AI cybersecurity research targeting deepfake voice threats." Send a new export without that line and it gets swapped in (`assets-incoming/docs/resume.pdf`, then `node scripts/process-images.mjs`).
+2. **Drawing title, medium, and year** for `drawing-01` (shown as `[Title]`, `[Medium]`, `[Year]` on Life).
+3. **UROP status line** (still `[One or two lines on progress, once cleared to share.]` on Research).
+4. **Drone glove: which IAP?** The site says "starting in IAP" with no year. Say if it should read "IAP 2027".
+5. **Poker bot details**, after the tournament, to unlock LVL 04.
+6. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
+7. **CGI article photo (optional):** the crop is 474 px wide, a bit soft on big or high-density screens. A larger copy of the same photo would sharpen it.
 
 ## Placeholders
 
@@ -147,15 +165,15 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 | Projects | Poker bot (locked LVL 04 until Rudra sends details); progress photos (slots `project-*`, no spot on the page yet) |
 | High School | Three photos (slots `hs-robot`, `hs-team`, `hs-outreach`) |
 | Life | Drawing `[Title]`, `[Medium]`, `[Year]` |
-
-Everything else from the overnight list is filled (hero photo, headshots, resume PDF and wording, podcast link, milestones, service work, clubs). The Drawings sketchbook and Places placeholders are gone with that page.
+| Resume | The PDF still mentions the agentic AI and deepfake project (the page's own copy doesn't) |
 
 ## Known issues
 
 - This interactive session's Playwright MCP process targets Chrome until reconnected (`/mcp`, playwright, Reconnect). New sessions use the Edge config. The build's own scripts use Playwright's Chromium and are unaffected.
 - Projects progress-photo slots (`project-cyberdefender-N`, `project-drone-glove-N`) exist in `slots.ts` but the design has no place for them on the page yet, so photos dropped there won't show until a spot is designed.
 - The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
+- The CGI article photo is 474 px wide (the size it had in the screenshot), so it is upscaled about 1.4x on the press card at 1440 and looks a little soft on high-density screens.
 
 ## Next
 
-Rudra reviews every page and sends changes. Then answer the open questions above, add the remaining photos through `scripts/process-images.mjs`, re-run `npm run check && npm run shoot && npm run audit`, and push to deploy.
+Rudra reviews round 2. Before deploying: a resume PDF without the deepfake line, and answers to the other questions above (or leave those placeholders showing). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.

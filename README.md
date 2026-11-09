@@ -25,6 +25,10 @@ npm run audit      # accessibility (axe), internal links, and banned patterns (e
 
 `npm run shoot` fails if any page scrolls sideways, a headline leaves the screen, hero text overlaps the art, or the console logs an error. Options: `--route=projects`, `--width=390`, `--theme=light`, `--viewport` (first screen only), `--motion` (animations on), `--no-build`.
 
+`npm run audit` also fails if a link that leaves the site doesn't open in a new tab, or if a link to a section (`/projects/#poker-bot`) points at an id that isn't on that page.
+
+Both scripts serve `dist/` themselves, so they work while `npm run preview` is open in another terminal.
+
 ## Edit the copy
 
 All text, links, and image references live in `src/content/`, one file per page:
@@ -35,10 +39,10 @@ All text, links, and image references live in `src/content/`, one file per page:
 | `home.ts` | Home |
 | `research.ts` | Research |
 | `experience.ts` | Experience |
-| `projects.ts` | Projects (level select: CyberDefender, Jarvis, Drone Glove, the locked poker bot) |
+| `projects.ts` | Projects (level select: Jarvis, CyberDefender, Drone Glove (planned for IAP), the locked poker bot) |
 | `awards.ts` | Awards: every award, each with a stable id that is its anchor on /awards |
 | `clubs.ts` | Clubs |
-| `high-school.ts` | High School |
+| `high-school.ts` | High School (FRC, MITES Semester, projects, clubs and civic roles, service with the CGI volunteering) |
 | `life.ts` | Life (Zeta Beta Tau, the drawing, fantasy football, poker) |
 | `resume.ts` | Resume |
 | `not-found.ts` | The 404 page |
@@ -48,6 +52,8 @@ Change a string, save, and the dev server updates. Headlines are fitted to the s
 
 Rules for copy (DESIGN.md sections 9 and 10): no phone number, no em dashes (use a slash, comma, or period), and anything not yet known stays as a visible `[bracketed placeholder]`. `npm run audit` catches em dashes and phone-number-like strings.
 
+Links to other sites open in a new tab. In a content file, mark one with `external: true`; the page adds `target="_blank"` and a hidden "(opens in a new tab)" for screen readers.
+
 ## Common changes
 
 **Name the drawing.** In `src/content/life.ts`, replace `[Title]`, `[Medium]`, and `[Year]` in `drawing`. The scan is `src/assets/slots/drawing-01.jpg`; it shows whole in the Drawing section and cropped on the first hero polaroid.
@@ -55,12 +61,16 @@ Rules for copy (DESIGN.md sections 9 and 10): no phone number, no em dashes (use
 **Add an award.** Add an entry to `awards` in `src/content/awards.ts` under its level, with a new `id` (lowercase words and a year, for example `'fbla-state-cybersecurity-2026'`). It appears in the full list on /awards. To link to it from another page, use `<AwardLink id="..." />`; an unknown id fails the build, so links can't break. Never change an id once it's published.
 
 **Add a milestone.**
-- Projects: add `{ title: '...', status: 'UP NEXT' }` to `cyberdefender.milestones.items` in `src/content/projects.ts`; mark one finished with `status: 'DONE', done: true`. Drone glove parts work the same way.
-- High School timeline: add `{ date: '<DATE>', title: '...', text: '...' }` to `team.milestones` in `src/content/high-school.ts`, in date order.
+- Projects: add `{ title: '...', status: 'UP NEXT' }` to `cyberdefender.milestones.items` in `src/content/projects.ts`; mark one finished with `status: 'DONE', done: true`. Drone glove parts work the same way (they read `PLANNED` until the build starts).
+- High School timeline: add `{ date: '<DATE>', title: '...', text: '...' }` to `frc.roles.milestones` in `src/content/high-school.ts`, in date order.
 
 **Add a club.** Add an entry to `clubs` in `clubs.ts`.
 
-**Update project progress.** In `projects.ts`, each level's `detail.progress` (0 to 100) fills the bar; keep `progressLabel` (for example `'15% BUILT'`) in step. A running project (Jarvis) leaves out `progress` and shows its status instead.
+**Update project progress.** In `projects.ts`, each level's `detail.progress` (0 to 100) fills the bar; keep `progressLabel` (for example `'15% BUILT'`) in step. A running project (Jarvis) leaves out `progress` and shows its status instead. A planned one (the drone glove) also sets `planned: true`, which shows a hollow dot.
+
+**Start the drone glove.** In `projects.ts`, in the `glove` level: set `status` to `'IN PROGRESS'`, remove `planned: true`, add `progress` and a matching `progressLabel` (for example `5` and `'5% BUILT'`), and set `coverYear` to the year. In `droneGlove`, change the label to `'LVL 03 / IN PROGRESS'`, update the intro, and change each part's `status` as you go.
+
+**Reorder the projects.** The covers and the sections follow the order of `levels` in `projects.ts` and of the sections in `src/pages/projects.astro`. Section anchors are names (`#jarvis`, `#cyberdefender`, `#drone-glove`, `#poker-bot`), so reordering never breaks a link.
 
 **Unlock the poker bot.** In `projects.ts`, the `poker` level is `locked: true`. Give it a `detail` like the others, set `locked: false`, add its cover art in `src/components/art/ProjectsArt.astro`, and give it a section on `src/pages/projects.astro`.
 
@@ -81,6 +91,7 @@ Every photo on the site has a named slot. Until a photo exists, the slot shows a
 | Slot file | Where it shows | Shape |
 | - | - | - |
 | `hero-photo.webp` | Home hero (the cut-out, transparent background) | 2275 x 2181 |
+| `cgi-article.jpg` | Experience, EcoChamps press card (the photo from CGI's article) | 474 x 375 |
 | `headshot.jpg`, `headshot-dark.jpg` | Home nav avatar (wood background in the light theme, dark in the dark theme); the dark one is on the Experience ID badges | 1:1 |
 | `drawing-01.jpg` | Life: the Drawing section and the first hero polaroid | natural |
 | `research-shoreline-1.png` | Research, shoreline figure (empty) | 7:5 |
@@ -109,6 +120,7 @@ git push
 - Astro (static output), TypeScript strict, plain CSS. No UI framework.
 - Fonts are self-hosted with Fontsource: Archivo (variable width) and Courier Prime.
 - `src/components/PosterHero.astro` is the poster on every page: one scalable stage (`min(100vw, 1760px)`, sized in container units) laid out in grid rows. Each page's art is in `src/components/art/`.
-- Motion: the intro is CSS (`src/styles/motion.css`); scroll effects use GSAP ScrollTrigger, with Lenis smooth scrolling for mouse and trackpad (`src/scripts/motion.ts`). `prefers-reduced-motion` turns all of it off.
+- Motion: the intro is CSS (`src/styles/motion.css`); scroll effects use GSAP ScrollTrigger, with Lenis smooth scrolling for mouse and trackpad (`src/scripts/motion.ts`). Hero pieces stay fully visible until they pass under the nav. The Experience badges swing harder when the mouse moves through them (`src/components/art/ExperienceArt.astro`). `prefers-reduced-motion` turns all of it off.
+- Under 1100 px the nav's links move into a small popup menu under the menu button (`src/components/Nav.astro`, Popover API).
 - Design tokens are in `src/styles/tokens.css`; the global poster classes are in `src/styles/global.css`.
 - `PROGRESS.md` is the build log: decisions, open questions, and placeholders still showing.
