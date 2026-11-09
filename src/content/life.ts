@@ -73,7 +73,7 @@ export const games = {
       label: 'POKER',
       title: "No-Limit Hold'em",
       text: "No-Limit Hold'em. A poker bot is the locked level on Projects.",
-      link: { label: 'The locked level', href: '/projects/#lvl4' } as Link | undefined,
+      link: { label: 'The locked level', href: '/projects/#poker-bot' } as Link | undefined,
     },
   ],
 };

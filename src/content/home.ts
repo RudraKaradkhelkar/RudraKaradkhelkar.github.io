@@ -84,7 +84,7 @@ export const chapters = {
       index: '03',
       tag: '3 UNLOCKED',
       title: 'Projects',
-      text: 'CyberDefender, Jarvis, and a gesture-controlled drone glove.',
+      text: 'Jarvis, CyberDefender, and a gesture-controlled drone glove for IAP.',
       href: '/projects/',
       watermark: 'PROJECTS',
     },
@@ -145,12 +145,6 @@ export const now = {
       tag: 'BUILDING',
       title: 'CyberDefender',
       text: 'A team of AI agents that detects and contains attacks on my own home lab.',
-      href: '/projects/',
-    },
-    {
-      tag: 'BUILDING',
-      title: 'Drone Gesture Glove',
-      text: 'An IMU on every finger, a PyTorch pose classifier, and a drone that follows your hand.',
       href: '/projects/',
     },
     {

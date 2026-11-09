@@ -1,6 +1,7 @@
 ---
 // Projects. Copy: src/content/projects.ts. Design: design-handoff/reference/Projects.html and
-// design/Projects.dc.html (selection logic, LVL 02 detail strip).
+// design/Projects.dc.html (selection logic, detail strip). Order (Rudra, Nov 8): Jarvis,
+// CyberDefender, the drone glove (planned for IAP), then the locked poker bot.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import ProjectsArt from '../components/art/ProjectsArt.astro';
@@ -17,54 +18,8 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
     <LevelDetail slot="foot-left" />
   </PosterHero>
 
-  <section class="section wrap" id={cd.id} aria-labelledby="lvl1-h">
-    <SectionHead label={cd.label} heading={cd.heading} id="lvl1-h" drift="left" accentLabel />
-    <p class="pj-intro" data-reveal>{cd.intro}</p>
-
-    <ol role="list" class="pipe" data-reveal>
-      {
-        cd.pipeline.map((step, i) => (
-          <li class:list={['pipe__step', i === 0 && 'pipe__step--src', i === cd.pipeline.length - 1 && 'pipe__step--end', i > 0 && i < cd.pipeline.length - 1 && 'surface']}>
-            <p class:list={['mono', i === cd.pipeline.length - 1 ? 'pipe__label--end' : 'faint']}>{step.label}</p>
-            <p class="pipe__title cond">{step.title}</p>
-            <p class="pipe__text muted">{step.text}</p>
-          </li>
-        ))
-      }
-    </ol>
-
-    <div class="pj-two">
-      <Surface class="pj-list" data-reveal>
-        <h3 class="mono faint">{cd.designChoices.label}</h3>
-        <ul role="list" class="pj-list__items">
-          {cd.designChoices.items.map((t) => <li class="pj-list__item">{t}</li>)}
-        </ul>
-      </Surface>
-      <Surface class="pj-list" data-reveal>
-        <h3 class="mono faint">{cd.milestones.label}</h3>
-        <ul role="list" class="pj-list__items">
-          {
-            cd.milestones.items.map((m) => (
-              <li class:list={['pj-list__item pj-ms', { 'pj-ms--done': 'done' in m && m.done }]}>
-                <span class="pj-ms__box" aria-hidden="true">
-                  {'done' in m && m.done && (
-                    <svg class="ico" width="14" height="14" viewBox="0 0 24 24">
-                      <path d="M5 12.5l4.5 4.5L19 7.5" />
-                    </svg>
-                  )}
-                </span>
-                <span class="pj-ms__title">{m.title}</span>
-                <span class:list={['pj-ms__status mono', 'done' in m && m.done ? 'rim-ink' : 'faint']}>{m.status}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </Surface>
-    </div>
-  </section>
-
-  <section class="section wrap" id={jv.id} aria-labelledby="lvl2-h">
-    <SectionHead label={jv.label} heading={jv.heading} id="lvl2-h" drift="right" accentLabel />
+  <section class="section wrap" id={jv.id} aria-labelledby="jarvis-h">
+    <SectionHead label={jv.label} heading={jv.heading} id="jarvis-h" drift="left" accentLabel />
     <div class="jv">
       <div class="jv__body" data-reveal>
         <p class="jv__title cond">{jv.title}</p>
@@ -114,8 +69,54 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
     </div>
   </section>
 
-  <section class="section wrap" id={dg.id} aria-labelledby="lvl3-h">
-    <SectionHead label={dg.label} heading={dg.heading} id="lvl3-h" drift="left" accentLabel />
+  <section class="section wrap" id={cd.id} aria-labelledby="cd-h">
+    <SectionHead label={cd.label} heading={cd.heading} id="cd-h" drift="right" accentLabel />
+    <p class="pj-intro" data-reveal>{cd.intro}</p>
+
+    <ol role="list" class="pipe" data-reveal>
+      {
+        cd.pipeline.map((step, i) => (
+          <li class:list={['pipe__step', i === 0 && 'pipe__step--src', i === cd.pipeline.length - 1 && 'pipe__step--end', i > 0 && i < cd.pipeline.length - 1 && 'surface']}>
+            <p class:list={['mono', i === cd.pipeline.length - 1 ? 'pipe__label--end' : 'faint']}>{step.label}</p>
+            <p class="pipe__title cond">{step.title}</p>
+            <p class="pipe__text muted">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="pj-two">
+      <Surface class="pj-list" data-reveal>
+        <h3 class="mono faint">{cd.designChoices.label}</h3>
+        <ul role="list" class="pj-list__items">
+          {cd.designChoices.items.map((t) => <li class="pj-list__item">{t}</li>)}
+        </ul>
+      </Surface>
+      <Surface class="pj-list" data-reveal>
+        <h3 class="mono faint">{cd.milestones.label}</h3>
+        <ul role="list" class="pj-list__items">
+          {
+            cd.milestones.items.map((m) => (
+              <li class:list={['pj-list__item pj-ms', { 'pj-ms--done': 'done' in m && m.done }]}>
+                <span class="pj-ms__box" aria-hidden="true">
+                  {'done' in m && m.done && (
+                    <svg class="ico" width="14" height="14" viewBox="0 0 24 24">
+                      <path d="M5 12.5l4.5 4.5L19 7.5" />
+                    </svg>
+                  )}
+                </span>
+                <span class="pj-ms__title">{m.title}</span>
+                <span class:list={['pj-ms__status mono', 'done' in m && m.done ? 'rim-ink' : 'faint']}>{m.status}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </Surface>
+    </div>
+  </section>
+
+  <section class="section wrap" id={dg.id} aria-labelledby="glove-h">
+    <SectionHead label={dg.label} heading={dg.heading} id="glove-h" drift="left" accentLabel />
     <div class="glove">
       <figure class="glove__fig media" data-reveal>
         <svg class="glove__svg" role="img" aria-label={dg.figure.alt} viewBox="0 0 320 420">
@@ -170,7 +171,7 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
     </div>
   </section>
 
-  <section class="wrap pj-next-wrap" id="lvl4" aria-labelledby="lvl4-h">
+  <section class="wrap pj-next-wrap" id={nextLevel.id} aria-labelledby="poker-h">
     <div class="pj-next ghost" data-reveal>
       <div class="pj-next__main">
         <svg class="ico faint pj-next__lock" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true">
@@ -179,7 +180,7 @@ import { meta, hero, cyberdefender as cd, jarvis as jv, droneGlove as dg, nextLe
         </svg>
         <div>
           <p class="mono faint">{nextLevel.label}</p>
-          <h2 class="pj-next__h huge" id="lvl4-h">{nextLevel.heading}</h2>
+          <h2 class="pj-next__h huge" id="poker-h">{nextLevel.heading}</h2>
         </div>
       </div>
       <p class="pj-next__text muted">

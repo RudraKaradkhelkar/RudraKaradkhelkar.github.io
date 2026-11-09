@@ -28,7 +28,7 @@ const unlocked = levels.filter((l) => !l.locked && l.detail);
                 </span>
               </>
             ) : (
-              <span class="mono ldet__live">
+              <span class:list={['mono ldet__live', { 'ldet__live--planned': l.detail!.planned }]}>
                 <span class="ldet__dot" aria-hidden="true" />
                 {l.detail!.progressLabel}
               </span>
@@ -140,6 +140,17 @@ const unlocked = levels.filter((l) => !l.locked && l.detail);
     border-radius: 50%;
     background-color: var(--accent);
     box-shadow: 0 0 0 4px var(--halo-soft);
+  }
+
+  /* A planned project: a hollow dot and muted label, since nothing is running yet. */
+  .ldet__live--planned {
+    color: var(--ink2);
+  }
+
+  .ldet__live--planned .ldet__dot {
+    background-color: transparent;
+    border: 1.5px solid var(--ink2);
+    box-shadow: none;
   }
 
   .ldet__enter {

@@ -8,7 +8,7 @@ import type { Chip, PageMeta, PosterHeroContent } from './types';
 export const meta: PageMeta = {
   title: 'Projects',
   description:
-    'CyberDefender, an autonomous AI network defense agent; Jarvis, a self-hosted AI automation system; and a gesture-controlled drone glove.',
+    'Jarvis, a self-hosted AI automation system; CyberDefender, an autonomous AI network defense agent; and a gesture-controlled drone glove, planned for IAP.',
 };
 
 export const hero: PosterHeroContent = {
@@ -25,10 +25,12 @@ export interface LevelDetail {
   label: string;
   title: string;
   text: string;
-  /** Bar fill, 0 to 100. Leave out for a project that is running (no bar, just the status). */
+  /** Bar fill, 0 to 100. Leave out for a project that is running or planned (no bar, just the status). */
   progress?: number;
-  /** "15% BUILT", or the status for a running project. */
+  /** "15% BUILT", or the status for a running or planned project ("RUNNING", "STARTS IAP"). */
   progressLabel: string;
+  /** Not started yet: a hollow dot instead of the live one. */
+  planned?: boolean;
   enter: { label: string; href: string };
 }
 
@@ -46,53 +48,54 @@ export interface Level {
 /** Covers in the level select, in order. Keep `progressLabel` in step with `progress`. */
 export const levels: Level[] = [
   {
-    id: 'cyber',
-    level: 'LVL 01',
-    status: 'IN PROGRESS',
-    locked: false,
-    coverTitle: ['CYBER', 'DEFENDER'],
-    coverTag: 'AI SECURITY',
-    coverYear: '2026',
-    detail: {
-      label: 'LVL 01 · IN PROGRESS',
-      title: 'CyberDefender',
-      text: 'An autonomous AI network defense agent: a team of AI agents that detects and contains attacks on my own home lab. Research done; MVP targeted for December 2026.',
-      progress: 15,
-      progressLabel: '15% BUILT',
-      enter: { label: 'Enter level', href: '#lvl1' },
-    },
-  },
-  {
     id: 'jarvis',
-    level: 'LVL 02',
+    level: 'LVL 01',
     status: 'RUNNING',
     locked: false,
     coverTitle: ['JARVIS'],
     coverTag: 'AUTOMATION',
     coverYear: '2026',
     detail: {
-      label: 'LVL 02 · RUNNING',
+      label: 'LVL 01 · RUNNING',
       title: 'Jarvis',
       text: 'A self-hosted AI automation system: a Linux server running 4+ specialized AI subagents that handle daily productivity tasks on their own.',
       progressLabel: 'RUNNING',
-      enter: { label: 'Enter level', href: '#lvl2' },
+      enter: { label: 'Enter level', href: '#jarvis' },
     },
   },
   {
+    id: 'cyber',
+    level: 'LVL 02',
+    status: 'IN PROGRESS',
+    locked: false,
+    coverTitle: ['CYBER', 'DEFENDER'],
+    coverTag: 'AI SECURITY',
+    coverYear: '2026',
+    detail: {
+      label: 'LVL 02 · IN PROGRESS',
+      title: 'CyberDefender',
+      text: 'An autonomous AI network defense agent: a team of AI agents that detects and contains attacks on my own home lab. Research done; MVP targeted for December 2026.',
+      progress: 15,
+      progressLabel: '15% BUILT',
+      enter: { label: 'Enter level', href: '#cyberdefender' },
+    },
+  },
+  {
+    // Planned (Rudra, Nov 8): starts in IAP, so no progress bar yet.
     id: 'glove',
     level: 'LVL 03',
-    status: 'IN PROGRESS',
+    status: 'PLANNED',
     locked: false,
     coverTitle: ['DRONE', 'GLOVE'],
     coverTag: 'ML · EMBEDDED',
-    coverYear: '2026',
+    coverYear: 'IAP',
     detail: {
-      label: 'LVL 03 · IN PROGRESS',
+      label: 'LVL 03 · PLANNED',
       title: 'Drone Gesture Glove',
-      text: 'A wearable glove that reads hand gestures and turns them into flight commands for a drone.',
-      progress: 5,
-      progressLabel: '5% BUILT',
-      enter: { label: 'Enter level', href: '#lvl3' },
+      text: 'A planned project, starting in IAP: a wearable glove that reads hand gestures and turns them into flight commands for a drone.',
+      progressLabel: 'STARTS IAP',
+      planned: true,
+      enter: { label: 'Enter level', href: '#drone-glove' },
     },
   },
   {
@@ -116,8 +119,8 @@ export const controls = {
 };
 
 export const cyberdefender = {
-  id: 'lvl1',
-  label: 'LVL 01 / IN PROGRESS',
+  id: 'cyberdefender',
+  label: 'LVL 02 / IN PROGRESS',
   heading: 'CYBER DEFENDER',
   title: 'CyberDefender: Autonomous AI Network Defense Agent',
   intro:
@@ -152,8 +155,8 @@ export const cyberdefender = {
 };
 
 export const jarvis = {
-  id: 'lvl2',
-  label: 'LVL 02 / RUNNING',
+  id: 'jarvis',
+  label: 'LVL 01 / RUNNING',
   heading: 'JARVIS',
   title: 'Jarvis: Self-Hosted AI Automation System',
   facts: [
@@ -177,21 +180,22 @@ export const jarvis = {
 };
 
 export const droneGlove = {
-  id: 'lvl3',
-  label: 'LVL 03 / IN PROGRESS',
+  id: 'drone-glove',
+  label: 'LVL 03 / PLANNED',
   heading: 'DRONE GLOVE',
+  /** Rudra, Nov 8: a planned project, starting in IAP (MIT's January term). */
   intro:
-    'A glove that flies a drone. Motion sensors on every finger feed a model that recognizes hand poses, and each pose maps to a flight command. It pulls together machine learning, embedded systems, CAD, and circuit design.',
-  /** Each part's status. All up next for now. */
+    'A planned project, starting in IAP: a glove that flies a drone. Motion sensors on every finger feed a model that recognizes hand poses, and each pose maps to a flight command. It pulls together machine learning, embedded systems, CAD, and circuit design.',
+  /** The plan, part by part. */
   parts: [
-    { title: 'An IMU on every finger', status: 'UP NEXT' },
-    { title: 'A back-of-hand board, designed in KiCad', status: 'UP NEXT' },
-    { title: 'A CAD hand harness to hold it all', status: 'UP NEXT' },
-    { title: 'A PyTorch model that classifies hand poses', status: 'UP NEXT' },
-    { title: 'A simple drone that follows the gestures', status: 'UP NEXT' },
+    { title: 'An IMU on every finger', status: 'PLANNED' },
+    { title: 'A back-of-hand board, designed in KiCad', status: 'PLANNED' },
+    { title: 'A CAD hand harness to hold it all', status: 'PLANNED' },
+    { title: 'A PyTorch model that classifies hand poses', status: 'PLANNED' },
+    { title: 'A simple drone that follows the gestures', status: 'PLANNED' },
   ],
   chips: [{ label: 'PyTorch' }, { label: 'KiCad' }, { label: 'CAD' }, { label: 'Embedded' }] satisfies Chip[],
-  progressLabel: '5% BUILT',
+  progressLabel: 'STARTS IAP',
   figure: {
     alt: 'Schematic of the glove: a motion sensor on each finger wired to a board on the back of the hand',
     label: 'SENSOR LAYOUT',
@@ -201,6 +205,7 @@ export const droneGlove = {
 
 /** The locked level, grayed out until Rudra sends the details. */
 export const nextLevel = {
+  id: 'poker-bot',
   label: 'LVL 04 / LOCKED',
   heading: 'POKER BOT',
   text: 'A No Limit poker bot. Unlocks after the tournament.',

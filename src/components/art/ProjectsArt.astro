@@ -1,7 +1,8 @@
 ---
 // Projects hero art: game-box covers as a level select (DESIGN.md sections 5 and 7).
 // CyberDefender and Drone Glove art is copied from design-handoff/reference/Projects.html; the
-// Jarvis and locked poker covers are drawn in the same style. Each cover is an inline-size
+// Jarvis and locked poker covers are drawn in the same style. Covers follow `levels` in
+// projects.ts (Jarvis, CyberDefender, Drone Glove, the poker bot); the first is selected on load. Each cover is an inline-size
 // container, so everything printed on it scales with the cover.
 //
 // Desktop and tablet: the covers sit in a row. Phones: a horizontal scroll-snap row with the
@@ -73,7 +74,7 @@ import { levels, controls } from '../../content/projects';
                   <span>
                     {site.shortName} · {l.level}
                   </span>
-                  <span class="cv__status">{l.status}</span>
+                  <span class:list={['cv__status', { 'cv__status--planned': l.detail?.planned }]}>{l.status}</span>
                 </span>
                 <span class="cv__screen scan">
                   <span class="cv__screen-glow" />
@@ -264,6 +265,11 @@ import { levels, controls } from '../../content/projects';
 
   .cv__status {
     color: var(--rim-ink);
+  }
+
+  /* Planned (the drone glove): not started, so the status isn't lit. */
+  .cv__status--planned {
+    color: var(--ink2);
   }
 
   .cv__screen {
