@@ -104,6 +104,15 @@ async function links() {
     const refs = [...html.matchAll(/\s(?:href|src|data)="([^"]+)"/g)].map((m) => m[1]);
     for (const ref of refs) {
       if (!ref.startsWith('/') || ref.startsWith('//')) continue;
+      // Links to a section on another page (/projects/#poker-bot) need that id on that page.
+      const [pathPart, hash] = ref.split('#');
+      if (hash && pathPart.endsWith('/')) {
+        const targetFile = path.join(DIST, decodeURI(pathPart), 'index.html');
+        if (await exists(targetFile)) {
+          const targetHtml = await readFile(targetFile, 'utf8');
+          if (!new RegExp(`id="${hash}"`).test(targetHtml)) failures.push(`anchor ${path.relative(DIST, file)}: ${ref} has no target on that page`);
+        }
+      }
       const clean = decodeURI(ref.split('#')[0].split('?')[0]);
       if (!clean || seen.has(clean)) continue;
       seen.add(clean);

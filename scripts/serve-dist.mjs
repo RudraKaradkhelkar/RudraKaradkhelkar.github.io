@@ -53,11 +53,10 @@ async function resolve(urlPath) {
 export function serveDist() {
   const server = http.createServer(async (req, res) => {
     try {
-      const file = await resolve(req.url ?? '/');
-      const status = file ? 200 : 404;
-      const body = await readFile(file ?? path.join(DIST, '404.html'));
-      res.writeHead(status, { 'Content-Type': TYPES[path.extname(file ?? '.html')] ?? 'application/octet-stream' });
-      res.end(body);
+      const found = await resolve(req.url ?? '/');
+      const file = found ?? path.join(DIST, '404.html');
+      res.writeHead(found ? 200 : 404, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream' });
+      res.end(await readFile(file));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end(String(err));
