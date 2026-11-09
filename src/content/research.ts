@@ -1,5 +1,6 @@
 // Research page copy. Source: design-handoff/reference/Research.html, updated from
-// assets-incoming/PROFILE.md and design-handoff/CHANGES.md section 6.
+// assets-incoming/PROFILE.md and design-handoff/CHANGES.md section 6. Rudra, Nov 8: the agentic AI
+// and deepfake voice project is off the page (he's no longer on it), and MITES moved to High School.
 // Privacy (DESIGN.md section 9): never name the UROP's partner organization ("a CAMS partner
 // organization" is the approved wording). The tool, CARMA, is named with Dr. Pal's approval.
 // UROP progress stays a placeholder until Rudra says it is cleared.
@@ -8,7 +9,7 @@ import type { Chip, PageMeta, PosterHeroContent } from './types';
 export const meta: PageMeta = {
   title: 'Research',
   description:
-    "Graph-based cyber risk research for infrastructure networks at MIT. Before that: MITES Semester science writing and neuroscience, and a machine learning study of Louisiana's coastline.",
+    "Graph-based cyber risk research for infrastructure networks at MIT. Before that: a machine learning study of Louisiana's coastline, from satellite imagery.",
 };
 
 export const hero: PosterHeroContent = {
@@ -21,7 +22,7 @@ export const hero: PosterHeroContent = {
   sideLabelRight: 'CYBERSECURITY AT MIT SLOAN / FALL 2026',
   about: {
     label: 'About',
-    text: "Graph-based cyber risk research for infrastructure networks at MIT. Before that: MITES Semester, and a machine learning study of Louisiana's coastline.",
+    text: "Graph-based cyber risk research for infrastructure networks at MIT. Before that: a machine learning study of Louisiana's coastline.",
   },
   badges: [
     { value: '2D', label: 'New metric' },
@@ -74,43 +75,6 @@ export const urop = {
     axisY: 'EDGE IMPORTANCE →',
     highlight: 'HIGH ON BOTH',
   },
-};
-
-export const alsoAtUrop = {
-  label: 'ALSO AT THE UROP',
-  title: 'Agentic AI security and deepfake voice threats',
-  text: 'Apprenticing under a graduate researcher on agentic AI cybersecurity research targeting deepfake voice threats.',
-  status: 'IN PROGRESS',
-};
-
-export const mites = {
-  id: 'mites',
-  label: 'MITES SEMESTER 2025 · JUN TO DEC 2025',
-  heading: 'MITES',
-  title: 'MIT Introduction to Technology, Engineering, and Science',
-  text: 'Selected as 1 of about 250 students nationwide from 5,100+ applicants.',
-  stats: [
-    { value: '~250', label: 'SCHOLARS NATIONWIDE' },
-    { value: '5,100+', label: 'APPLICANTS' },
-  ],
-  tracks: [
-    {
-      label: 'SCIENCE WRITING',
-      title: "Quantum computing's implications for cybersecurity",
-      text: 'Researched and wrote an article on what quantum computing means for cybersecurity, interviewing Dr. Peter Shor, Dean Kamen, and NIST mathematicians Dr. Lily Chen and Dr. Dustin Moody.',
-      award: 'mites-science-writing-2025',
-      awardText: 'MITES Semester Best of Science Writing Award',
-      chips: [{ label: 'Scientific writing' }, { label: 'Quantum computing' }, { label: 'Cybersecurity' }] satisfies Chip[],
-    },
-    {
-      label: 'NEUROSCIENCE',
-      title: 'Cogniview',
-      text: "Project manager for a team of 4 building Cogniview, a neural-network-based tool to help doctors and medical students diagnose and track Alzheimer's progression, using data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). Wrote a scientific paper on the findings.",
-      award: 'mites-neuroscience-2025',
-      awardText: 'MITES Semester Achievement Award in Neuroscience',
-      chips: [{ label: 'Neuroscience' }, { label: 'Neural networks' }, { label: 'Project management' }] satisfies Chip[],
-    },
-  ],
 };
 
 export const shoreline = {

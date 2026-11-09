@@ -108,7 +108,7 @@ export const chapters = {
       index: '06',
       tag: 'FRC 3616',
       title: 'High School',
-      text: 'FRC Team 3616, three apps, and student leadership in Lafayette.',
+      text: 'FRC Team 3616, MITES Semester, three apps, and service in Lafayette.',
       href: '/high-school/',
       watermark: 'HIGH SCHOOL',
     },

@@ -1,5 +1,6 @@
 // High School page copy. Source: assets-incoming/PROFILE.md ("High School page") and
-// design-handoff/CHANGES.md section 3. Lists (milestones, seasons, projects, roles) are arrays:
+// design-handoff/CHANGES.md section 3, plus MITES and CGI volunteering (Rudra, Nov 8).
+// Lists (milestones, seasons, projects, roles) are arrays:
 // add an entry to add an item. Awards link to /awards through their ids in awards.ts.
 // Never publish the ham radio call sign.
 import type { Chip, Link, PageMeta, PosterHeroContent } from './types';
@@ -7,7 +8,7 @@ import type { Chip, Link, PageMeta, PosterHeroContent } from './types';
 export const meta: PageMeta = {
   title: 'High School',
   description:
-    "Lafayette High School, 2022 to 2026: FRC Team 3616 president, project manager, and lead programmer, 2025 FIRST Dean's List Award winner, three apps including a Congressional App Challenge winner, and student leadership in Lafayette.",
+    "Lafayette High School, 2022 to 2026: FRC Team 3616 president, project manager, and lead programmer, 2025 FIRST Dean's List Award winner, MITES Semester 2025, three apps including a Congressional App Challenge winner, and student leadership and service in Lafayette.",
 };
 
 export const hero: PosterHeroContent = {
@@ -77,9 +78,11 @@ export const frc = {
     stat: { value: '350+', label: 'OUTREACH VOLUNTEER HOURS' },
     advocacy: {
       label: 'INDUSTRY DAY · LOUISIANA STATE CAPITOL',
-      /** Rudra's LinkedIn wording, used as written. */
+      /** Rudra's LinkedIn wording, used as written. Set in regular weight. */
       quote:
         'Took the initiative at Industry Day at the Louisiana State Capitol and advocated before Louisiana state legislators to increase STEM education in the form of more technical classes; my words sparked conversations that, in collaboration with STEM educators, led to the passage of Louisiana Act 211, requiring computer science as a graduation requirement statewide.',
+      /** The only bold words in the quote (Rudra, Nov 8). Must appear in `quote` exactly. */
+      emphasis: 'passage of Louisiana Act 211',
     },
   },
   mentoring: {
@@ -128,6 +131,38 @@ export const frc = {
       'Community outreach',
     ].map((label) => ({ label })) satisfies Chip[],
   },
+};
+
+// ---------- MITES Semester (moved from Research, Rudra, Nov 8) ----------
+
+export const mites = {
+  id: 'mites',
+  label: 'MITES SEMESTER 2025 · JUN TO DEC 2025',
+  heading: 'MITES',
+  title: 'MIT Introduction to Technology, Engineering, and Science',
+  text: 'Selected as 1 of about 250 students nationwide from 5,100+ applicants.',
+  stats: [
+    { value: '~250', label: 'SCHOLARS NATIONWIDE' },
+    { value: '5,100+', label: 'APPLICANTS' },
+  ],
+  tracks: [
+    {
+      label: 'SCIENCE WRITING',
+      title: "Quantum computing's implications for cybersecurity",
+      text: 'Researched and wrote an article on what quantum computing means for cybersecurity, interviewing Dr. Peter Shor, Dean Kamen, and NIST mathematicians Dr. Lily Chen and Dr. Dustin Moody.',
+      award: 'mites-science-writing-2025',
+      awardText: 'MITES Semester Best of Science Writing Award',
+      chips: [{ label: 'Scientific writing' }, { label: 'Quantum computing' }, { label: 'Cybersecurity' }] satisfies Chip[],
+    },
+    {
+      label: 'NEUROSCIENCE',
+      title: 'Cogniview',
+      text: "Project manager for a team of 4 building Cogniview, a neural-network-based tool to help doctors and medical students diagnose and track Alzheimer's progression, using data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). Wrote a scientific paper on the findings.",
+      award: 'mites-neuroscience-2025',
+      awardText: 'MITES Semester Achievement Award in Neuroscience',
+      chips: [{ label: 'Neuroscience' }, { label: 'Neural networks' }, { label: 'Project management' }] satisfies Chip[],
+    },
+  ],
 };
 
 // ---------- Projects from high school ----------
@@ -245,7 +280,17 @@ export const service = {
   label: 'COMMUNITY SERVICE',
   heading: '300+ HOURS',
   text: 'Mentoring and outreach through robotics.',
-  other: 'Other service: CGI STEM lessons and mentoring, NHS, Beta Club, FBLA, and the Computer Science Honor Society.',
+  /** CGI volunteering, moved here from Experience (Rudra, Nov 8). */
+  cgi: {
+    label: 'CGI VOLUNTEERING · JUN 2024 TO NOV 2025',
+    title: 'Teaching and mentoring',
+    items: [
+      { value: '4', text: "2-hour lessons at CGI's Region 4 Summer STEM Camp, for 200+ students." },
+      { value: '30+', text: 'students mentored for the Congressional App Challenge, over 8 weeks.' },
+    ],
+    note: 'Also led lessons on cryptography and consulting for middle and early high school students, and volunteered at Take Your Child to Work Day STEM events.',
+  },
+  other: 'Other service: NHS, Beta Club, FBLA, and the Computer Science Honor Society.',
   photos: [
     { slot: 'hs-robot', alt: 'The team robot on the competition field' },
     { slot: 'hs-team', alt: 'FRC Team 3616 Phenomena' },

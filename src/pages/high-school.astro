@@ -1,7 +1,8 @@
 ---
 // High School. Copy: src/content/high-school.ts. Design: design-handoff/reference/HighSchool.html,
-// restructured by design-handoff/CHANGES.md section 3: FRC Team 3616 leads, then projects,
-// leadership and community, service, and an awards teaser. Award mentions link to /awards.
+// restructured by design-handoff/CHANGES.md section 3: FRC Team 3616 leads, then MITES Semester
+// (moved from Research), projects, leadership and community, service (with the CGI volunteering
+// moved from Experience), and an awards teaser. Award mentions link to /awards.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import HighSchoolArt from '../components/art/HighSchoolArt.astro';
@@ -11,11 +12,16 @@ import Chip from '../components/Chip.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import AwardLink from '../components/AwardLink.astro';
 import NewTab from '../components/NewTab.astro';
-import { meta, hero, frc, projects, community, service, awardsTeaser } from '../content/high-school';
+import { meta, hero, frc, mites, projects, community, service, awardsTeaser } from '../content/high-school';
 import { emWidth } from '../lib/fit';
 
 const deanFit = await emWidth(frc.deansList.heading);
 const dl = frc.deansList;
+
+// The advocacy quote is regular weight with one bold phrase (Rudra, Nov 8).
+const adv = frc.outreach.advocacy;
+const [quoteBefore, quoteAfter, ...extra] = adv.quote.split(adv.emphasis);
+if (quoteAfter === undefined || extra.length) throw new Error('high-school.ts: advocacy.emphasis must appear exactly once in advocacy.quote');
 ---
 
 <Layout meta={meta}>
@@ -128,8 +134,8 @@ const dl = frc.deansList;
         </p>
       </div>
       <figure class="hs-quote" data-reveal>
-        <figcaption class="mono rim-ink">{frc.outreach.advocacy.label}</figcaption>
-        <blockquote class="cond">“{frc.outreach.advocacy.quote}”</blockquote>
+        <figcaption class="mono rim-ink">{adv.label}</figcaption>
+        <blockquote>“{quoteBefore}<strong>{adv.emphasis}</strong>{quoteAfter}”</blockquote>
       </figure>
     </div>
 
@@ -156,9 +162,53 @@ const dl = frc.deansList;
     </div>
   </section>
 
+  <!-- ---------- MITES Semester ---------- -->
+  <section class="section wrap" id={mites.id} aria-labelledby="mites-h">
+    <SectionHead label={mites.label} heading={mites.heading} id="mites-h" drift="right" />
+    <div class="hs-mites">
+      <div data-reveal>
+        <p class="hs-mites__title cond">{mites.title}</p>
+        <p class="hs-mites__text muted">{mites.text}</p>
+      </div>
+      <dl class="hs-mites__stats" data-reveal>
+        {
+          mites.stats.map((st) => (
+            <div class="hs-mites__stat">
+              <dt class="mono faint">{st.label}</dt>
+              <dd class="huge litx hs-mites__val">{st.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <div class="hs-tracks">
+      {
+        mites.tracks.map((t) => (
+          <Surface as="article" class="hs-track" data-reveal>
+            <p class="mono accent-ink">{t.label}</p>
+            <h3 class="hs-track__title cond">{t.title}</h3>
+            <p class="hs-track__text muted">{t.text}</p>
+            <div class="hs-chips">
+              {t.chips.map((c) => (
+                <Chip label={c.label} />
+              ))}
+            </div>
+            <p class="hs-award hs-track__award">
+              <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="9" r="6" />
+                <path d="M8.5 14L7 22l5-3 5 3-1.5-8" />
+              </svg>
+              <AwardLink id={t.award}>{t.awardText}</AwardLink>
+            </p>
+          </Surface>
+        ))
+      }
+    </div>
+  </section>
+
   <!-- ---------- Projects ---------- -->
   <section class="section wrap" aria-labelledby="hsp-h">
-    <SectionHead label={projects.label} heading={projects.heading} id="hsp-h" drift="right" />
+    <SectionHead label={projects.label} heading={projects.heading} id="hsp-h" drift="left" />
     <ul role="list" class="hs-projects">
       {
         projects.items.map((p) => (
@@ -196,7 +246,7 @@ const dl = frc.deansList;
 
   <!-- ---------- Leadership and community ---------- -->
   <section class="section wrap" aria-labelledby="comm-h">
-    <SectionHead label={community.label} heading={community.heading} id="comm-h" drift="left" size="mid" />
+    <SectionHead label={community.label} heading={community.heading} id="comm-h" drift="right" size="mid" />
     {
       community.groups.map((g) => (
         <div class="hs-group">
@@ -228,8 +278,27 @@ const dl = frc.deansList;
 
   <!-- ---------- Service ---------- -->
   <section class="section wrap" aria-labelledby="service-h">
-    <SectionHead label={service.label} heading={service.heading} id="service-h" drift="right" />
+    <SectionHead label={service.label} heading={service.heading} id="service-h" drift="left" />
     <p class="hs-lead hs-lead--first" data-reveal>{service.text}</p>
+    <div class="hs-vol-wrap">
+      <Surface as="section" class="hs-vol" aria-labelledby="vol-h" data-reveal>
+        <div>
+          <p class="mono faint">{service.cgi.label}</p>
+          <h3 class="hs-vol__title cond" id="vol-h">{service.cgi.title}</h3>
+        </div>
+        <ul role="list" class="hs-vol__items">
+          {
+            service.cgi.items.map((it) => (
+              <li class="hs-vol__item">
+                <span class="huge litx hs-vol__val">{it.value}</span>
+                <span class="hs-vol__text">{it.text}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="hs-vol__note muted">{service.cgi.note}</p>
+      </Surface>
+    </div>
     <p class="hs-note muted" data-reveal>{service.other}</p>
     <ul role="list" class="hs-photos">
       {
@@ -609,10 +678,18 @@ const dl = frc.deansList;
     border-left: 2px solid var(--accent);
   }
 
+  /* Regular weight, with only the Act 211 phrase in bold (Rudra, Nov 8). */
   .hs-quote blockquote {
     margin: 14px 0 0;
-    font-size: clamp(22px, 1.94vw, 32px);
-    line-height: 1.22;
+    font-size: clamp(19px, 1.53vw, 26px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink2);
+  }
+
+  .hs-quote strong {
+    font-weight: 800;
+    color: var(--ink);
   }
 
   @media (max-width: 1099px) {
@@ -650,6 +727,105 @@ const dl = frc.deansList;
     .hs-teams {
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
+    }
+  }
+
+  /* ---------- MITES Semester ---------- */
+  .hs-mites {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px 64px;
+    align-items: end;
+  }
+
+  .hs-mites__title {
+    max-width: 900px;
+    font-size: clamp(26px, 2.22vw, 38px);
+    line-height: 1.19;
+  }
+
+  .hs-mites__text {
+    margin-top: 14px;
+    max-width: 40em;
+    font-size: 17px;
+    line-height: 1.53;
+  }
+
+  .hs-mites__stats {
+    margin: 0;
+    display: flex;
+    gap: 40px;
+  }
+
+  .hs-mites__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    padding-top: 18px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .hs-mites__stat dt {
+    margin-top: 12px;
+  }
+
+  .hs-mites__val {
+    margin: 0;
+    font-size: clamp(56px, 6.25vw, 110px);
+  }
+
+  .hs-tracks {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .hs-tracks :global(.hs-track) {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 2.6vw, 44px);
+    border-radius: 20px;
+  }
+
+  .hs-track__title {
+    margin-top: 14px;
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.08;
+  }
+
+  .hs-track__text {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .hs-track__award {
+    margin-top: auto;
+    padding-top: 22px;
+  }
+
+  @media (max-width: 1099px) {
+    .hs-mites {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 899px) {
+    .hs-tracks {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hs-mites__stats {
+      gap: 24px;
+    }
+    .hs-mites__stat {
+      flex: 1 1 0;
+    }
+    .hs-mites__text {
+      font-size: 16px;
     }
   }
 
@@ -774,6 +950,71 @@ const dl = frc.deansList;
     }
     .hs-role__text {
       font-size: 16px;
+    }
+  }
+
+  /* ---------- CGI volunteering ---------- */
+  .hs-vol-wrap {
+    margin-top: 40px;
+  }
+
+  .hs-vol-wrap :global(.hs-vol) {
+    display: grid;
+    grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
+    gap: 24px 40px;
+    padding: clamp(24px, 3.06vw, 54px);
+    border-radius: 20px;
+  }
+
+  .hs-vol__title {
+    margin-top: 10px;
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.06;
+  }
+
+  .hs-vol__items {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .hs-vol__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line2);
+  }
+
+  .hs-vol__val {
+    font-size: clamp(56px, 5.56vw, 96px);
+  }
+
+  .hs-vol__text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .hs-vol__note {
+    grid-column: 2;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1099px) {
+    .hs-vol-wrap :global(.hs-vol) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+    .hs-vol__note {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hs-vol__items {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
