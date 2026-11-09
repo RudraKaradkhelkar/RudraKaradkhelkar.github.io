@@ -2,9 +2,9 @@
 
 Running log for the portfolio build. Read at the start of every session and after any context compaction, then continue from **Next**.
 
-## Review round 2 (2026-11-08)
+## Review round 3 (2026-11-08)
 
-Rudra's first review notes are applied and committed on `main` (`fd6c88e` to `d74c2e8`), **not pushed**. What's left before deploying is under Questions and Placeholders below.
+Rudra's review notes (round 2: `fd6c88e` to `d74c2e8`) and his answers and photos (round 3: `2a70a47`) are committed on `main`, **not pushed**. What's left before deploying is under Questions and Placeholders below.
 
 1. **Look at each page:** `npm run build && npm run preview`, or `npm run shoot` and open `review/index.html` (every route, 8 sizes, both themes). Both scripts now run while a preview is open.
 2. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`.
@@ -13,13 +13,15 @@ Checks at the end of round 2: `npx astro check` 0 errors / 0 warnings / 0 hints;
 
 ## Status
 
-Review round 2 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/projects/`, `/awards/`, `/clubs/`, `/high-school/`, `/life/` (`/drawings/` redirects here), `/resume/`, and the styled 404.
+Review round 3 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/projects/`, `/awards/`, `/clubs/`, `/high-school/`, `/life/` (`/drawings/` redirects here), `/resume/`, and the styled 404.
 
 ## Done
 
 | Commit | What |
 | - | - |
-| (docs) | README and PROGRESS for review round 2 |
+| (docs) | README and PROGRESS for review round 3 |
+| `2a70a47` | High School team photo, FUN Robotics Network video (click to play), and outreach photo with Rudra's captions; drawing named (Class of 2030 Design Contest, pencil, 2026); drone glove starts IAP 2027; Rudra's sharper CGI article photo |
+| `3ce505d` | README and PROGRESS for review round 2 |
 | `d74c2e8` | Audit checks links to sections on other pages; the dist server sends the 404 page as HTML |
 | `896beaf` | Experience: skills inside each role (no skills bank), CGI newest first, CAPE and LPSS as separate sections, volunteering moved out, CGI article photo on the EcoChamps press card, mouse sway on the ID badges; shoot loads lazy images |
 | `db051f1` | Research: agentic AI and deepfake block removed, MITES moved out. High School: MITES Semester section, CGI volunteering under Community Service, Act 211 quote in regular weight with the phrase in bold |
@@ -143,17 +145,20 @@ Review round 2 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/p
 - **Review round 2: badge sway.** With a mouse or trackpad, moving the pointer across a hanging badge kicks it into a swing on a damped spring (about 1 s period, settles in about 4 s), on top of the gentle CSS sway. The kick depends on how far and how fast the pointer crosses the badge, up to 26 degrees. Off for touch and with reduced motion.
 - **Review round 2: check scripts.** Astro 7 allows one `astro preview` per project, so `shoot` and `audit` failed while Rudra had a preview open. They now serve `dist/` with a small Node server (`scripts/serve-dist.mjs`) that resolves paths the way GitHub Pages does. `shoot` loads lazy images before full-page shots (they were blank below the first screen). `audit` also checks links to sections on other pages.
 
+- **Review round 3: the YouTube video is an exception to "no embeds" (CLAUDE.md).** Rudra asked for the FUN Robotics Network video to be embedded. To keep the rule's intent (no third-party requests or trackers on page load), it's click to play: the page shows a local poster (YouTube's thumbnail, downloaded once and cropped to the vertical video inside it) with a play button, inside a plain link to the video on YouTube. Only when a visitor presses it does a script swap in the player from youtube-nocookie.com (YouTube's privacy-enhanced embed). Checked in Playwright: zero off-site requests before the click, the player loads and plays after it. Without JavaScript the link opens YouTube in a new tab; Ctrl/Cmd-click does too. CLAUDE.md still lists embeds as banned and is read-only for me, so Rudra may want to note this exception there.
+- **Review round 3: High School media.** The video is vertical (9:16; YouTube's 16:9 thumbnail is the video with blurred sides), so it can't fill the old 16:9 slot without black bars. Desktop: the team photo, the video, and the outreach photo side by side, the video taller in the middle. Tablet: the video on the left, the two photos stacked beside it. Phones: one column, the video at most 360 px wide. Captions are Rudra's, lightly edited for flow: "The team after an amazing 2026 Magnolia Regional.", "With my best teammate, Xavion, explaining how our robot works on the FUN Robotics Network." (the channel's own name on YouTube), "Comeaux High School outreach event." Xavion's first name is on the site because Rudra asked for it in the caption. The photos are 4:3 (1600 x 1200, no metadata); the `hs-robot` slot is gone.
+- **Review round 3: drawing.** Title "Class of 2030 Design Contest", medium Pencil, year 2026 (Rudra). The hero polaroid says "Class of 2030" so the overlapping poker polaroid never cuts it off on phones; the full title is under the drawing.
+- **Review round 3: IAP 2027** for the drone glove (Rudra): cover year, detail strip ("STARTS IAP 2027"), section intro, Home card, and meta description.
+- **Review round 3: CGI photo.** Rudra's 620 x 380 copy replaces the 474 px crop from the screenshot.
+
 ## Questions for Rudra
 
 Each has a working default on the site:
 
 1. **Resume PDF:** `public/resume.pdf` still has "Apprenticing under a graduate researcher on agentic AI cybersecurity research targeting deepfake voice threats." Send a new export without that line and it gets swapped in (`assets-incoming/docs/resume.pdf`, then `node scripts/process-images.mjs`).
-2. **Drawing title, medium, and year** for `drawing-01` (shown as `[Title]`, `[Medium]`, `[Year]` on Life).
-3. **UROP status line** (still `[One or two lines on progress, once cleared to share.]` on Research).
-4. **Drone glove: which IAP?** The site says "starting in IAP" with no year. Say if it should read "IAP 2027".
-5. **Poker bot details**, after the tournament, to unlock LVL 04.
-6. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
-7. **CGI article photo (optional):** the crop is 474 px wide, a bit soft on big or high-density screens. A larger copy of the same photo would sharpen it.
+2. **UROP status line** on Research: the STATUS row under Question, Approach, and The Tool still shows `[One or two lines on progress, once cleared to share.]`. CLAUDE.md keeps UROP progress off the site until Rudra clears it. Either send one or two lines on where the project stands, or say to drop the row.
+3. **Poker bot details**, after the tournament, to unlock LVL 04.
+4. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
 
 ## Placeholders
 
@@ -163,17 +168,15 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 | - | - |
 | Research | UROP status "[One or two lines on progress, once cleared to share.]"; shoreline figure (slot `research-shoreline-1`, an illustration shows until then) |
 | Projects | Poker bot (locked LVL 04 until Rudra sends details); progress photos (slots `project-*`, no spot on the page yet) |
-| High School | Three photos (slots `hs-robot`, `hs-team`, `hs-outreach`) |
-| Life | Drawing `[Title]`, `[Medium]`, `[Year]` |
 | Resume | The PDF still mentions the agentic AI and deepfake project (the page's own copy doesn't) |
+
+The High School photos and video and the Life drawing details are filled.
 
 ## Known issues
 
 - This interactive session's Playwright MCP process targets Chrome until reconnected (`/mcp`, playwright, Reconnect). New sessions use the Edge config. The build's own scripts use Playwright's Chromium and are unaffected.
 - Projects progress-photo slots (`project-cyberdefender-N`, `project-drone-glove-N`) exist in `slots.ts` but the design has no place for them on the page yet, so photos dropped there won't show until a spot is designed.
 - The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
-- The CGI article photo is 474 px wide (the size it had in the screenshot), so it is upscaled about 1.4x on the press card at 1440 and looks a little soft on high-density screens.
-
 ## Next
 
-Rudra reviews round 2. Before deploying: a resume PDF without the deepfake line, and answers to the other questions above (or leave those placeholders showing). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.
+Rudra reviews round 3. Before deploying: a resume PDF without the deepfake line, and an answer on the UROP status row (or leave the remaining placeholders showing). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.

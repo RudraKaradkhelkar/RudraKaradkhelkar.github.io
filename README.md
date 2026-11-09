@@ -56,7 +56,9 @@ Links to other sites open in a new tab. In a content file, mark one with `extern
 
 ## Common changes
 
-**Name the drawing.** In `src/content/life.ts`, replace `[Title]`, `[Medium]`, and `[Year]` in `drawing`. The scan is `src/assets/slots/drawing-01.jpg`; it shows whole in the Drawing section and cropped on the first hero polaroid.
+**Change the drawing's details.** In `src/content/life.ts`, edit `title`, `medium`, and `year` in `drawing` (they show under the drawing). The first hero polaroid has its own short caption in `heroPolaroids`, kept short so the next polaroid never covers it on phones. The scan is `src/assets/slots/drawing-01.jpg`; it shows whole in the Drawing section and cropped on the polaroid.
+
+**Change the High School video or photos.** In `src/content/high-school.ts`, `service.media` holds the team photo, the video, and the outreach photo, each with its caption. For a different video, set `youtubeId` (the part after `v=` in the YouTube link) and `title` (the video's title on YouTube), and save a still from it as `src/assets/slots/hs-video.jpg` at 9:16. The page shows that still with a play button and loads YouTube's player (from youtube-nocookie.com) only when someone presses play.
 
 **Add an award.** Add an entry to `awards` in `src/content/awards.ts` under its level, with a new `id` (lowercase words and a year, for example `'fbla-state-cybersecurity-2026'`). It appears in the full list on /awards. To link to it from another page, use `<AwardLink id="..." />`; an unknown id fails the build, so links can't break. Never change an id once it's published.
 
@@ -91,11 +93,12 @@ Every photo on the site has a named slot. Until a photo exists, the slot shows a
 | Slot file | Where it shows | Shape |
 | - | - | - |
 | `hero-photo.webp` | Home hero (the cut-out, transparent background) | 2275 x 2181 |
-| `cgi-article.jpg` | Experience, EcoChamps press card (the photo from CGI's article) | 474 x 375 |
+| `cgi-article.jpg` | Experience, EcoChamps press card (the photo from CGI's article) | 620 x 380 |
 | `headshot.jpg`, `headshot-dark.jpg` | Home nav avatar (wood background in the light theme, dark in the dark theme); the dark one is on the Experience ID badges | 1:1 |
 | `drawing-01.jpg` | Life: the Drawing section and the first hero polaroid | natural |
 | `research-shoreline-1.png` | Research, shoreline figure (empty) | 7:5 |
-| `hs-robot.jpg`, `hs-team.jpg`, `hs-outreach.jpg` | High School, community service (empty) | 16:9, 4:5, 4:5 |
+| `hs-team.jpg`, `hs-outreach.jpg` | High School, under Community Service, beside the video | 4:3 |
+| `hs-video.jpg` | High School, the video's poster until someone presses play (YouTube's thumbnail, cropped to the vertical video) | 9:16 |
 | `project-cyberdefender-1.jpg`, `project-jarvis-1.png`, `project-drone-glove-1.jpg`, ... | Reserved for project progress photos (no spot on the page yet) | 16:10 |
 
 Club logos live in `src/assets/logos/` and are used by `src/components/art/ClubsArt.astro`.
