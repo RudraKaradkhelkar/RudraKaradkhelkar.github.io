@@ -150,15 +150,18 @@ Review round 3 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/p
 - **Review round 3: drawing.** Title "Class of 2030 Design Contest", medium Pencil, year 2026 (Rudra). The hero polaroid says "Class of 2030" so the overlapping poker polaroid never cuts it off on phones; the full title is under the drawing.
 - **Review round 3: IAP 2027** for the drone glove (Rudra): cover year, detail strip ("STARTS IAP 2027"), section intro, Home card, and meta description.
 - **Review round 3: CGI photo.** Rudra's 620 x 380 copy replaces the 474 px crop from the screenshot.
+- **Review round 3: UROP status** (Rudra): "Work in progress." Nothing more until the work is public; then a link and a dashboard photo.
+- **Reduced motion, verified** (Rudra asked): with `prefers-reduced-motion: reduce`, on all 10 routes at 1440 (mouse) and 390 (touch), after scrolling through each page there are no running CSS animations or transitions, no scroll-driven styles on any element, no Lenis, no badge sway, and the menu popup opens with no transition. The same run with motion allowed shows the marquees, sway, cover spins, and scroll effects, so the check does see motion. How: `global.css` turns off every animation and transition, `motion.css` only animates under `no-preference`, `motion.ts` builds the scroll effects and Lenis inside a `no-preference` media query, and the badge sway and the Projects selection check the setting in script. The video only plays when pressed.
 
 ## Questions for Rudra
 
 Each has a working default on the site:
 
 1. **Resume PDF:** `public/resume.pdf` still has "Apprenticing under a graduate researcher on agentic AI cybersecurity research targeting deepfake voice threats." Send a new export without that line and it gets swapped in (`assets-incoming/docs/resume.pdf`, then `node scripts/process-images.mjs`).
-2. **UROP status line** on Research: the STATUS row under Question, Approach, and The Tool still shows `[One or two lines on progress, once cleared to share.]`. CLAUDE.md keeps UROP progress off the site until Rudra clears it. Either send one or two lines on where the project stands, or say to drop the row.
-3. **Poker bot details**, after the tournament, to unlock LVL 04.
-4. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
+2. **Poker bot details**, after the tournament, to unlock LVL 04.
+3. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
+
+Later: once the UROP work is public, Rudra will send its link and a photo of the dashboard (CARMA) for Research.
 
 ## Placeholders
 
@@ -166,7 +169,7 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 
 | Page | Placeholder |
 | - | - |
-| Research | UROP status "[One or two lines on progress, once cleared to share.]"; shoreline figure (slot `research-shoreline-1`, an illustration shows until then) |
+| Research | Shoreline figure (slot `research-shoreline-1`, an illustration shows until then) |
 | Projects | Poker bot (locked LVL 04 until Rudra sends details); progress photos (slots `project-*`, no spot on the page yet) |
 | Resume | The PDF still mentions the agentic AI and deepfake project (the page's own copy doesn't) |
 
@@ -179,4 +182,4 @@ The High School photos and video and the Life drawing details are filled.
 - The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
 ## Next
 
-Rudra reviews round 3. Before deploying: a resume PDF without the deepfake line, and an answer on the UROP status row (or leave the remaining placeholders showing). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.
+Rudra reviews round 3. Before deploying: a resume PDF without the deepfake line (the other open items can stay as placeholders). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.

@@ -1,7 +1,7 @@
 ---
 // Research. Copy: src/content/research.ts. Design: design-handoff/reference/Research.html.
-// Privacy (DESIGN.md section 9): the UROP partner is never named; progress stays a placeholder
-// until Rudra clears it. The tool, CARMA, is named (CHANGES.md section 6).
+// Privacy (DESIGN.md section 9): the UROP partner is never named. The tool, CARMA, is named
+// (CHANGES.md section 6). The status says only what Rudra cleared: work in progress.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import ResearchArt from '../components/art/ResearchArt.astro';
@@ -37,7 +37,7 @@ const shorePhoto = getSlotImage(shoreline.figure.slot);
           urop.blocks.map((b) => (
             <div class="rs-block" data-reveal>
               <dt class="mono accent-ink">{b.label}</dt>
-              <dd class:list={['rs-block__text', { placeholder: b.placeholder }]}>{b.text}</dd>
+              <dd class:list={['rs-block__text', { placeholder: 'placeholder' in b && b.placeholder }]}>{b.text}</dd>
             </div>
           ))
         }

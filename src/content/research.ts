@@ -3,7 +3,7 @@
 // and deepfake voice project is off the page (he's no longer on it), and MITES moved to High School.
 // Privacy (DESIGN.md section 9): never name the UROP's partner organization ("a CAMS partner
 // organization" is the approved wording). The tool, CARMA, is named with Dr. Pal's approval.
-// UROP progress stays a placeholder until Rudra says it is cleared.
+// The status is Rudra's own wording (Nov 8): work in progress. No more detail until the work is public.
 import type { Chip, PageMeta, PosterHeroContent } from './types';
 
 export const meta: PageMeta = {
@@ -62,9 +62,11 @@ export const urop = {
     },
     {
       label: 'STATUS',
-      /** Placeholder until Rudra clears UROP progress for sharing. */
-      text: '[One or two lines on progress, once cleared to share.]',
-      placeholder: true,
+      /**
+       * Rudra, Nov 8. When the work is public he'll send the link and a photo of the dashboard;
+       * a link and an image would go here and in a figure next to the blocks.
+       */
+      text: 'Work in progress.',
     },
   ],
   figure: {
