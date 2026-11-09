@@ -8,6 +8,7 @@ import PosterHero from '../components/PosterHero.astro';
 import MedalArt from '../components/art/MedalArt.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Surface from '../components/Surface.astro';
+import NewTab from '../components/NewTab.astro';
 import { meta, hero, deansList, podcastEpisode, featured, allAwards, awards, levelLabels, award } from '../content/awards';
 import type { AwardLevel } from '../content/awards';
 
@@ -31,9 +32,10 @@ const groups = levels.map((level) => ({ level, items: awards.filter((a) => a.lev
       <div class="aw-dl__main" data-reveal>
         <p class="aw-dl__title cond">{deansList.title}</p>
         <p class="aw-dl__text">{deansList.text}</p>
-        <a href={podcastEpisode.href} rel="noopener" class="btn-accent cap aw-dl__listen">
+        <a href={podcastEpisode.href} target="_blank" rel="noopener" class="btn-accent cap aw-dl__listen">
           <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
           {deansList.listen}
+          <NewTab />
         </a>
       </div>
       <div class="aw-dl__stat" data-reveal>
@@ -82,11 +84,12 @@ const groups = levels.map((level) => ({ level, items: awards.filter((a) => a.lev
               <p class="aw-card__org muted">{a.org}</p>
               {a.note && <p class="aw-card__note">{a.note}</p>}
               {a.link && (
-                <a href={a.link.href} rel="noopener" class="aw-card__link cap">
+                <a href={a.link.href} target={a.link.external ? '_blank' : undefined} rel={a.link.external ? 'noopener' : undefined} class="aw-card__link cap">
                   {a.link.label}
                   <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 17L17 7M9 7h8v8" />
                   </svg>
+                  {a.link.external && <NewTab />}
                 </a>
               )}
             </Surface>
@@ -147,11 +150,12 @@ const groups = levels.map((level) => ({ level, items: awards.filter((a) => a.lev
                     {a.note && <span class="aw-row__note faint">{a.note}</span>}
                   </span>
                   {a.link && (
-                    <a href={a.link.href} rel="noopener" class="aw-row__link cap">
+                    <a href={a.link.href} target={a.link.external ? '_blank' : undefined} rel={a.link.external ? 'noopener' : undefined} class="aw-row__link cap">
                       {a.link.label}
                       <svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M7 17L17 7M9 7h8v8" />
                       </svg>
+                      {a.link.external && <NewTab />}
                     </a>
                   )}
                 </li>

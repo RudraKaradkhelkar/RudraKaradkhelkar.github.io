@@ -1,0 +1,7 @@
+---
+// Goes inside every link that leaves the site. Those links open in a new tab
+// (target="_blank" rel="noopener"), and this tells screen reader users so before they follow it.
+import { site } from '../content/site';
+---
+
+<span class="sr-only"> {site.navLabels.newTab}</span>

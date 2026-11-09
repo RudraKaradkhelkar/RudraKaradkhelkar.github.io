@@ -7,7 +7,10 @@
 export interface Link {
   label: string;
   href: string;
-  /** Points off-site. Links open in the same tab; this only marks them (rel="noopener"). */
+  /**
+   * Points off-site. Every link that leaves the site opens in a new tab (Rudra, Nov 8), with
+   * "(opens in a new tab)" for screen readers. `npm run audit` fails on any that doesn't.
+   */
   external?: boolean;
 }
 

@@ -8,6 +8,7 @@ import ExperienceArt from '../components/art/ExperienceArt.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
+import NewTab from '../components/NewTab.astro';
 import { meta, hero, roles, skills, cgi, ecochamps, more } from '../content/experience';
 import { emWidth } from '../lib/fit';
 
@@ -101,8 +102,9 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
                     <li>
                       {r.text}{' '}
                       {r.link && (
-                        <a href={r.link.href} rel="noopener" class="x-link">
+                        <a href={r.link.href} target="_blank" rel="noopener" class="x-link">
                           {r.link.label}
+                          <NewTab />
                         </a>
                       )}
                     </li>
@@ -141,7 +143,7 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
   <!-- ---------- EcoChamps ---------- -->
   <section class="section wrap" aria-labelledby="eco-h">
     <div class="eco">
-      <a href={ecochamps.press.link.href} rel="noopener" class="eco__press media lift" data-reveal>
+      <a href={ecochamps.press.link.href} target="_blank" rel="noopener" class="eco__press media lift" data-reveal>
         <span class="eco__press-label mono faint">{ecochamps.press.label}</span>
         <span class="eco__press-title cond">“{ecochamps.press.title}”</span>
         <span class="eco__press-cta cap">
@@ -149,6 +151,7 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
           <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M7 17L17 7M9 7h8v8" />
           </svg>
+          <NewTab />
         </span>
       </a>
       <div class="eco__body" data-reveal>

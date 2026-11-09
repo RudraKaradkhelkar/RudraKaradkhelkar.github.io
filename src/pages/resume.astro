@@ -8,6 +8,7 @@ import PosterHero from '../components/PosterHero.astro';
 import ResumeArt from '../components/art/ResumeArt.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
+import NewTab from '../components/NewTab.astro';
 import { meta, hero, pdf, highlights, skills, contact } from '../content/resume';
 import { site } from '../content/site';
 
@@ -37,7 +38,7 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
           </span>
         )
       }
-      <a href={linkedin.href} rel="noopener" class="cap ghost rbtn rs-btn">{linkedin.label}</a>
+      <a href={linkedin.href} target="_blank" rel="noopener" class="cap ghost rbtn rs-btn">{linkedin.label}<NewTab /></a>
     </div>
   </PosterHero>
 
@@ -75,16 +76,18 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
                 <object data={pdf.href} type="application/pdf" class="rs-doc__pdf" title={pdf.viewerTitle}>
                   <div class="rs-doc__page rs-doc__page--open">
                     <span class="mono rs-doc__ph">{pdf.fileName}</span>
-                    <a href={pdf.href} class="btn-accent cap">
+                    <a href={pdf.href} target="_blank" rel="noopener" class="btn-accent cap">
                       {pdf.viewerFallback}
+                      <NewTab />
                     </a>
                   </div>
                 </object>
                 {/* Phones rarely show PDFs inline, so they get a card that opens it instead. */}
                 <div class="rs-doc__page rs-doc__page--open rs-doc__phone">
                   <span class="mono rs-doc__ph">{pdf.fileName}</span>
-                  <a href={pdf.href} class="btn-accent cap">
+                  <a href={pdf.href} target="_blank" rel="noopener" class="btn-accent cap">
                     {pdf.viewerFallback}
+                    <NewTab />
                   </a>
                 </div>
               </>
@@ -131,7 +134,7 @@ const linkedinText = linkedin.href.replace(/^https?:\/\/(www\.)?/, '');
         <Surface class="rs-card" data-reveal>
           <h2 class="mono rim-ink">{contact.label}</h2>
           <a href={`mailto:${site.email}`} class="rs-card__mail cond">{site.email}</a>
-          <a href={linkedin.href} rel="noopener" class="rs-card__li muted">{linkedinText}</a>
+          <a href={linkedin.href} target="_blank" rel="noopener" class="rs-card__li muted">{linkedinText}<NewTab /></a>
         </Surface>
       </div>
     </div>

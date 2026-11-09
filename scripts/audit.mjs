@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Quality audit for the built site (PROMPT-OVERNIGHT.md Phase 3):
 //   1. axe (WCAG 2.1 A and AA) on every route, in both themes, at desktop and phone sizes
-//   2. every internal link and asset reference in dist/ resolves to a file
+//   2. every internal link and asset reference in dist/ resolves to a file, and every link that
+//      leaves the site (or opens the resume PDF) opens in a new tab
 //   3. banned patterns in src/ and dist/: em dashes, sparkle glyphs, emoji, banned fonts,
 //      backdrop-filter outside the nav, gradient text outside the hero headline, phone numbers
 //
@@ -11,16 +12,17 @@
 // Exit code 1 means at least one check failed.
 import { spawn } from 'node:child_process';
 import { readFile, readdir, stat } from 'node:fs/promises';
-import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
+import { serveDist } from './serve-dist.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const ASTRO = path.join(ROOT, 'node_modules', 'astro', 'bin', 'astro.mjs');
 const THEME_KEY = 'rk-theme';
+const SITE = 'https://rudrakaradkhelkar.github.io';
 const argv = process.argv.slice(2);
 
 const ROUTES = ['/', '/research/', '/experience/', '/projects/', '/awards/', '/clubs/', '/high-school/', '/life/', '/resume/', '/this-page-does-not-exist/'];
@@ -34,18 +36,6 @@ function run(args) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [ASTRO, ...args], { cwd: ROOT, stdio: 'inherit' });
     child.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`astro ${args[0]} failed (${code})`))));
-  });
-}
-
-function freePort() {
-  return new Promise((resolve, reject) => {
-    const srv = net.createServer();
-    srv.unref();
-    srv.on('error', reject);
-    srv.listen(0, '127.0.0.1', () => {
-      const { port } = srv.address();
-      srv.close(() => resolve(port));
-    });
   });
 }
 
@@ -70,18 +60,10 @@ async function exists(p) {
 
 // ---------- 1. axe ----------
 async function axe() {
-  const port = await freePort();
-  const base = `http://127.0.0.1:${port}`;
-  const preview = spawn(process.execPath, [ASTRO, 'preview', '--host', '127.0.0.1', '--port', String(port)], { cwd: ROOT, stdio: 'ignore' });
+  // Serves dist/ itself, so this also runs while `astro preview` is open in another terminal.
+  const preview = await serveDist();
+  const base = preview.base;
   try {
-    for (let i = 0; i < 120; i++) {
-      try {
-        await fetch(base);
-        break;
-      } catch {
-        await new Promise((r) => setTimeout(r, 250));
-      }
-    }
     const browser = await chromium.launch();
     for (const route of ROUTES) {
       for (const theme of ['dark', 'light']) {
@@ -109,7 +91,7 @@ async function axe() {
     }
     await browser.close();
   } finally {
-    preview.kill();
+    await preview.close();
   }
 }
 
@@ -132,6 +114,18 @@ async function links() {
     // In-page anchors must have a target.
     for (const m of html.matchAll(/href="#([^"]+)"/g)) {
       if (!new RegExp(`id="${m[1]}"`).test(html)) failures.push(`anchor ${path.relative(DIST, file)}: #${m[1]} has no target`);
+    }
+    // Links that leave the site, and files opened in the browser (the resume PDF), open in a new
+    // tab (Rudra, Nov 8). Download links don't navigate, so they stay as they are.
+    for (const m of html.matchAll(/<a\b[^>]*>/g)) {
+      const tag = m[0];
+      const href = tag.match(/\shref="([^"]*)"/)?.[1];
+      if (!href) continue;
+      const offsite = /^https?:\/\//.test(href) && !href.startsWith(SITE);
+      const openedFile = /\.pdf(?:[?#]|$)/.test(href) && !/\sdownload[\s=>]/.test(tag);
+      if ((offsite || openedFile) && !(/\starget="_blank"/.test(tag) && /\srel="[^"]*noopener/.test(tag))) {
+        failures.push(`link ${path.relative(DIST, file)}: ${href} should open in a new tab (target="_blank" rel="noopener")`);
+      }
     }
     if (/href="#"/.test(html)) failures.push(`link ${path.relative(DIST, file)}: empty href="#"`);
     if (/href=""/.test(html)) failures.push(`link ${path.relative(DIST, file)}: empty href=""`);

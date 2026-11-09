@@ -46,19 +46,23 @@ export const site = {
     home: 'Home',
     replayIntro: 'Replay intro',
     sections: 'Sections',
+    /** The menu button under 1100 px; its open or closed state is announced through aria-expanded. */
     menuOpen: 'Menu',
-    menuClose: 'Close',
-    menuTitle: 'Menu',
     themeToDark: 'Switch to dark mode',
     themeToLight: 'Switch to light mode',
     /** Toggle button with aria-pressed, so the label stays the same in both states. */
     sound: 'Selection sound',
     skipToContent: 'Skip to content',
+    /** Read by screen readers after every link that leaves the site (those open in a new tab). */
+    newTab: '(opens in a new tab)',
   },
 
   footer: {
-    /** Repeats in the tilted accent stripe (shown uppercase). Wording confirmed by Rudra. */
-    marquee: ['Open to Summer 2027 roles in software engineering and cybersecurity/AI', 'rudrak@mit.edu', 'Cambridge, MA'],
+    /**
+     * Repeats in the tilted accent stripe (shown uppercase). Wording from Rudra (Nov 8); no
+     * location, since he's open to working anywhere.
+     */
+    marquee: ['Open to Summer 2027 Roles in Software Engineering, Cybersecurity, or AI', 'rudrak@mit.edu'],
     label: 'OPEN TO',
     headline: 'SUMMER 2027',
     text: 'Looking for a research or internship role in AI security for Summer 2027. Email is the fastest way to reach me.',

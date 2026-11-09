@@ -15,10 +15,10 @@
 // Exit code 1 means at least one check failed; the summary at the end lists them.
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
-import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { serveDist } from './serve-dist.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'review');
@@ -82,31 +82,6 @@ function run(args, label) {
   });
 }
 
-function freePort() {
-  return new Promise((resolve, reject) => {
-    const srv = net.createServer();
-    srv.unref();
-    srv.on('error', reject);
-    srv.listen(0, '127.0.0.1', () => {
-      const { port } = srv.address();
-      srv.close(() => resolve(port));
-    });
-  });
-}
-
-async function waitFor(url, ms = 30000) {
-  const start = Date.now();
-  while (Date.now() - start < ms) {
-    try {
-      const res = await fetch(url);
-      if (res.ok || res.status === 404) return;
-    } catch {
-      // not up yet
-    }
-    await new Promise((r) => setTimeout(r, 250));
-  }
-  throw new Error(`Preview server did not start at ${url}`);
-}
 
 async function pool(items, size, fn) {
   const queue = [...items];
@@ -190,13 +165,9 @@ let preview;
 try {
   if (!has('no-build')) await run(['build'], 'astro build');
 
-  const port = await freePort();
-  const base = `http://127.0.0.1:${port}`;
-  preview = spawn(process.execPath, [ASTRO, 'preview', '--host', '127.0.0.1', '--port', String(port)], {
-    cwd: ROOT,
-    stdio: 'ignore',
-  });
-  await waitFor(base);
+  // Serves dist/ itself, so this also runs while `astro preview` is open in another terminal.
+  preview = await serveDist();
+  const base = preview.base;
 
   const browser = await chromium.launch();
   const jobs = [];
@@ -279,7 +250,7 @@ try {
 } catch (err) {
   failures.push(`SETUP ERROR: ${err.message}`);
 } finally {
-  preview?.kill();
+  await preview?.close();
 }
 
 if (consoleErrors.length) {

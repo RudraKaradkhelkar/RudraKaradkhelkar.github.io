@@ -10,6 +10,7 @@ import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import AwardLink from '../components/AwardLink.astro';
+import NewTab from '../components/NewTab.astro';
 import { meta, hero, frc, projects, community, service, awardsTeaser } from '../content/high-school';
 import { emWidth } from '../lib/fit';
 
@@ -101,7 +102,7 @@ const dl = frc.deansList;
           <h3 class="hs-pod__title cond">{dl.podcast.title}</h3>
           <p class="hs-pod__text muted">{dl.podcast.text}</p>
         </div>
-        <a href={dl.podcast.link.href} rel="noopener" class="hs-pod__link">
+        <a href={dl.podcast.link.href} target="_blank" rel="noopener" class="hs-pod__link">
           <span class="hs-pod__play" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
@@ -111,6 +112,7 @@ const dl = frc.deansList;
             {[8, 16, 11, 20, 13, 18, 9, 15].map((h) => <span style={`height:${h}px`} />)}
           </span>
           <span class="mono">{dl.podcast.link.label}</span>
+          <NewTab />
         </a>
       </Surface>
     </div>
@@ -176,11 +178,12 @@ const dl = frc.deansList;
                   </p>
                 )}
                 {p.link && (
-                  <a href={p.link.href} rel="noopener" class="hs-project__link cap">
+                  <a href={p.link.href} target="_blank" rel="noopener" class="hs-project__link cap">
                     {p.link.label}
                     <svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M7 17L17 7M9 7h8v8" />
                     </svg>
+                    <NewTab />
                   </a>
                 )}
               </div>
