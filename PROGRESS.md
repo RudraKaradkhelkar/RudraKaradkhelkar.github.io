@@ -4,7 +4,7 @@ Running log for the portfolio build. Read at the start of every session and afte
 
 ## Review round 3 (2026-11-08)
 
-Rudra's review notes (round 2: `fd6c88e` to `d74c2e8`) and his answers and photos (round 3: `2a70a47`) are committed on `main`, **not pushed**. What's left before deploying is under Questions and Placeholders below.
+Rudra's review notes (round 2: `648ae13` to `b68e98a`) and his answers and photos (round 3: `ac15166`) are committed on `main`, **not pushed**. What's left before deploying is under Questions and Placeholders below.
 
 1. **Look at each page:** `npm run build && npm run preview`, or `npm run shoot` and open `review/index.html` (every route, 8 sizes, both themes). Both scripts now run while a preview is open.
 2. **Deploy** when happy: one-time **Settings > Pages > Source: GitHub Actions**, then `git push`.
@@ -20,38 +20,38 @@ Review round 3 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/p
 | Commit | What |
 | - | - |
 | (docs) | README and PROGRESS for review round 3 |
-| `2a70a47` | High School team photo, FUN Robotics Network video (click to play), and outreach photo with Rudra's captions; drawing named (Class of 2030 Design Contest, pencil, 2026); drone glove starts IAP 2027; Rudra's sharper CGI article photo |
-| `3ce505d` | README and PROGRESS for review round 2 |
-| `d74c2e8` | Audit checks links to sections on other pages; the dist server sends the 404 page as HTML |
-| `896beaf` | Experience: skills inside each role (no skills bank), CGI newest first, CAPE and LPSS as separate sections, volunteering moved out, CGI article photo on the EcoChamps press card, mouse sway on the ID badges; shoot loads lazy images |
-| `db051f1` | Research: agentic AI and deepfake block removed, MITES moved out. High School: MITES Semester section, CGI volunteering under Community Service, Act 211 quote in regular weight with the phrase in bold |
-| `92e0f06` | Projects: Jarvis LVL 01, CyberDefender LVL 02, Drone Glove LVL 03 planned for IAP, poker bot LVL 04; named section anchors. Home: drone glove off the Fall 2026 rows |
-| `14ae935` | Popup menu under 1100 px (Popover API, animated, burger to X); external links open in a new tab; footer marquee wording, no location; shoot and audit serve dist/ themselves |
-| `fd6c88e` | Hero fades wait until each element reaches the nav (About, badges, and Projects covers stay usable while scrolling) |
-| `fb30046` | Content pass: Resume (PDF wired, one page, Nov 2026, degree wording, sheet and cards from the real resume, phone card for the PDF) |
-| `a15c689` | Content pass: Life replaces Drawings & Life (real drawing on polaroid 1, drawn poker and football polaroids, ZBT, drawing, games; /drawings redirect) |
-| `061c2d0` | Content pass: Clubs (four clubs, four patches, Satellite Team and MAIA logos) |
-| `b930844` | Content pass: High School (FRC lead section with Act 211 line, robot bumper hero art, projects, clubs and civic roles, awards teaser) |
-| `52b0815` | Content pass: new Awards page (medal moved here, Dean's List headline, featured honors, full list, anchors) |
-| `93cddce` | Content pass: Experience (five badges with the headshot, skills overview, CGI in three chapters, CAPE and LPSS skills, EcoChamps press card) |
-| `ca58620` | Content pass: Research (CARMA named, MITES Semester 2025, shoreline expanded with award links, chess bot removed) |
-| `4023a87` | Content pass: Projects (four covers: CyberDefender 15%, Jarvis running, Drone Glove 5%, locked poker bot) |
-| `a80ddbd` | Content pass: nav (Awards, Life), awards.ts and AwardLink, hero photo, Home (approved About text, 8 chapters), footer line, process-images.mjs |
-| `28aa990` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
+| `ac15166` | High School team photo, FUN Robotics Network video (click to play), and outreach photo with Rudra's captions; drawing named (Class of 2030 Design Contest, pencil, 2026); drone glove starts IAP 2027; Rudra's sharper CGI article photo |
+| `e8fdbac` | README and PROGRESS for review round 2 |
+| `b68e98a` | Audit checks links to sections on other pages; the dist server sends the 404 page as HTML |
+| `8c7bf20` | Experience: skills inside each role (no skills bank), CGI newest first, CAPE and LPSS as separate sections, volunteering moved out, CGI article photo on the EcoChamps press card, mouse sway on the ID badges; shoot loads lazy images |
+| `1b7d351` | Research: agentic AI and deepfake block removed, MITES moved out. High School: MITES Semester section, CGI volunteering under Community Service, Act 211 quote in regular weight with the phrase in bold |
+| `5b55970` | Projects: Jarvis LVL 01, CyberDefender LVL 02, Drone Glove LVL 03 planned for IAP, poker bot LVL 04; named section anchors. Home: drone glove off the Fall 2026 rows |
+| `5b6a790` | Popup menu under 1100 px (Popover API, animated, burger to X); external links open in a new tab; footer marquee wording, no location; shoot and audit serve dist/ themselves |
+| `648ae13` | Hero fades wait until each element reaches the nav (About, badges, and Projects covers stay usable while scrolling) |
+| `e60fc3c` | Content pass: Resume (PDF wired, one page, Nov 2026, degree wording, sheet and cards from the real resume, phone card for the PDF) |
+| `7cc7f10` | Content pass: Life replaces Drawings & Life (real drawing on polaroid 1, drawn poker and football polaroids, ZBT, drawing, games; /drawings redirect) |
+| `f0eea2f` | Content pass: Clubs (four clubs, four patches, Satellite Team and MAIA logos) |
+| `c3c8eb6` | Content pass: High School (FRC lead section with Act 211 line, robot bumper hero art, projects, clubs and civic roles, awards teaser) |
+| `4360380` | Content pass: new Awards page (medal moved here, Dean's List headline, featured honors, full list, anchors) |
+| `2f9f723` | Content pass: Experience (five badges with the headshot, skills overview, CGI in three chapters, CAPE and LPSS skills, EcoChamps press card) |
+| `a7dcf9f` | Content pass: Research (CARMA named, MITES Semester 2025, shoreline expanded with award links, chess bot removed) |
+| `f591c12` | Content pass: Projects (four covers: CyberDefender 15%, Jarvis running, Drone Glove 5%, locked poker bot) |
+| `f3a5334` | Content pass: nav (Awards, Life), awards.ts and AwardLink, hero photo, Home (approved About text, 8 chapters), footer line, process-images.mjs |
+| `9b395ab` | Phase 1: `PosterHero` (one scalable stage in grid rows), `Surface`, `Chip`, `RowLink`, `SectionHead`, and the Home page (stand-in figure in front of RUDRA, band and marquee behind, About + badges, statement, stats, chapters, Fall 2026 rows) |
 | (polish) | Home phone hero fits one screen; resume sheet and polaroid type at design size (container units measure the content box); dark cover shadow in light mode |
 | (polish) | Resume viewer and page at the design's proportions; menu bottom brackets no longer touch the email row on phones or short landscape screens |
-| `cb47ff5` | Phase 4: deploy workflow (Astro action, January 1 schedule) and README |
-| `cde62e6` | Phase 3: `scripts/audit.mjs`, `--ink-faint` text token, wordmark and cover accessible names, metric-matched font fallback, fixed-width headline letters |
-| `e9bfab2` | Phase 2: CSS intro (`src/styles/motion.css`), scroll effects and Lenis (`src/scripts/motion.ts`), Home replay, skip link focus with Lenis |
-| `0ac6c60` | Phase 1: Research (graph in a size container with slice scaling; hub label tracks its node), hero overlap check in `shoot.mjs` |
-| `421c6d1` | Phase 1: Experience (badge rail on a board, fanned hand on phones; case cards; EcoChamps fitted heading and phone-frame slot) |
-| `1bf5bec` | Phase 1: High School (medal, timeline, Dean's List and podcast cards, subteams, photo slots sharing one height) |
-| `5ade85a` | Phase 1: Clubs (patches, overlapping row on phones; club cards; open slot) |
-| `a194d89` | Phase 1: Drawings & Life (polaroids that take the first three scans, staggered sketchbook, places, hobbies) |
-| `ddbe491` | Phase 1: Resume (sheet rising out of the frame; whole sheet on phones; viewer; highlight cards) |
-| `d9ecb79` | Phase 1: styled 404, stub removed, phone headlines fill the width, per-letter headline measurement |
-| `68430b8` | Phase 1: Projects page and level select (covers, detail strip, click / arrows / swipe, pop, ring, Web Audio tick), art primitives from `poster3.css`, per-theme accent ink |
-| `6805962` | Phase 0 scaffold: Astro 7 + TS strict, Fontsource fonts (Archivo preloaded), tokens and global CSS ported from `poster3.css`, grain overlay, `Layout` (no-flash theme), `Nav` (under-1100 menu, theme toggle, Projects sound toggle, Home avatar and replay button), `Footer`, `Marquee`, `ImageSlot`, `src/content/` seeded with all reference copy, build-time headline fitting (`src/lib/fit.ts`), stub pages for every route, `scripts/shoot.mjs` |
+| `c999887` | Phase 4: deploy workflow (Astro action, January 1 schedule) and README |
+| `8f85b81` | Phase 3: `scripts/audit.mjs`, `--ink-faint` text token, wordmark and cover accessible names, metric-matched font fallback, fixed-width headline letters |
+| `4d08666` | Phase 2: CSS intro (`src/styles/motion.css`), scroll effects and Lenis (`src/scripts/motion.ts`), Home replay, skip link focus with Lenis |
+| `4e77b5f` | Phase 1: Research (graph in a size container with slice scaling; hub label tracks its node), hero overlap check in `shoot.mjs` |
+| `705b939` | Phase 1: Experience (badge rail on a board, fanned hand on phones; case cards; EcoChamps fitted heading and phone-frame slot) |
+| `79b6ddf` | Phase 1: High School (medal, timeline, Dean's List and podcast cards, subteams, photo slots sharing one height) |
+| `ec8ab7e` | Phase 1: Clubs (patches, overlapping row on phones; club cards; open slot) |
+| `dff01f5` | Phase 1: Drawings & Life (polaroids that take the first three scans, staggered sketchbook, places, hobbies) |
+| `87ee0ad` | Phase 1: Resume (sheet rising out of the frame; whole sheet on phones; viewer; highlight cards) |
+| `4fc95de` | Phase 1: styled 404, stub removed, phone headlines fill the width, per-letter headline measurement |
+| `c17d062` | Phase 1: Projects page and level select (covers, detail strip, click / arrows / swipe, pop, ring, Web Audio tick), art primitives from `poster3.css`, per-theme accent ink |
+| `9f569d5` | Phase 0 scaffold: Astro 7 + TS strict, Fontsource fonts (Archivo preloaded), tokens and global CSS ported from `poster3.css`, grain overlay, `Layout` (no-flash theme), `Nav` (under-1100 menu, theme toggle, Projects sound toggle, Home avatar and replay button), `Footer`, `Marquee`, `ImageSlot`, `src/content/` seeded with all reference copy, build-time headline fitting (`src/lib/fit.ts`), stub pages for every route, `scripts/shoot.mjs` |
 
 ### Phase 0 checks
 
