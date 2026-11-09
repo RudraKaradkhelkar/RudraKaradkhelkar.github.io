@@ -7,6 +7,7 @@
 // The art box is a 1000-unit-wide board. Each badge is an inline-size container, so everything
 // printed on it scales with the badge.
 // Phones: the same five badges, smaller and overlapping like a fanned hand, on a shorter rail.
+// With a mouse, moving the pointer through the badges pushes them into a bigger swing.
 import { Image } from 'astro:assets';
 import { heroBadges } from '../../content/experience';
 import { getSlotImage } from '../../lib/slot-images';
@@ -23,8 +24,9 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
       <div class="xart__set" style={`--i:${i};--dd:${(0.4 + i * 0.1).toFixed(2)}s`} aria-hidden="true" data-deal>
         <span class="xart__yard stripe" />
         <div class:list={['xart__swing', `xart__swing--${i}`]}>
+          <div class="xart__push" data-push>
           <span class="xart__clip" />
-          <div class:list={['xart__badge', b.filled ? 'xart__badge--fill' : 'surface']}>
+          <div class:list={['xart__badge', b.filled ? 'xart__badge--fill' : 'surface']} data-push-hit>
             <div class="xart__in">
               <span class="xart__org huge">{b.org}</span>
               <span class="xart__who">
@@ -50,11 +52,85 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
               </span>
             </div>
           </div>
+          </div>
         </div>
       </div>
     ))
   }
 </div>
+
+<script>
+  // Mouse sway (Rudra, Nov 8): moving the pointer through the hanging badges pushes them, and each
+  // swings back on a damped spring around its clip. It adds to the gentle CSS sway underneath
+  // (on .xart__swing), so the badges never stop moving on their own. Mouse and trackpad only,
+  // and off with prefers-reduced-motion.
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const pushes = [...document.querySelectorAll<HTMLElement>('[data-push]')];
+  const hits = pushes.map((p) => p.querySelector<HTMLElement>('[data-push-hit]')!);
+
+  if (pushes.length) {
+    const STIFFNESS = 38; // 1/s², a swing of about one second
+    const DAMPING = 2.1; // 1/s, a few visible swings before it settles
+    const KICK = 0.5; // deg/s of swing per px the pointer moves across a badge
+    const MAX_ANGLE = 26;
+    const state = pushes.map(() => ({ angle: 0, vel: 0 }));
+    let lastX: number | null = null;
+    let lastT = 0;
+    let frame = 0;
+    let prev = 0;
+
+    const step = (now: number) => {
+      const dt = Math.min(0.033, (now - prev) / 1000 || 0.016);
+      prev = now;
+      let moving = false;
+      state.forEach((s, i) => {
+        s.vel += (-STIFFNESS * s.angle - DAMPING * s.vel) * dt;
+        s.angle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, s.angle + s.vel * dt));
+        if (Math.abs(s.angle) > 0.02 || Math.abs(s.vel) > 0.05) moving = true;
+        else s.angle = s.vel = 0;
+        pushes[i].style.transform = s.angle ? `rotate(${s.angle.toFixed(3)}deg)` : '';
+      });
+      frame = moving ? requestAnimationFrame(step) : 0;
+    };
+
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType === 'touch' || !fine.matches || calm.matches) return;
+        const now = e.timeStamp;
+        if (lastX === null || now - lastT > 120) {
+          lastX = e.clientX;
+          lastT = now;
+          return;
+        }
+        const dx = e.clientX - lastX;
+        const dt = Math.max(1, now - lastT) / 1000;
+        lastX = e.clientX;
+        lastT = now;
+        if (!dx) return;
+        // Faster passes swing harder; a slow drift only nudges.
+        const speed = Math.min(1.5, Math.max(0.3, Math.abs(dx) / dt / 700));
+        let kicked = false;
+        hits.forEach((el, i) => {
+          const r = el.getBoundingClientRect();
+          if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+            // The total kick depends on how far the pointer travels across the badge, not on how
+            // often the mouse reports. A positive rotate() swings a hanging badge's bottom to the
+            // left, so moving right pushes with a negative angle.
+            state[i].vel -= dx * KICK * speed;
+            kicked = true;
+          }
+        });
+        if (kicked && !frame) {
+          prev = performance.now();
+          frame = requestAnimationFrame(step);
+        }
+      },
+      { passive: true },
+    );
+  }
+</script>
 
 <style>
   .xart {
@@ -122,6 +198,11 @@ const label = heroBadges.map((b) => `${b.org}, ${b.role.toLowerCase()}, ${b.year
   @keyframes swE { 0%, 100% { transform: rotate(1deg); } 50% { transform: rotate(-1.5deg); } }
   @keyframes swC { 0%, 100% { transform: rotate(6deg); } 50% { transform: rotate(8.5deg); } }
   @keyframes swD { 0%, 100% { transform: rotate(11deg); } 50% { transform: rotate(8deg); } }
+
+  /* Extra swing from the pointer, around the same pivot as the CSS sway (the clip's top). */
+  .xart__push {
+    transform-origin: 50% 0;
+  }
 
   .xart__clip {
     display: block;

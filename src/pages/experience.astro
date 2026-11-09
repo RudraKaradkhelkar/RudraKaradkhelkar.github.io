@@ -1,20 +1,25 @@
 ---
 // Experience. Copy: src/content/experience.ts. Design: design-handoff/reference/Experience.html,
-// restructured by design-handoff/CHANGES.md section 5: a skills overview right under the hero,
-// CGI as three chapters, EcoChamps linked to CGI's article, CAPE and LPSS with full skill blocks.
+// restructured by design-handoff/CHANGES.md section 5 and Rudra's review (Nov 8): CGI as three
+// chapters, newest first, each with the skills it used; EcoChamps with CGI's article and its
+// photo; then CAPE and LPSS as their own sections. No separate skills bank, and the CGI
+// volunteering lives on High School.
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import ExperienceArt from '../components/art/ExperienceArt.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Surface from '../components/Surface.astro';
 import Chip from '../components/Chip.astro';
+import ImageSlot from '../components/ImageSlot.astro';
 import NewTab from '../components/NewTab.astro';
-import { meta, hero, roles, skills, cgi, ecochamps, more } from '../content/experience';
+import { meta, hero, cgi, ecochamps, cape, lpss } from '../content/experience';
+import { getSlotImage } from '../lib/slot-images';
 import { emWidth } from '../lib/fit';
 
 const ecoFit = await emWidth(ecochamps.heading);
-const wmFits = await Promise.all(more.cases.map((c) => emWidth(c.watermark)));
-const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
+const pressPhoto = getSlotImage(ecochamps.press.photo.slot);
+const roles = [cape, lpss];
 ---
 
 <Layout meta={meta}>
@@ -22,37 +27,9 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     <ExperienceArt slot="art" />
   </PosterHero>
 
-  <!-- ---------- Skills overview ---------- -->
-  <section class="section wrap" id="skills" aria-labelledby="skills-h">
-    <SectionHead label={skills.label} heading={skills.heading} meta={`${skillCount} SKILLS`} id="skills-h" drift="left" />
-    <div class="xs-lead" data-reveal>
-      <p class="xs-lead__text">{skills.text}</p>
-      <ul role="list" class="xs-legend">
-        {Object.values(roles).map((r) => <li class="mono">{r}</li>)}
-      </ul>
-    </div>
-    <div class="xs-groups">
-      {
-        skills.groups.map((g) => (
-          <Surface as="section" class="xs-group" aria-label={g.title} data-reveal>
-            <h3 class="xs-group__title cond">{g.title}</h3>
-            <ul role="list" class="xs-list">
-              {g.items.map((it) => (
-                <li class="xs-item">
-                  <span class="xs-item__name">{it.name}</span>
-                  <span class="xs-item__roles mono">{it.roles.map((r) => roles[r]).join(' · ')}</span>
-                </li>
-              ))}
-            </ul>
-          </Surface>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- ---------- CGI, three chapters ---------- -->
+  <!-- ---------- CGI, three chapters, newest first ---------- -->
   <section class="section wrap" id={cgi.id} aria-labelledby="cgi-h">
-    <SectionHead label={cgi.label} heading={cgi.heading} id="cgi-h" drift="right" />
+    <SectionHead label={cgi.label} heading={cgi.heading} id="cgi-h" drift="left" />
     <p class="x-intro" data-reveal>{cgi.intro}</p>
 
     <div class="x-thru" data-reveal>
@@ -120,38 +97,32 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
         ))
       }
     </ol>
-
-    <Surface as="section" class="x-vol" aria-labelledby="vol-h" data-reveal>
-      <div class="x-vol__head">
-        <p class="mono faint">{cgi.volunteering.label}</p>
-        <h3 class="x-vol__title cond" id="vol-h">{cgi.volunteering.title}</h3>
-      </div>
-      <ul role="list" class="x-vol__items">
-        {
-          cgi.volunteering.items.map((it) => (
-            <li class="x-vol__item">
-              <span class="huge litx x-vol__val">{it.value}</span>
-              <span class="x-vol__text">{it.text}</span>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="x-vol__note muted">{cgi.volunteering.note}</p>
-    </Surface>
   </section>
 
   <!-- ---------- EcoChamps ---------- -->
   <section class="section wrap" aria-labelledby="eco-h">
     <div class="eco">
-      <a href={ecochamps.press.link.href} target="_blank" rel="noopener" class="eco__press media lift" data-reveal>
-        <span class="eco__press-label mono faint">{ecochamps.press.label}</span>
-        <span class="eco__press-title cond">“{ecochamps.press.title}”</span>
-        <span class="eco__press-cta cap">
-          {ecochamps.press.link.label}
-          <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 17L17 7M9 7h8v8" />
-          </svg>
-          <NewTab />
+      <a href={ecochamps.press.link.href} target="_blank" rel="noopener" class="eco__press surface lift" data-reveal>
+        {/* The article's photo. Decorative here: the link text says where it goes. */}
+        <span class="eco__photo">
+          {
+            pressPhoto ? (
+              <Image src={pressPhoto} alt="" widths={[pressPhoto.width]} sizes="(min-width: 900px) 46vw, 100vw" class="eco__img" />
+            ) : (
+              <ImageSlot name={ecochamps.press.photo.slot} alt="" />
+            )
+          }
+        </span>
+        <span class="eco__press-body">
+          <span class="eco__press-label mono faint">{ecochamps.press.label}</span>
+          <span class="eco__press-title cond">“{ecochamps.press.title}”</span>
+          <span class="eco__press-cta cap">
+            {ecochamps.press.link.label}
+            <svg class="ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+            <NewTab />
+          </span>
         </span>
       </a>
       <div class="eco__body" data-reveal>
@@ -174,121 +145,36 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     </div>
   </section>
 
-  <!-- ---------- CAPE and LPSS ---------- -->
-  <section class="section wrap" aria-labelledby="more-h">
-    <SectionHead label={more.label} heading={more.heading} id="more-h" drift="left" />
-    <ol role="list" class="xcases">
-      {
-        more.cases.map((c, i) => (
-          <li id={c.watermark.toLowerCase()} class="xcase-anchor" data-reveal>
-            <Surface as="article" class="xcase">
-              <div class="xcase__id">
-                <p class="xcase__wm huge outline" aria-hidden="true" style={`--fit:${wmFits[i]}`}>
-                  {c.watermark}
-                </p>
-                <p class="mono faint xcase__label">{c.label}</p>
-              </div>
-              <div class="xcase__head">
-                <p class="cap muted">{c.kicker}</p>
-                <h3 class="xcase__title cond">{c.title}</h3>
-              </div>
-              <div class="xcase__body">
-                <ul role="list" class="x-ch__built x-ch__built--first">
-                  {c.points.map((pt) => (
-                    <li>{pt}</li>
-                  ))}
-                </ul>
-                <p class="mono faint x-ch__h">{c.skillsLabel}</p>
-                <div class="x-chips">
-                  {c.skills.map((sk) => (
-                    <Chip label={sk.label} />
-                  ))}
-                </div>
-              </div>
-            </Surface>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
+  <!-- ---------- CAPE, then LPSS: each its own section ---------- -->
+  {
+    roles.map((r, i) => (
+      <section class="section wrap x-role" id={r.id} aria-labelledby={`${r.id}-h`}>
+        <SectionHead label={r.label} heading={r.heading} id={`${r.id}-h`} drift={i % 2 ? 'right' : 'left'} />
+        <Surface as="article" class="x-role__card" data-reveal>
+          <div>
+            <p class="cap muted">{r.kicker}</p>
+            <h3 class="x-role__title cond">{r.title}</h3>
+          </div>
+          <div>
+            <ul role="list" class="x-ch__built x-ch__built--first">
+              {r.points.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+            <p class="mono faint x-ch__h">{r.skillsLabel}</p>
+            <div class="x-chips">
+              {r.skills.map((sk) => (
+                <Chip label={sk.label} />
+              ))}
+            </div>
+          </div>
+        </Surface>
+      </section>
+    ))
+  }
 </Layout>
 
 <style>
-  /* ---------- Skills ---------- */
-  .xs-lead {
-    margin-top: 32px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px 32px;
-  }
-
-  .xs-lead__text {
-    font-size: clamp(18px, 1.39vw, 22px);
-    line-height: 1.5;
-  }
-
-  .xs-legend {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .xs-legend li {
-    height: 30px;
-    padding: 0 12px;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 15px;
-    border: 1px solid var(--line2);
-    color: var(--ink2);
-  }
-
-  .xs-groups {
-    margin-top: 40px;
-    columns: 3 320px;
-    column-gap: 24px;
-  }
-
-  .xs-groups :global(.xs-group) {
-    break-inside: avoid;
-    margin-bottom: 24px;
-    padding: clamp(22px, 2.2vw, 34px);
-    border-radius: 18px;
-  }
-
-  .xs-group__title {
-    font-size: clamp(24px, 1.94vw, 32px);
-    line-height: 1.1;
-  }
-
-  .xs-list {
-    margin: 16px 0 0;
-  }
-
-  .xs-item {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 6px 16px;
-    flex-wrap: wrap;
-    padding: 12px 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .xs-item__name {
-    font-size: 16px;
-    line-height: 1.4;
-  }
-
-  .xs-item__roles {
-    color: var(--rim-ink);
-    font-size: 11px;
-    white-space: nowrap;
-  }
-
   /* ---------- CGI ---------- */
   .x-intro {
     margin-top: 26px;
@@ -450,62 +336,10 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     line-height: 1.2;
   }
 
-  .x-vol {
-    margin-top: 24px;
-  }
-
-  .x-chapters + :global(.x-vol) {
-    display: grid;
-    grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
-    gap: 24px 40px;
-    padding: clamp(24px, 3.06vw, 54px);
-    border-radius: 20px;
-  }
-
-  .x-vol__title {
-    margin-top: 10px;
-    font-size: clamp(28px, 2.5vw, 44px);
-    line-height: 1.06;
-  }
-
-  .x-vol__items {
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
-
-  .x-vol__item {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line2);
-  }
-
-  .x-vol__val {
-    font-size: clamp(56px, 5.56vw, 96px);
-  }
-
-  .x-vol__text {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  .x-vol__note {
-    grid-column: 2;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
   @media (max-width: 1099px) {
-    .x-chapters :global(.x-ch),
-    .x-chapters + :global(.x-vol) {
+    .x-chapters :global(.x-ch) {
       grid-template-columns: minmax(0, 1fr);
       gap: 28px;
-    }
-    .x-vol__note {
-      grid-column: 1;
     }
   }
 
@@ -523,9 +357,6 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     .x-ch__year {
       font-size: 84px;
     }
-    .x-vol__items {
-      grid-template-columns: minmax(0, 1fr);
-    }
   }
 
   /* ---------- EcoChamps ---------- */
@@ -536,27 +367,47 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
     align-items: center;
   }
 
+  /* The press card: CGI's article photo on top, the headline and link below. */
   .eco__press {
-    aspect-ratio: 680 / 480;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: clamp(28px, 3.3vw, 56px);
+    overflow: hidden;
+    border-radius: 20px;
     color: var(--ink);
     text-decoration: none;
   }
 
-  .eco__press-label,
-  .eco__press-title,
-  .eco__press-cta {
+  .eco__photo {
     position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: var(--card2);
+  }
+
+  .eco__photo :global(.eco__img),
+  .eco__photo :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Keeps both faces and the tablet under the boy's finger; the trim comes off the bunting. */
+    object-position: 50% 70%;
+    transition: transform .9s var(--ease-out);
+  }
+
+  .eco__press-body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: clamp(24px, 2.6vw, 44px);
   }
 
   .eco__press-title {
-    font-size: clamp(30px, 3.19vw, 56px);
-    line-height: 1.06;
-    max-width: 14em;
+    font-size: clamp(28px, 2.5vw, 44px);
+    line-height: 1.08;
+    max-width: 16em;
   }
 
   .eco__press-cta {
@@ -571,6 +422,9 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
       text-decoration: underline;
       text-decoration-color: var(--accent);
       text-underline-offset: 6px;
+    }
+    .eco__press:hover .eco__photo :global(img) {
+      transform: scale(1.03);
     }
   }
 
@@ -620,73 +474,30 @@ const skillCount = skills.groups.reduce((n, g) => n + g.items.length, 0);
       grid-template-columns: minmax(0, 1fr);
     }
     .eco__press {
-      aspect-ratio: auto;
-      min-height: 280px;
-      gap: 28px;
+      max-width: 640px;
     }
   }
 
   /* ---------- CAPE and LPSS ---------- */
-  .xcase-anchor {
-    scroll-margin-top: calc(var(--nav-h) + 24px);
-  }
-
-  .xcases {
-    margin: 52px 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .xcases :global(.xcase) {
+  .x-role :global(.x-role__card) {
+    margin-top: 40px;
     display: grid;
-    /* 250 / 330 / rest of the 1208 px inner width at 1440. */
-    grid-template-columns: minmax(0, 20.7%) minmax(0, 27.3%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
     gap: 40px;
     padding: clamp(24px, 3.06vw, 54px);
-    overflow: hidden;
     border-radius: 20px;
   }
 
-  /* The watermark never runs past its column. */
-  .xcase__id {
-    container-type: inline-size;
-  }
-
-  .xcase__wm {
-    font-size: min(clamp(84px, 8.9vw, 150px), calc(100cqi / var(--fit)));
-  }
-
-  .xcase__label {
-    margin-top: 14px;
-  }
-
-  .xcase__title {
+  .x-role__title {
     margin-top: 10px;
     font-size: clamp(30px, 2.78vw, 46px);
     line-height: 1.05;
   }
 
   @media (max-width: 1099px) {
-    .xcases :global(.xcase) {
-      grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
-      gap: 28px 40px;
-    }
-    .xcase__body {
-      grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .xcases {
-      gap: 16px;
-    }
-    .xcases :global(.xcase) {
+    .x-role :global(.x-role__card) {
       grid-template-columns: minmax(0, 1fr);
-      gap: 22px;
-    }
-    .xcase__wm {
-      font-size: min(84px, calc(100cqi / var(--fit)));
+      gap: 28px;
     }
   }
 </style>

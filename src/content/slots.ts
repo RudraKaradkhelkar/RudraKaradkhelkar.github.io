@@ -32,7 +32,11 @@ export const slots = {
   'project-cyberdefender': { ratio: 16 / 10, ratioLabel: '16:10', label: '[CYBERDEFENDER PROGRESS]' },
   'project-drone-glove': { ratio: 16 / 10, ratioLabel: '16:10', label: '[DRONE GLOVE PROGRESS]' },
   'project-jarvis': { ratio: 16 / 10, ratioLabel: '16:10', label: '[JARVIS]' },
-  'experience-ecochamps': { ratio: 1 / 2, ratioLabel: 'PHONE SCREEN', label: '[ECOCHAMPS SCREEN]' },
+  /**
+   * The photo from CGI's EcoChamps article header, cropped from Rudra's screenshot (Nov 8) to
+   * the right of CGI's red corner shape: 474 x 375. Shown on the Experience press card.
+   */
+  'cgi-article': { ratio: 474 / 375, ratioLabel: 'PHOTO', label: '[PHOTO: CGI ARTICLE]' },
 } satisfies Record<string, SlotSpec>;
 
 export type SlotBase = keyof typeof slots;

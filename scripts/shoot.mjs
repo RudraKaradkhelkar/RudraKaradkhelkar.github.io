@@ -208,6 +208,23 @@ try {
     try {
       await page.goto(base + route.path, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
+      // Full-page shots never scroll, so lazy images below the first screen would stay blank.
+      // Load them all first.
+      await page.evaluate(async () => {
+        const imgs = [...document.images];
+        for (const img of imgs) img.loading = 'eager';
+        const pending = imgs
+          .filter((img) => !img.complete)
+          .map(
+            (img) =>
+              new Promise((done) => {
+                img.addEventListener('load', done, { once: true });
+                img.addEventListener('error', done, { once: true });
+              }),
+          );
+        await Promise.race([Promise.all(pending), new Promise((done) => setTimeout(done, 5000))]);
+        await Promise.all(imgs.map((img) => img.decode().catch(() => {})));
+      });
       await page.waitForTimeout(motion ? 2600 : 250);
 
       const problems = await page.evaluate(inspect);
