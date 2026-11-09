@@ -2,7 +2,8 @@
 // High School. Copy: src/content/high-school.ts. Design: design-handoff/reference/HighSchool.html,
 // restructured by design-handoff/CHANGES.md section 3: FRC Team 3616 leads, then MITES Semester
 // (moved from Research), projects, leadership and community, service (with the CGI volunteering
-// moved from Experience), and an awards teaser. Award mentions link to /awards.
+// moved from Experience, then the team photo, the FUN Robotics Network video, and the outreach
+// photo), and an awards teaser. Award mentions link to /awards.
 import Layout from '../layouts/Layout.astro';
 import PosterHero from '../components/PosterHero.astro';
 import HighSchoolArt from '../components/art/HighSchoolArt.astro';
@@ -17,6 +18,7 @@ import { emWidth } from '../lib/fit';
 
 const deanFit = await emWidth(frc.deansList.heading);
 const dl = frc.deansList;
+const media = service.media;
 
 // The advocacy quote is regular weight with one bold phrase (Rudra, Nov 8).
 const adv = frc.outreach.advocacy;
@@ -300,15 +302,31 @@ if (quoteAfter === undefined || extra.length) throw new Error('high-school.ts: a
       </Surface>
     </div>
     <p class="hs-note muted" data-reveal>{service.other}</p>
-    <ul role="list" class="hs-photos">
-      {
-        service.photos.map((p) => (
-          <li data-reveal>
-            <ImageSlot name={p.slot} alt={p.alt} sizes="(min-width: 1100px) 45vw, 100vw" />
-          </li>
-        ))
-      }
-    </ul>
+    <div class="hs-media">
+      <figure class="hs-media__item hs-media__team" data-reveal>
+        <ImageSlot name={media.team.slot} alt={media.team.alt} sizes="(min-width: 1100px) 32vw, (min-width: 768px) 50vw, 100vw" />
+        <figcaption class="hs-media__cap">{media.team.caption}</figcaption>
+      </figure>
+      <figure class="hs-media__item hs-media__video" data-reveal>
+        {/* Click to play: until then this is a local poster and a link to YouTube, so the page makes
+            no request to YouTube. The script swaps in the youtube-nocookie.com player on click. */}
+        <div class="hs-yt" data-yt={media.video.youtubeId} data-yt-title={media.video.title} data-yt-play={media.video.playLabel}>
+          <a href={`https://www.youtube.com/watch?v=${media.video.youtubeId}`} target="_blank" rel="noopener" class="hs-yt__link" data-yt-link>
+            <ImageSlot name={media.video.poster} alt="" fill radius="0" showRatio={false} sizes="(min-width: 1100px) 22vw, (min-width: 768px) 40vw, 360px" />
+            <span class="hs-yt__play" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+            </span>
+            <span class="sr-only">{media.video.watchLabel}: {media.video.title}</span>
+            <NewTab />
+          </a>
+        </div>
+        <figcaption class="hs-media__cap">{media.video.caption}</figcaption>
+      </figure>
+      <figure class="hs-media__item hs-media__outreach" data-reveal>
+        <ImageSlot name={media.outreach.slot} alt={media.outreach.alt} sizes="(min-width: 1100px) 32vw, (min-width: 768px) 50vw, 100vw" />
+        <figcaption class="hs-media__cap">{media.outreach.caption}</figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- ---------- Awards teaser ---------- -->
@@ -339,6 +357,30 @@ if (quoteAfter === undefined || extra.length) throw new Error('high-school.ts: a
     </Surface>
   </section>
 </Layout>
+
+<script>
+  // Click to play: swap the poster link for the player only when a visitor asks for it, so the
+  // page makes no request to YouTube before that. Ctrl/Cmd-click still opens YouTube in a tab.
+  for (const box of document.querySelectorAll<HTMLElement>('[data-yt]')) {
+    const link = box.querySelector<HTMLAnchorElement>('[data-yt-link]');
+    const { yt: id, ytTitle: title = '', ytPlay: play = '' } = box.dataset;
+    if (!link || !id) continue;
+    link.removeAttribute('target');
+    link.setAttribute('aria-label', `${play}: ${title}`);
+    link.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const player = document.createElement('iframe');
+      player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&playsinline=1`;
+      player.title = title;
+      player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      player.allowFullscreen = true;
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      box.replaceChildren(player);
+      player.focus();
+    });
+  }
+</script>
 
 <style>
   .hs-lead {
@@ -1018,28 +1060,132 @@ if (quoteAfter === undefined || extra.length) throw new Error('high-school.ts: a
     }
   }
 
-  /* ---------- Photos: columns follow each slot's shape, so all three share one height ---------- */
-  .hs-photos {
-    margin: 52px 0 0;
+  /* ---------- Team photo, video, outreach photo ---------- */
+  /* Desktop: the vertical video stands between the two landscape photos. Tablet: the video on
+     the left, the photos stacked beside it (the columns are sized so both sides end up about the
+     same height). Phones: one column, the video no wider than a phone screen. */
+  .hs-media {
+    margin-top: 52px;
     display: grid;
-    grid-template-columns: 16fr 7.2fr 7.2fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, .64fr) minmax(0, 1fr);
+    grid-template-areas: 'team video outreach';
     gap: 24px;
-    align-items: start;
+    align-items: center;
+  }
+
+  .hs-media__item {
+    margin: 0;
+    min-width: 0;
+  }
+
+  .hs-media__team {
+    grid-area: team;
+  }
+
+  .hs-media__video {
+    grid-area: video;
+  }
+
+  .hs-media__outreach {
+    grid-area: outreach;
+  }
+
+  .hs-media__cap {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink2);
+  }
+
+  .hs-yt {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    border: 1px solid var(--line);
+    background-color: #000;
+  }
+
+  .hs-yt__link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    border-radius: inherit;
+  }
+
+  .hs-yt__link:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -5px;
+  }
+
+  /* A soft shade so the play button reads on any frame. */
+  .hs-yt__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(closest-side, rgba(0, 0, 0, .32), transparent);
+    pointer-events: none;
+  }
+
+  .hs-yt__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 68px;
+    height: 68px;
+    translate: -50% -50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: var(--on-accent);
+    box-shadow: var(--glow-shadow);
+    transition: scale .35s var(--ease-out);
+  }
+
+  .hs-yt__play svg {
+    fill: currentColor;
+  }
+
+  .hs-yt :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (hover: hover) {
+    .hs-yt__link:hover .hs-yt__play {
+      scale: 1.08;
+    }
   }
 
   @media (max-width: 1099px) {
-    .hs-photos {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .hs-photos > :first-child {
-      grid-column: 1 / -1;
+    .hs-media {
+      grid-template-columns: minmax(0, .86fr) minmax(0, 1fr);
+      grid-template-areas:
+        'video team'
+        'video outreach';
+      align-items: start;
     }
   }
 
   @media (max-width: 767px) {
-    .hs-photos {
+    .hs-media {
       grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
+      grid-template-areas:
+        'team'
+        'video'
+        'outreach';
+      gap: 28px;
+    }
+    .hs-media__video {
+      width: min(100%, 360px);
+      justify-self: center;
     }
   }
 

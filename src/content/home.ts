@@ -84,7 +84,7 @@ export const chapters = {
       index: '03',
       tag: '3 UNLOCKED',
       title: 'Projects',
-      text: 'Jarvis, CyberDefender, and a gesture-controlled drone glove for IAP.',
+      text: 'Jarvis, CyberDefender, and a gesture-controlled drone glove for IAP 2027.',
       href: '/projects/',
       watermark: 'PROJECTS',
     },

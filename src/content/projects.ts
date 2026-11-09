@@ -8,7 +8,7 @@ import type { Chip, PageMeta, PosterHeroContent } from './types';
 export const meta: PageMeta = {
   title: 'Projects',
   description:
-    'Jarvis, a self-hosted AI automation system; CyberDefender, an autonomous AI network defense agent; and a gesture-controlled drone glove, planned for IAP.',
+    'Jarvis, a self-hosted AI automation system; CyberDefender, an autonomous AI network defense agent; and a gesture-controlled drone glove, planned for IAP 2027.',
 };
 
 export const hero: PosterHeroContent = {
@@ -27,7 +27,7 @@ export interface LevelDetail {
   text: string;
   /** Bar fill, 0 to 100. Leave out for a project that is running or planned (no bar, just the status). */
   progress?: number;
-  /** "15% BUILT", or the status for a running or planned project ("RUNNING", "STARTS IAP"). */
+  /** "15% BUILT", or the status for a running or planned project ("RUNNING", "STARTS IAP 2027"). */
   progressLabel: string;
   /** Not started yet: a hollow dot instead of the live one. */
   planned?: boolean;
@@ -81,19 +81,19 @@ export const levels: Level[] = [
     },
   },
   {
-    // Planned (Rudra, Nov 8): starts in IAP, so no progress bar yet.
+    // Planned (Rudra, Nov 8): starts in IAP 2027, so no progress bar yet.
     id: 'glove',
     level: 'LVL 03',
     status: 'PLANNED',
     locked: false,
     coverTitle: ['DRONE', 'GLOVE'],
     coverTag: 'ML · EMBEDDED',
-    coverYear: 'IAP',
+    coverYear: 'IAP 2027',
     detail: {
       label: 'LVL 03 · PLANNED',
       title: 'Drone Gesture Glove',
-      text: 'A planned project, starting in IAP: a wearable glove that reads hand gestures and turns them into flight commands for a drone.',
-      progressLabel: 'STARTS IAP',
+      text: 'A planned project, starting in IAP 2027: a wearable glove that reads hand gestures and turns them into flight commands for a drone.',
+      progressLabel: 'STARTS IAP 2027',
       planned: true,
       enter: { label: 'Enter level', href: '#drone-glove' },
     },
@@ -183,9 +183,9 @@ export const droneGlove = {
   id: 'drone-glove',
   label: 'LVL 03 / PLANNED',
   heading: 'DRONE GLOVE',
-  /** Rudra, Nov 8: a planned project, starting in IAP (MIT's January term). */
+  /** Rudra, Nov 8: a planned project, starting in IAP 2027 (MIT's January term). */
   intro:
-    'A planned project, starting in IAP: a glove that flies a drone. Motion sensors on every finger feed a model that recognizes hand poses, and each pose maps to a flight command. It pulls together machine learning, embedded systems, CAD, and circuit design.',
+    'A planned project, starting in IAP 2027: a glove that flies a drone. Motion sensors on every finger feed a model that recognizes hand poses, and each pose maps to a flight command. It pulls together machine learning, embedded systems, CAD, and circuit design.',
   /** The plan, part by part. */
   parts: [
     { title: 'An IMU on every finger', status: 'PLANNED' },
@@ -195,7 +195,7 @@ export const droneGlove = {
     { title: 'A simple drone that follows the gestures', status: 'PLANNED' },
   ],
   chips: [{ label: 'PyTorch' }, { label: 'KiCad' }, { label: 'CAD' }, { label: 'Embedded' }] satisfies Chip[],
-  progressLabel: 'STARTS IAP',
+  progressLabel: 'STARTS IAP 2027',
   figure: {
     alt: 'Schematic of the glove: a motion sensor on each finger wired to a board on the back of the hand',
     label: 'SENSOR LAYOUT',

@@ -291,11 +291,32 @@ export const service = {
     note: 'Also led lessons on cryptography and consulting for middle and early high school students, and volunteered at Take Your Child to Work Day STEM events.',
   },
   other: 'Other service: NHS, Beta Club, FBLA, and the Computer Science Honor Society.',
-  photos: [
-    { slot: 'hs-robot', alt: 'The team robot on the competition field' },
-    { slot: 'hs-team', alt: 'FRC Team 3616 Phenomena' },
-    { slot: 'hs-outreach', alt: 'A robotics outreach event' },
-  ],
+  /**
+   * The team photo, the FUN Robotics Network video, and the outreach photo, with Rudra's
+   * captions (Nov 8). The video stays on this site until a visitor presses play: the poster is
+   * a local image, and only then does the player load from youtube-nocookie.com.
+   */
+  media: {
+    team: {
+      slot: 'hs-team',
+      alt: 'FRC Team 3616 Phenomena in red team shirts and safety glasses, gathered around their robot at the team booth',
+      caption: 'The team after an amazing 2026 Magnolia Regional.',
+    },
+    video: {
+      youtubeId: 'beNtSVK7cDM',
+      /** The video's own title on YouTube, used as the player's accessible name. */
+      title: 'Winching Hood | 3616 Team Phenomena | REBUILT Pit Stop',
+      poster: 'hs-video',
+      caption: 'With my best teammate, Xavion, explaining how our robot works on the FUN Robotics Network.',
+      playLabel: 'Play the video',
+      watchLabel: 'Watch on YouTube',
+    },
+    outreach: {
+      slot: 'hs-outreach',
+      alt: 'Team 3616 members in red team shirts beside two robots and a team display table in a school hallway',
+      caption: 'Comeaux High School outreach event.',
+    },
+  },
 };
 
 // ---------- Awards teaser ----------

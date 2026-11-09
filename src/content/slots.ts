@@ -20,9 +20,13 @@ export const slots = {
   /** Light-theme headshot (wood background) and dark-theme headshot (dark background). */
   headshot: { ratio: 1, ratioLabel: '1:1', label: '[HEADSHOT]' },
   'headshot-dark': { ratio: 1, ratioLabel: '1:1', label: '[HEADSHOT]' },
-  'hs-robot': { ratio: 16 / 9, ratioLabel: '16:9', label: '[PHOTO: ROBOT ON THE FIELD]' },
-  'hs-team': { ratio: 4 / 5, ratioLabel: '4:5', label: '[PHOTO: TEAM]' },
-  'hs-outreach': { ratio: 4 / 5, ratioLabel: '4:5', label: '[PHOTO: OUTREACH]' },
+  /**
+   * High School media (Rudra, Nov 8). hs-video is the poster for the FUN Robotics Network video:
+   * YouTube's thumbnail cropped to the vertical video inside it. The photos are 4:3 landscape.
+   */
+  'hs-video': { ratio: 9 / 16, ratioLabel: '9:16', label: '[VIDEO POSTER]' },
+  'hs-team': { ratio: 4 / 3, ratioLabel: '4:3', label: '[PHOTO: TEAM]' },
+  'hs-outreach': { ratio: 4 / 3, ratioLabel: '4:3', label: '[PHOTO: OUTREACH]' },
   'place-home': { ratio: 3 / 2, ratioLabel: '3:2', label: '[PHOTO: LAFAYETTE]' },
   'place-school': { ratio: 3 / 2, ratioLabel: '3:2', label: '[PHOTO: MIT]' },
   'place-draw': { ratio: 3 / 2, ratioLabel: '3:2', label: '[PHOTO: WHERE I DRAW]' },
@@ -32,11 +36,8 @@ export const slots = {
   'project-cyberdefender': { ratio: 16 / 10, ratioLabel: '16:10', label: '[CYBERDEFENDER PROGRESS]' },
   'project-drone-glove': { ratio: 16 / 10, ratioLabel: '16:10', label: '[DRONE GLOVE PROGRESS]' },
   'project-jarvis': { ratio: 16 / 10, ratioLabel: '16:10', label: '[JARVIS]' },
-  /**
-   * The photo from CGI's EcoChamps article header, cropped from Rudra's screenshot (Nov 8) to
-   * the right of CGI's red corner shape: 474 x 375. Shown on the Experience press card.
-   */
-  'cgi-article': { ratio: 474 / 375, ratioLabel: 'PHOTO', label: '[PHOTO: CGI ARTICLE]' },
+  /** The photo from CGI's EcoChamps article (gamification.jpg from Rudra, 620 x 380). Experience press card. */
+  'cgi-article': { ratio: 620 / 380, ratioLabel: 'PHOTO', label: '[PHOTO: CGI ARTICLE]' },
 } satisfies Record<string, SlotSpec>;
 
 export type SlotBase = keyof typeof slots;

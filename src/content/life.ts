@@ -1,6 +1,6 @@
 // Life page copy (replaces Drawings & Life). Source: assets-incoming/PROFILE.md ("Life page"),
-// ANSWERS.md, and design-handoff/CHANGES.md section 4. The drawing's title, medium, and year stay
-// [bracketed placeholders] until Rudra names them.
+// ANSWERS.md, and design-handoff/CHANGES.md section 4. The drawing's title, medium, and year are
+// Rudra's (Nov 8).
 import type { Link, PageMeta, PosterHeroContent } from './types';
 
 export const meta: PageMeta = {
@@ -28,14 +28,17 @@ export const drawing = {
   slot: 'drawing-01',
   /** PROFILE.md alt text. */
   alt: 'Pencil drawing: a flying saucer beams the MIT beaver and the letter I out of a giant M-I-T sign above the number 2030, with two cows floating in the beam.',
-  title: '[Title]',
-  medium: '[Medium]',
-  year: '[Year]',
+  /** Rudra, Nov 8. */
+  title: 'Class of 2030 Design Contest',
+  medium: 'Pencil',
+  year: '2026',
 };
 
 /** The three taped polaroids in the hero. The first is the real drawing; the others are drawn. */
 export const heroPolaroids = [
-  { kind: 'drawing', caption: drawing.title, tag: drawing.medium },
+  // Short, so the overlapping poker polaroid never cuts it off on phones. The full title is under
+  // the drawing in the Drawing section.
+  { kind: 'drawing', caption: 'Class of 2030', tag: drawing.medium.toUpperCase() },
   { kind: 'poker', caption: 'Poker', tag: "NO-LIMIT HOLD'EM" },
   { kind: 'football', caption: 'Fantasy football', tag: '12-TEAM PPR' },
 ] as const;
