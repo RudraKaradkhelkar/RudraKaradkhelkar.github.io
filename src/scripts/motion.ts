@@ -49,45 +49,73 @@ mm.add(
     root.classList.add('motion');
 
     // ---------- Lenis smooth scroll, mouse and trackpad only ----------
+    // The menu is a small popup now, not a full-screen layer, so the page keeps scrolling under it.
     let lenis: Lenis | undefined;
     const raf = (time: number) => lenis?.raf(time * 1000);
-    const onMenu = (e: Event) => {
-      if ((e as CustomEvent<{ open: boolean }>).detail?.open) lenis?.stop();
-      else lenis?.start();
-    };
     if (fine) {
       lenis = new Lenis({ anchors: true, autoRaf: false });
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add(raf);
       gsap.ticker.lagSmoothing(0);
-      window.addEventListener('rk:menu', onMenu);
     }
 
     // ---------- Poster hero ----------
+    // Each hero element stays fully visible while it is on screen and only fades as it passes
+    // under the nav bar, so the About link, the badges, and the Projects covers can still be
+    // used after the page starts scrolling (Rudra, Nov 8: everything faded as soon as he scrolled).
+    // Positions come from the layout box (offsetTop ignores transforms), so the scroll tweens
+    // never measure their own movement. The headline is decoration and keeps a slow fade.
     const hero = $('[data-hero]');
     if (hero) {
-      const range = (end: number) => ({ trigger: document.body, start: 0, end, scrub: true });
+      const navH = () => $('[data-nav]')?.offsetHeight ?? 0;
+      const layoutTop = (el: HTMLElement) => {
+        let y = 0;
+        for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
+        return y;
+      };
+      // Rotated side labels: their static CSS transform is part of the box we want.
+      const rectTop = (el: HTMLElement) => el.getBoundingClientRect().top + window.scrollY;
+      const exit = (el: HTMLElement, top: (el: HTMLElement) => number, height: (el: HTMLElement) => number) => ({
+        start: () => Math.max(0, top(el) - navH()),
+        // At least 220 px of scroll, so short rows fade instead of blinking out.
+        end: () => Math.max(0, top(el) - navH()) + Math.max(220, height(el)),
+        scrub: true,
+      });
 
       const word = $('[data-hero-word]', hero);
       if (word) {
-        gsap.fromTo(word, { y: 0, scale: 1, opacity: 1 }, { y: -160, scale: 0.96, opacity: 0.1, ease: 'none', scrollTrigger: range(900) });
+        gsap.fromTo(
+          word,
+          { y: 0, scale: 1, opacity: 1 },
+          { y: -160, scale: 0.96, opacity: 0.1, ease: 'none', scrollTrigger: { trigger: document.body, start: 0, end: 1100, scrub: true } },
+        );
       }
 
       const art = $('[data-hero-art]', hero);
       if (art) {
-        gsap.fromTo(art, { y: 0, scale: 1, opacity: 1 }, { y: 90, scale: 0.82, opacity: 0, ease: 'none', scrollTrigger: range(860) });
+        gsap.fromTo(
+          art,
+          { y: 0, scale: 1, opacity: 1 },
+          { y: 90, scale: 0.82, opacity: 0, ease: 'none', scrollTrigger: exit(art, layoutTop, (el) => el.offsetHeight) },
+        );
       }
 
       // Captions and the bottom row fade and lift; the vertical side labels only fade, since
       // they already carry a translate and rotation.
-      const fades = $$('[data-hero-fade]', hero);
-      const sides = fades.filter((el) => el.classList.contains('ph__side'));
-      const rest = fades.filter((el) => !sides.includes(el));
-      if (rest.length) {
-        gsap.fromTo(rest, { y: 0, opacity: 1 }, { y: -30, opacity: 0, ease: 'none', scrollTrigger: range(500) });
-      }
-      if (sides.length) {
-        gsap.fromTo(sides, { opacity: 1 }, { opacity: 0, ease: 'none', scrollTrigger: range(500) });
+      for (const el of $$('[data-hero-fade]', hero)) {
+        if (el.classList.contains('ph__side')) {
+          gsap.fromTo(
+            el,
+            { opacity: 1 },
+            { opacity: 0, ease: 'none', scrollTrigger: exit(el, rectTop, (n) => n.getBoundingClientRect().height) },
+          );
+        } else {
+          gsap.fromTo(
+            el,
+            { y: 0, opacity: 1 },
+            { y: -30, opacity: 0, ease: 'none', scrollTrigger: exit(el, layoutTop, (n) => n.offsetHeight) },
+          );
+        }
       }
     }
 
@@ -139,7 +167,6 @@ mm.add(
     void document.fonts.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
-      window.removeEventListener('rk:menu', onMenu);
       gsap.ticker.remove(raf);
       lenis?.destroy();
       lenis = undefined;
