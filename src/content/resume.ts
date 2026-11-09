@@ -1,5 +1,6 @@
-// Resume page copy. Source: assets-incoming/docs/resume.pdf (November 2026, one page) and
-// ANSWERS.md. The PDF is public/resume.pdf: confirmed to have no phone number.
+// Resume page copy. Source: Rudra's November 2026 resume (one page) and ANSWERS.md. The PDF is
+// public/resume.pdf, replaced Nov 8 with the version without the agentic AI and deepfake line:
+// checked for no phone number, with its document metadata stripped.
 import type { Chip, PageMeta, PosterHeroContent } from './types';
 
 export const meta: PageMeta = {

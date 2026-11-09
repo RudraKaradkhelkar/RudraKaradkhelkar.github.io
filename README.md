@@ -80,7 +80,7 @@ Links to other sites open in a new tab. In a content file, mark one with `extern
 
 **Change the default theme.** In `site.ts`, set `defaultTheme` to `'light'` or `'dark'`. Visitors who used the theme toggle keep their own choice.
 
-**Replace the resume PDF.** Only a version with no phone number: put it at `assets-incoming/docs/resume.pdf` and run `node scripts/process-images.mjs` (or copy it to `public/resume.pdf`). Update `pdf.zoomLabel` and the "Updated" caption in `src/content/resume.ts`.
+**Replace the resume PDF.** Only a version with no phone number: save it over `public/resume.pdf` (the name visitors download). Before committing, open it and check the header line, and in Word use File > Info > Check for Issues > Inspect Document to remove the author and other document properties before exporting. Update `pdf.zoomLabel` and the "Updated" caption in `src/content/resume.ts`, and the page's own resume text in the same file if anything on the resume changed. (`process-images.mjs` no longer copies the resume.)
 
 ## Add images to slots
 

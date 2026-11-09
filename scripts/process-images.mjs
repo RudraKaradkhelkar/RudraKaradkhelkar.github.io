@@ -31,8 +31,12 @@ const JOBS = [
   { from: 'logos/maia-mark.png', to: path.join(LOGOS, 'maia-mark.png'), width: 302, format: 'png' },
 ];
 
-/** Files copied byte for byte (already checked: the resume has no phone number). */
-const COPIES = [{ from: 'docs/resume.pdf', to: path.join(ROOT, 'public', 'resume.pdf') }];
+/**
+ * Files copied byte for byte. The resume is no longer here: public/resume.pdf is replaced
+ * directly (Nov 8: Rudra's November resume, checked for no phone number, metadata stripped), and
+ * the old copy in assets-incoming/docs/ would overwrite it with an outdated version.
+ */
+const COPIES = [];
 
 for (const job of JOBS) {
   const src = path.join(IN, job.from);

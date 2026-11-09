@@ -131,7 +131,7 @@ Review round 3 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/p
 - **Content pass: Life.** Polaroid 1 crops the drawing from the top (UFO, beam, MIT letters); the Drawing section shows it whole at up to 500 px. Drawing title, medium, and year stay placeholders.
 - **Content pass: Resume.** The PDF is embedded on desktop; phones and browsers without inline PDF get a paper card with an Open the PDF button.
 - **Content pass: footer line** (Rudra, Nov 8): "Open to Summer 2027 roles in software engineering and cybersecurity/AI". (Reworded in review round 2, see below.)
-- **Content pass: images.** `scripts/process-images.mjs` re-encodes every incoming file with sharp (no EXIF/GPS/XMP) into `src/assets/slots/` and `src/assets/logos/`, and copies the resume to `public/resume.pdf`. Originals in `assets-incoming/` are untouched and still gitignored.
+- **Content pass: images.** `scripts/process-images.mjs` re-encodes every incoming file with sharp (no EXIF/GPS/XMP) into `src/assets/slots/` and `src/assets/logos/`. Originals in `assets-incoming/` are untouched and still gitignored. (It used to copy the resume too; see the Nov 8 resume decision.)
 
 - **Review round 2: hero fades** (Rudra: everything faded as soon as he scrolled, so he couldn't use it). Each hero piece (art, captions, About, badges, side labels, the Projects detail strip) stays at full opacity while on screen and fades only while it passes under the nav, over at least 220 px of scroll. Positions come from the layout box (`offsetTop`, which ignores transforms), so the tweens never measure their own movement. The headline keeps a slow fade (0 to 1100 px) since it's decoration. At 1440 x 900 the Home About and badges are still at full opacity after 600 px of scroll; the Projects covers at 400 px.
 - **Review round 2: popup menu.** Under 1100 px the menu button opens a 320 px panel under it (520 px and two columns on short landscape screens), built on the Popover API: a click outside, Esc, or the button closes it, and focus returns to the button. It grows out of the button (fade, scale .94 to 1, 0.4 s) with the links dropping in one after another, and the two burger bars turn into an X. `aria-expanded` follows the state. Browsers without the Popover API get the same panel toggled by script. Reduced motion: it just appears.
@@ -151,15 +151,15 @@ Review round 3 done (2026-11-08). Routes: `/`, `/research/`, `/experience/`, `/p
 - **Review round 3: IAP 2027** for the drone glove (Rudra): cover year, detail strip ("STARTS IAP 2027"), section intro, Home card, and meta description.
 - **Review round 3: CGI photo.** Rudra's 620 x 380 copy replaces the 474 px crop from the screenshot.
 - **Review round 3: UROP status** (Rudra): "Work in progress." Nothing more until the work is public; then a link and a dashboard photo.
+- **Resume PDF, Nov 8.** Rudra's first new export (`Rudra_Karadkhelkar_Working_Resume.pdf`) had his phone number in the header, so it was not used. The second (`Rudra_Karadkhelkar_Resume_NVIDIA_1.pdf` from Downloads) has no phone-number-like string anywhere in its text, no deepfake line, no links, annotations, or attachments, and no mention of NVIDIA in its text or metadata. It went in as `public/resume.pdf` with its document properties (author "Un-named", Word producer, dates) and XMP removed, re-saved with PyMuPDF; the page renders the same as the original. The page's own resume text already matched it. `process-images.mjs` no longer copies `assets-incoming/docs/resume.pdf` (the outdated version), so re-running it can't put the old resume back.
 - **Reduced motion, verified** (Rudra asked): with `prefers-reduced-motion: reduce`, on all 10 routes at 1440 (mouse) and 390 (touch), after scrolling through each page there are no running CSS animations or transitions, no scroll-driven styles on any element, no Lenis, no badge sway, and the menu popup opens with no transition. The same run with motion allowed shows the marquees, sway, cover spins, and scroll effects, so the check does see motion. How: `global.css` turns off every animation and transition, `motion.css` only animates under `no-preference`, `motion.ts` builds the scroll effects and Lenis inside a `no-preference` media query, and the badge sway and the Projects selection check the setting in script. The video only plays when pressed.
 
 ## Questions for Rudra
 
 Each has a working default on the site:
 
-1. **Resume PDF:** `public/resume.pdf` still has "Apprenticing under a graduate researcher on agentic AI cybersecurity research targeting deepfake voice threats." Send a new export without that line and it gets swapped in (`assets-incoming/docs/resume.pdf`, then `node scripts/process-images.mjs`).
-2. **Poker bot details**, after the tournament, to unlock LVL 04.
-3. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
+1. **Poker bot details**, after the tournament, to unlock LVL 04.
+2. **AI@MIT and the Global Security Technology Club:** a one-line description for each, if you want one.
 
 Later: once the UROP work is public, Rudra will send its link and a photo of the dashboard (CARMA) for Research.
 
@@ -171,7 +171,6 @@ Still showing (from DESIGN.md section 8 and the reference pages). All live in `s
 | - | - |
 | Research | Shoreline figure (slot `research-shoreline-1`, an illustration shows until then) |
 | Projects | Poker bot (locked LVL 04 until Rudra sends details); progress photos (slots `project-*`, no spot on the page yet) |
-| Resume | The PDF still mentions the agentic AI and deepfake project (the page's own copy doesn't) |
 
 The High School photos and video and the Life drawing details are filled.
 
@@ -182,4 +181,4 @@ The High School photos and video and the Life drawing details are filled.
 - The hero sheet on Resume and the polaroid captions use very small type on phones (they are art, labelled as images; the same facts are in the text below them).
 ## Next
 
-Rudra reviews round 3. Before deploying: a resume PDF without the deepfake line (the other open items can stay as placeholders). Then re-run `npm run check && npm run shoot && npm run audit`, set **Settings > Pages > Source: GitHub Actions** once, and `git push`.
+Pushed to GitHub on Rudra's request (Nov 8). The deploy needs **Settings > Pages > Source: GitHub Actions** set once on GitHub. Open items (poker bot, two club one-liners, the UROP link and dashboard photo once public, the shoreline figure) can stay as placeholders until Rudra sends them.
